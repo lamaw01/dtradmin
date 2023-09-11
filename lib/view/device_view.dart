@@ -57,11 +57,18 @@ class _DeviceViewState extends State<DeviceView> {
   }
 }
 
-class DevicesPage extends StatelessWidget {
+class DevicesPage extends StatefulWidget {
   const DevicesPage({super.key});
 
   @override
+  State<DevicesPage> createState() => _DevicesPageState();
+}
+
+class _DevicesPageState extends State<DevicesPage>
+    with AutomaticKeepAliveClientMixin<DevicesPage> {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Consumer<DeviceProvider>(
       builder: ((context, provider, child) {
         return ListView.builder(
@@ -85,13 +92,23 @@ class DevicesPage extends StatelessWidget {
       }),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
-class DeviceLogsPage extends StatelessWidget {
+class DeviceLogsPage extends StatefulWidget {
   const DeviceLogsPage({super.key});
 
   @override
+  State<DeviceLogsPage> createState() => _DeviceLogsPageState();
+}
+
+class _DeviceLogsPageState extends State<DeviceLogsPage>
+    with AutomaticKeepAliveClientMixin<DeviceLogsPage> {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     final dateFormat = DateFormat().add_yMEd().add_Hms();
 
     return Consumer<DeviceLogProvider>(
@@ -151,6 +168,9 @@ class DeviceLogsPage extends StatelessWidget {
       }),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class DeviceLogWidget extends StatelessWidget {

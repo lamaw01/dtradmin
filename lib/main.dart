@@ -1,11 +1,13 @@
-// ignore: unused_import
 import 'package:dtradmin/view/home_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:provider/provider.dart';
 
-// ignore: unused_import
+import 'provider/branch_employee_provider.dart';
+import 'provider/branch_provider.dart';
+import 'provider/department_employee_provider.dart';
+import 'provider/departmet_provider.dart';
 import 'provider/device_log_provider.dart';
 import 'provider/device_provider.dart';
 // import 'view/login_view.dart';
@@ -21,6 +23,18 @@ void main() {
         ),
         ChangeNotifierProvider<DeviceLogProvider>(
           create: (_) => DeviceLogProvider(),
+        ),
+        ChangeNotifierProvider<BranchProvider>(
+          create: (_) => BranchProvider(),
+        ),
+        ChangeNotifierProvider<BranchEmployeeProvider>(
+          create: (_) => BranchEmployeeProvider(),
+        ),
+        ChangeNotifierProvider<DepartmentProvider>(
+          create: (_) => DepartmentProvider(),
+        ),
+        ChangeNotifierProvider<DepartmentEmployeeProvider>(
+          create: (_) => DepartmentEmployeeProvider(),
         ),
       ],
       child: const MyApp(),
