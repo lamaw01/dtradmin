@@ -4,6 +4,7 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'branch_view.dart';
 import 'department_view.dart';
 import 'device_view.dart';
+import 'employee_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -51,12 +52,20 @@ class _HomeViewState extends State<HomeView> {
         },
         icon: const Icon(Icons.people),
       ),
+      SideMenuItem(
+        title: 'Employee',
+        onTap: (index, _) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(Icons.person),
+      ),
     ];
 
     final menuPages = <Widget>[
       const DeviceView(),
       const BranchView(),
       const DepartmentView(),
+      const EmployeeView(),
     ];
 
     return Scaffold(

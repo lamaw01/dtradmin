@@ -10,6 +10,7 @@ import 'provider/department_employee_provider.dart';
 import 'provider/departmet_provider.dart';
 import 'provider/device_log_provider.dart';
 import 'provider/device_provider.dart';
+import 'provider/employee_provider.dart';
 // import 'view/login_view.dart';
 
 void main() {
@@ -35,6 +36,9 @@ void main() {
         ),
         ChangeNotifierProvider<DepartmentEmployeeProvider>(
           create: (_) => DepartmentEmployeeProvider(),
+        ),
+        ChangeNotifierProvider<EmployeeProvider>(
+          create: (_) => EmployeeProvider(),
         ),
       ],
       child: const MyApp(),
