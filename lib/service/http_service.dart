@@ -8,6 +8,8 @@ import '../model/department_model.dart';
 import '../model/device_log_model.dart';
 import '../model/device_model.dart';
 import '../model/employee_model.dart';
+import '../model/schedule_model.dart';
+import '../model/week_schedule_model.dart';
 
 class HttpService {
   static const String _serverUrl = 'http://103.62.153.74:53000/dtr_admin_api';
@@ -93,7 +95,31 @@ class HttpService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     ).timeout(const Duration(seconds: 10));
-    debugPrint('getEmployee ${response.body}');
+    // debugPrint('getEmployee ${response.body}');
     return employeeModelFromJson(response.body);
+  }
+
+  static Future<List<WeekScheduleModel>> getWeekSchedule() async {
+    var response = await http.get(
+      Uri.parse('$_serverUrl/get_week_sched.php'),
+      headers: <String, String>{
+        'Accept': '*/*',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    ).timeout(const Duration(seconds: 10));
+    debugPrint('getWeekSchedule ${response.body}');
+    return weekScheduleModelFromJson(response.body);
+  }
+
+  static Future<List<ScheduleModel>> getSchedule() async {
+    var response = await http.get(
+      Uri.parse('$_serverUrl/get_schedule.php'),
+      headers: <String, String>{
+        'Accept': '*/*',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    ).timeout(const Duration(seconds: 10));
+    debugPrint('getSchedule ${response.body}');
+    return scheduleModelFromJson(response.body);
   }
 }

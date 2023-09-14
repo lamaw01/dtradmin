@@ -5,6 +5,7 @@ import 'branch_view.dart';
 import 'department_view.dart';
 import 'device_view.dart';
 import 'employee_view.dart';
+import 'schedule_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -59,6 +60,13 @@ class _HomeViewState extends State<HomeView> {
         },
         icon: const Icon(Icons.person),
       ),
+      SideMenuItem(
+        title: 'Schedule',
+        onTap: (index, _) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(Icons.calendar_month),
+      ),
     ];
 
     final menuPages = <Widget>[
@@ -66,6 +74,7 @@ class _HomeViewState extends State<HomeView> {
       const BranchView(),
       const DepartmentView(),
       const EmployeeView(),
+      const ScheduleView(),
     ];
 
     return Scaffold(

@@ -11,6 +11,8 @@ import 'provider/departmet_provider.dart';
 import 'provider/device_log_provider.dart';
 import 'provider/device_provider.dart';
 import 'provider/employee_provider.dart';
+import 'provider/schedule_provider.dart';
+import 'provider/week_scheduke_provider.dart';
 // import 'view/login_view.dart';
 
 void main() {
@@ -39,6 +41,12 @@ void main() {
         ),
         ChangeNotifierProvider<EmployeeProvider>(
           create: (_) => EmployeeProvider(),
+        ),
+        ChangeNotifierProvider<WeekScheduleProvider>(
+          create: (_) => WeekScheduleProvider(),
+        ),
+        ChangeNotifierProvider<ScheduleProvider>(
+          create: (_) => ScheduleProvider(),
         ),
       ],
       child: const MyApp(),
