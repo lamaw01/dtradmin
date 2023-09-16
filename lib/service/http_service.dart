@@ -16,7 +16,6 @@ import '../model/week_schedule_model.dart';
 
 class HttpService {
   static const String _serverUrl = 'http://103.62.153.74:53000/dtr_admin_api';
-  static String get serverUrl => _serverUrl;
 
   static Future<List<DeviceModel>> getDevice() async {
     var response = await http.get(
@@ -26,7 +25,7 @@ class HttpService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     ).timeout(const Duration(seconds: 10));
-    debugPrint('getDevice ${response.body}');
+    // debugPrint('getDevice ${response.body}');
     return deviceModelFromJson(response.body);
   }
 
@@ -50,7 +49,7 @@ class HttpService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     ).timeout(const Duration(seconds: 10));
-    debugPrint('getBranch ${response.body}');
+    // debugPrint('getBranch ${response.body}');
     return branchModelFromJson(response.body);
   }
 
@@ -62,7 +61,7 @@ class HttpService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     ).timeout(const Duration(seconds: 10));
-    debugPrint('getBranchEmployee ${response.body}');
+    // debugPrint('getBranchEmployee ${response.body}');
     return branchEmployeeModelFromJson(response.body);
   }
 
@@ -202,5 +201,25 @@ class HttpService {
         )
         .timeout(const Duration(seconds: 10));
     debugPrint('deleteDevice ${response.body}');
+  }
+
+  static Future<void> addBranch({
+    required String branchId,
+    required String branchName,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_branch.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "branch_id": branchId,
+            "branch_name": branchName,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addBranch ${response.body}');
   }
 }

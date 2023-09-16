@@ -41,9 +41,13 @@ class _DeviceViewState extends State<DeviceView> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
+          var branchList = [
+            BranchModel(id: 0, branchId: '000', branchName: '--Select--')
+          ];
+          branchList.addAll(b.branchList);
           final deviceId = TextEditingController();
           final description = TextEditingController();
-          var dpValue = b.branchList.first;
+          var dpValue = branchList.first;
 
           return AlertDialog(
             title: const Text('Add Device'),

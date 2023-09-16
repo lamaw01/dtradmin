@@ -5,6 +5,7 @@ import '../provider/branch_employee_provider.dart';
 import '../provider/branch_provider.dart';
 import '../widget/delegate.dart';
 import '../widget/row_widget.dart';
+import '../widget/snackbar_widget.dart';
 
 class BranchView extends StatefulWidget {
   const BranchView({super.key});
@@ -28,31 +29,141 @@ class _BranchViewState extends State<BranchView> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Column(
-        children: [
-          Container(
-            color: Colors.grey[400],
-            child: const TabBar(
-              indicatorColor: Colors.blue,
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicatorWeight: 4.0,
-              tabs: [
-                Tab(text: 'Branch'),
-                Tab(text: 'Employees Branch'),
-              ],
+    void addBranch() async {
+      var b = Provider.of<BranchProvider>(context, listen: false);
+
+      await showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          final branchName = TextEditingController();
+          final branchId = TextEditingController();
+
+          return AlertDialog(
+            title: const Text('Add Branch'),
+            content: SizedBox(
+              // height: 200.0,
+              width: 400.0,
+              child: StatefulBuilder(
+                builder: (context, setState) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 40.0,
+                        width: 400.0,
+                        child: TextField(
+                          controller: branchName,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                            ),
+                            label: Text('Name'),
+                            contentPadding:
+                                EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      SizedBox(
+                        height: 40.0,
+                        width: 400.0,
+                        child: TextField(
+                          controller: branchId,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                            ),
+                            label: Text('ID'),
+                            contentPadding:
+                                EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
-          const Expanded(
-            child: TabBarView(
-              children: [
-                BranchPage(),
-                BranchEmployeePage(),
-              ],
+            actions: <Widget>[
+              TextButton(
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 16.0),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text(
+                  'Ok',
+                  style: TextStyle(fontSize: 16.0),
+                ),
+                onPressed: () async {
+                  bool branchExist = b.checkBranchId(branchId.text.trim());
+                  if (branchName.text.isEmpty || branchId.text.isEmpty) {
+                    snackBarError('Invalid Branch', context);
+                  } else if (branchExist) {
+                    snackBarError('Branch Already Exist', context);
+                  } else {
+                    await b.addBranch(
+                      branchId: branchId.text.trim(),
+                      branchName: branchName.text.trim(),
+                    );
+                  }
+                  if (mounted) {
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    return Scaffold(
+      body: DefaultTabController(
+        length: 2,
+        child: Column(
+          children: [
+            Container(
+              color: Colors.grey[400],
+              child: const TabBar(
+                indicatorColor: Colors.blue,
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicatorWeight: 4.0,
+                tabs: [
+                  Tab(text: 'Branch'),
+                  Tab(text: 'Employees Branch'),
+                ],
+              ),
             ),
-          ),
-        ],
+            const Expanded(
+              child: TabBarView(
+                children: [
+                  BranchPage(),
+                  BranchEmployeePage(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          addBranch();
+        },
+        child: const Text('Add'),
       ),
     );
   }
@@ -259,26 +370,6 @@ class _BranchEmployeePageState extends State<BranchEmployeePage>
         );
       }),
     );
-    // return Consumer<BranchEmployeeProvider>(
-    //   builder: ((context, provider, child) {
-    //     return ListView.builder(
-    //       itemCount: provider.branchEmployeeList.length,
-    //       itemBuilder: (context, index) {
-    //         return Card(
-    //           child: ListTile(
-    //             leading: Text('ID: ${provider.branchEmployeeList[index].id}'),
-    //             title:
-    //                 Text(provider.fullName(provider.branchEmployeeList[index])),
-    //             subtitle: Text(
-    //                 'Branch: ${provider.branchEmployeeList[index].branchName}'),
-    //             onTap: () {},
-    //             visualDensity: VisualDensity.compact,
-    //           ),
-    //         );
-    //       },
-    //     );
-    //   }),
-    // );
   }
 
   @override

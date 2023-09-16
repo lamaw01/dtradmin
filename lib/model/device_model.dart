@@ -14,7 +14,6 @@ class DeviceModel {
   int id;
   String branchId;
   String deviceId;
-  int active;
   String description;
   String branchName;
 
@@ -22,7 +21,6 @@ class DeviceModel {
     required this.id,
     required this.branchId,
     required this.deviceId,
-    required this.active,
     required this.description,
     required this.branchName,
   });
@@ -31,7 +29,6 @@ class DeviceModel {
         id: json["id"],
         branchId: json["branch_id"],
         deviceId: json["device_id"],
-        active: json["active"],
         description: json["description"],
         branchName: json["branch_name"],
       );
@@ -40,7 +37,6 @@ class DeviceModel {
         "id": id,
         "branch_id": branchId,
         "device_id": deviceId,
-        "active": active,
         "description": description,
         "branch_name": branchName,
       };

@@ -3,34 +3,39 @@ import 'package:flutter/material.dart';
 import '../model/branch_model.dart';
 import '../service/http_service.dart';
 
-enum BranchEnum { empty, success, error }
-
 class BranchProvider with ChangeNotifier {
-  var branchStatus = BranchEnum.empty;
-
-  final _branchList = <BranchModel>[
-    BranchModel(
-      id: 0,
-      branchId: '000',
-      branchName: '--Select--',
-    )
-  ];
+  var _branchList = <BranchModel>[];
   List<BranchModel> get branchList => _branchList;
 
   Future<void> getBranch() async {
-    if (branchStatus == BranchEnum.empty) {
-      try {
-        final result = await HttpService.getBranch();
-        _branchList.addAll(result);
-        if (_branchList.isNotEmpty) {
-          branchStatus = BranchEnum.success;
-        }
-      } catch (e) {
-        debugPrint('$e getBranch');
-        branchStatus = BranchEnum.error;
-      } finally {
-        notifyListeners();
+    try {
+      final result = await HttpService.getBranch();
+      _branchList = result;
+      notifyListeners();
+    } catch (e) {
+      debugPrint('$e getBranch');
+    }
+  }
+
+  bool checkBranchId(String branchId) {
+    for (var branch in _branchList) {
+      if (branch.branchId == branchId) {
+        return true;
       }
+    }
+    return false;
+  }
+
+  Future<void> addBranch({
+    required String branchId,
+    required String branchName,
+  }) async {
+    try {
+      await HttpService.addBranch(branchId: branchId, branchName: branchName);
+    } catch (e) {
+      debugPrint('$e addBranch');
+    } finally {
+      await getBranch();
     }
   }
 }
