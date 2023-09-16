@@ -9,7 +9,7 @@ $input = json_decode($inputJSON, TRUE);
 // if not put id die
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
-    $sql = "SELECT tbl_device.id, tbl_device.branch_id, tbl_device.device_id, tbl_device.active, tbl_device.description, tbl_branch.branch_name 
+    $sql = "SELECT tbl_device.id, tbl_device.branch_id, tbl_device.device_id, tbl_device.description, tbl_branch.branch_name 
     FROM tbl_device LEFT JOIN tbl_branch ON tbl_branch.branch_id = tbl_device.branch_id";
 
     try {

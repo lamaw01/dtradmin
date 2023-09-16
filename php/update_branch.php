@@ -9,17 +9,15 @@ $input = json_decode($inputJSON, TRUE);
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('id', $input)){
     $branch_id = $input['branch_id'];
-    $device_id = $input['device_id'];
-    $description = $input['description'];
+    $branch_name = $input['branch_name'];
     $id = $input['id'];
 
-    $sql = 'UPDATE tbl_device SET branch_id=:branch_id, device_id=:device_id, description=:description WHERE id=:id';
+    $sql = 'UPDATE tbl_device SET branch_id=:branch_id, branch_name=:branch_name WHERE id=:id';
 
     try {
         $sql_update = $conn->prepare($sql);
         $sql_update->bindParam(':branch_id', $branch_id, PDO::PARAM_STR);
-        $sql_update->bindParam(':device_id', $device_id, PDO::PARAM_STR);
-        $sql_update->bindParam(':description', $description, PDO::PARAM_STR);
+        $sql_update->bindParam(':branch_name', $branch_name, PDO::PARAM_STR);
         $sql_update->bindParam(':id', $id, PDO::PARAM_INT);
         $sql_update->execute();
         echo json_encode(array('success'=>true,'message'=>'ok'));
