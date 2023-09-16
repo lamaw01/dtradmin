@@ -8,7 +8,7 @@ enum DeviceEnum { empty, success, error }
 class DeviceProvider with ChangeNotifier {
   var deviceStatus = DeviceEnum.empty;
 
-  final _deviceList = <DeviceModel>[];
+  var _deviceList = <DeviceModel>[];
   List<DeviceModel> get deviceList => _deviceList;
 
   Future<void> getDevice() async {
@@ -25,6 +25,60 @@ class DeviceProvider with ChangeNotifier {
       } finally {
         notifyListeners();
       }
+    }
+  }
+
+  Future<void> addDevice({
+    required String branchId,
+    required String deviceId,
+    required int active,
+    required String description,
+  }) async {
+    try {
+      await HttpService.addDevice(
+        branchId: branchId,
+        deviceId: deviceId,
+        active: active,
+        description: description,
+      );
+      _deviceList = await HttpService.getDevice();
+      notifyListeners();
+    } catch (e) {
+      debugPrint('$e addDevice');
+    }
+  }
+
+  Future<void> updateDevice({
+    required String branchId,
+    required String deviceId,
+    required int active,
+    required String description,
+    required int id,
+  }) async {
+    try {
+      await HttpService.updateDevice(
+        branchId: branchId,
+        deviceId: deviceId,
+        active: active,
+        description: description,
+        id: id,
+      );
+      _deviceList = await HttpService.getDevice();
+      notifyListeners();
+    } catch (e) {
+      debugPrint('$e updateDevice');
+    }
+  }
+
+  Future<void> deleteDevice({
+    required int id,
+  }) async {
+    try {
+      await HttpService.deleteDevice(id: id);
+      _deviceList = await HttpService.getDevice();
+      notifyListeners();
+    } catch (e) {
+      debugPrint('$e deleteDevice');
     }
   }
 }

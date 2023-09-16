@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 
+import 'app_version_view.dart';
 import 'branch_view.dart';
 import 'department_view.dart';
 import 'device_view.dart';
@@ -67,6 +68,13 @@ class _HomeViewState extends State<HomeView> {
         },
         icon: const Icon(Icons.calendar_month),
       ),
+      SideMenuItem(
+        title: 'App Version',
+        onTap: (index, _) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(Icons.format_list_numbered),
+      ),
     ];
 
     final menuPages = <Widget>[
@@ -75,6 +83,7 @@ class _HomeViewState extends State<HomeView> {
       const DepartmentView(),
       const EmployeeView(),
       const ScheduleView(),
+      const AppVersionView(),
     ];
 
     return Scaffold(

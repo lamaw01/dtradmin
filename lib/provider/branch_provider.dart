@@ -8,7 +8,13 @@ enum BranchEnum { empty, success, error }
 class BranchProvider with ChangeNotifier {
   var branchStatus = BranchEnum.empty;
 
-  final _branchList = <BranchModel>[];
+  final _branchList = <BranchModel>[
+    BranchModel(
+      id: 0,
+      branchId: '000',
+      branchName: '--Select--',
+    )
+  ];
   List<BranchModel> get branchList => _branchList;
 
   Future<void> getBranch() async {

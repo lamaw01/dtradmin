@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:provider/provider.dart';
 
+import 'provider/app_version_provider.dart';
 import 'provider/branch_employee_provider.dart';
 import 'provider/branch_provider.dart';
 import 'provider/department_employee_provider.dart';
@@ -47,6 +48,9 @@ void main() {
         ),
         ChangeNotifierProvider<ScheduleProvider>(
           create: (_) => ScheduleProvider(),
+        ),
+        ChangeNotifierProvider<AppVersionProvider>(
+          create: (_) => AppVersionProvider(),
         ),
       ],
       child: const MyApp(),

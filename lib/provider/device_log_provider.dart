@@ -8,7 +8,7 @@ enum DeviceLogEnum { empty, success, error }
 class DeviceLogProvider with ChangeNotifier {
   var deviceLogStatus = DeviceLogEnum.empty;
 
-  final _deviceLogList = <DeviceLogModel>[];
+  var _deviceLogList = <DeviceLogModel>[];
   List<DeviceLogModel> get deviceLogList => _deviceLogList;
 
   Future<void> getDeviceLog() async {
@@ -25,6 +25,17 @@ class DeviceLogProvider with ChangeNotifier {
       } finally {
         notifyListeners();
       }
+    }
+  }
+
+  Future<void> refreshDeviceLog() async {
+    try {
+      final result = await HttpService.getDeviceLog();
+      _deviceLogList = result;
+    } catch (e) {
+      debugPrint('$e refreshDeviceLog');
+    } finally {
+      notifyListeners();
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,6 +11,7 @@ import '../model/device_log_model.dart';
 import '../model/device_model.dart';
 import '../model/employee_model.dart';
 import '../model/schedule_model.dart';
+import '../model/version_model.dart';
 import '../model/week_schedule_model.dart';
 
 class HttpService {
@@ -23,7 +26,7 @@ class HttpService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     ).timeout(const Duration(seconds: 10));
-    // debugPrint('getRecords ${response.body}');
+    debugPrint('getDevice ${response.body}');
     return deviceModelFromJson(response.body);
   }
 
@@ -47,7 +50,7 @@ class HttpService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     ).timeout(const Duration(seconds: 10));
-    // debugPrint('getBranch ${response.body}');
+    debugPrint('getBranch ${response.body}');
     return branchModelFromJson(response.body);
   }
 
@@ -107,7 +110,7 @@ class HttpService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     ).timeout(const Duration(seconds: 10));
-    debugPrint('getWeekSchedule ${response.body}');
+    // debugPrint('getWeekSchedule ${response.body}');
     return weekScheduleModelFromJson(response.body);
   }
 
@@ -119,7 +122,85 @@ class HttpService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     ).timeout(const Duration(seconds: 10));
-    debugPrint('getSchedule ${response.body}');
+    // debugPrint('getSchedule ${response.body}');
     return scheduleModelFromJson(response.body);
+  }
+
+  static Future<List<VersionModel>> getAppVersion() async {
+    var response = await http.get(
+      Uri.parse('$_serverUrl/get_app_version.php'),
+      headers: <String, String>{
+        'Accept': '*/*',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    ).timeout(const Duration(seconds: 10));
+    // debugPrint('getAppVersion ${response.body}');
+    return versionModelFromJson(response.body);
+  }
+
+  static Future<void> addDevice({
+    required String branchId,
+    required String deviceId,
+    required int active,
+    required String description,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_device.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "branch_id": branchId,
+            "device_id": deviceId,
+            "active": active,
+            "description": description
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addDevice ${response.body}');
+  }
+
+  static Future<void> updateDevice({
+    required String branchId,
+    required String deviceId,
+    required int active,
+    required String description,
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/update_device.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "branch_id": branchId,
+            "device_id": deviceId,
+            "active": active,
+            "description": description,
+            "id": id
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('updateDevice ${response.body}');
+  }
+
+  static Future<void> deleteDevice({
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_device.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{"id": id}),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteDevice ${response.body}');
   }
 }
