@@ -52,10 +52,10 @@ class DeviceProvider with ChangeNotifier {
         description: description,
         id: id,
       );
-      _deviceList = await HttpService.getDevice();
-      notifyListeners();
     } catch (e) {
       debugPrint('$e updateDevice');
+    } finally {
+      await getDevice();
     }
   }
 
@@ -64,10 +64,10 @@ class DeviceProvider with ChangeNotifier {
   }) async {
     try {
       await HttpService.deleteDevice(id: id);
-      _deviceList = await HttpService.getDevice();
-      notifyListeners();
     } catch (e) {
       debugPrint('$e deleteDevice');
+    } finally {
+      await getDevice();
     }
   }
 }

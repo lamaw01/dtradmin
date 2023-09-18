@@ -38,4 +38,34 @@ class BranchProvider with ChangeNotifier {
       await getBranch();
     }
   }
+
+  Future<void> updateBranch({
+    required String branchId,
+    required String branchName,
+    required int id,
+  }) async {
+    try {
+      await HttpService.updateBranch(
+        branchId: branchId,
+        branchName: branchName,
+        id: id,
+      );
+    } catch (e) {
+      debugPrint('$e updateDevice');
+    } finally {
+      await getBranch();
+    }
+  }
+
+  Future<void> deleteBranch({
+    required int id,
+  }) async {
+    try {
+      await HttpService.deleteBranch(id: id);
+    } catch (e) {
+      debugPrint('$e deleteDevice');
+    } finally {
+      await getBranch();
+    }
+  }
 }

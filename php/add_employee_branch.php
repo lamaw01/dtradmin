@@ -7,19 +7,18 @@ $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE);
 
 
-if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('id', $input)){
+if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('employee_id', $input)){
+    $employee_id = $input['employee_id'];
     $branch_id = $input['branch_id'];
-    $branch_name = $input['branch_name'];
-    $id = $input['id'];
 
-    $sql = 'UPDATE tbl_branch SET branch_id=:branch_id, branch_name=:branch_name WHERE id=:id';
+    $sql = 'INSERT INTO tbl_employee_branch(employee_id, branch_id)
+    VALUES (:employee_id,:branch_id)';
 
     try {
-        $sql_update = $conn->prepare($sql);
-        $sql_update->bindParam(':branch_id', $branch_id, PDO::PARAM_STR);
-        $sql_update->bindParam(':branch_name', $branch_name, PDO::PARAM_STR);
-        $sql_update->bindParam(':id', $id, PDO::PARAM_INT);
-        $sql_update->execute();
+        $sql_insert = $conn->prepare($sql);
+        $sql_insert->bindParam(':employee_id', $employee_id, PDO::PARAM_STR);
+        $sql_insert->bindParam(':branch_id', $branch_id, PDO::PARAM_STR);
+        $sql_insert->execute();
         echo json_encode(array('success'=>true,'message'=>'ok'));
     } catch (PDOException $e) {
         echo json_encode(array('success'=>false,'message'=>$e->getMessage()));

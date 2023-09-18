@@ -36,143 +36,145 @@ class _DeviceViewState extends State<DeviceView> {
     void addDevice() async {
       var b = Provider.of<BranchProvider>(context, listen: false);
       var d = Provider.of<DeviceProvider>(context, listen: false);
+      await b.getBranch();
+      if (mounted) {
+        await showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            var branchList = [
+              BranchModel(id: 0, branchId: '000', branchName: '--Select--')
+            ];
+            branchList.addAll(b.branchList);
+            final deviceId = TextEditingController();
+            final description = TextEditingController();
+            var dpValue = branchList.first;
 
-      await showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          var branchList = [
-            BranchModel(id: 0, branchId: '000', branchName: '--Select--')
-          ];
-          branchList.addAll(b.branchList);
-          final deviceId = TextEditingController();
-          final description = TextEditingController();
-          var dpValue = branchList.first;
-
-          return AlertDialog(
-            title: const Text('Add Device'),
-            content: SizedBox(
-              // height: 200.0,
-              width: 400.0,
-              child: StatefulBuilder(
-                builder: (context, setState) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 40.0,
-                        width: 400.0,
-                        child: TextField(
-                          controller: deviceId,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
+            return AlertDialog(
+              title: const Text('Add Device'),
+              content: SizedBox(
+                // height: 200.0,
+                width: 400.0,
+                child: StatefulBuilder(
+                  builder: (context, setState) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 40.0,
+                          width: 400.0,
+                          child: TextField(
+                            controller: deviceId,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
                               ),
+                              label: Text('Device ID'),
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                             ),
-                            label: Text('Device ID'),
-                            contentPadding:
-                                EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      Container(
-                        height: 40.0,
-                        width: 400.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: Colors.grey,
-                            style: BorderStyle.solid,
-                            width: 1.0,
-                          ),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<BranchModel>(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                        const SizedBox(height: 10.0),
+                        Container(
+                          height: 40.0,
+                          width: 400.0,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            value: dpValue,
-                            onChanged: (BranchModel? value) async {
-                              if (value != null) {
-                                setState(() {
-                                  dpValue = value;
-                                });
-                              }
-                            },
-                            items: b.branchList
-                                .map<DropdownMenuItem<BranchModel>>(
-                                    (BranchModel value) {
-                              return DropdownMenuItem<BranchModel>(
-                                value: value,
-                                child: Text(value.branchName),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      SizedBox(
-                        height: 40.0,
-                        width: 400.0,
-                        child: TextField(
-                          controller: description,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
+                            border: Border.all(
+                              color: Colors.grey,
+                              style: BorderStyle.solid,
+                              width: 1.0,
                             ),
-                            label: Text('Description'),
-                            contentPadding:
-                                EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<BranchModel>(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              borderRadius: BorderRadius.circular(5),
+                              value: dpValue,
+                              onChanged: (BranchModel? value) async {
+                                if (value != null) {
+                                  setState(() {
+                                    dpValue = value;
+                                  });
+                                }
+                              },
+                              items: branchList
+                                  .map<DropdownMenuItem<BranchModel>>(
+                                      (BranchModel value) {
+                                return DropdownMenuItem<BranchModel>(
+                                  value: value,
+                                  child: Text(value.branchName),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(fontSize: 16.0),
+                        const SizedBox(height: 10.0),
+                        SizedBox(
+                          height: 40.0,
+                          width: 400.0,
+                          child: TextField(
+                            controller: description,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.grey,
+                                  width: 1.0,
+                                ),
+                              ),
+                              label: Text('Description'),
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
               ),
-              TextButton(
-                child: const Text(
-                  'Ok',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-                onPressed: () async {
-                  if (dpValue.id == 0) {
-                    snackBarError('Invalid Branch', context);
-                  } else {
-                    await d.addDevice(
-                        branchId: dpValue.branchId,
-                        deviceId: deviceId.text,
-                        active: 1,
-                        description: description.text);
-                  }
-                  if (mounted) {
+              actions: <Widget>[
+                TextButton(
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                  onPressed: () {
                     Navigator.of(context).pop();
-                  }
-                },
-              ),
-            ],
-          );
-        },
-      );
+                  },
+                ),
+                TextButton(
+                  child: const Text(
+                    'Ok',
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                  onPressed: () async {
+                    if (dpValue.id == 0) {
+                      snackBarError('Invalid Branch', context);
+                    } else {
+                      await d.addDevice(
+                          branchId: dpValue.branchId,
+                          deviceId: deviceId.text,
+                          active: 1,
+                          description: description.text);
+                    }
+                    if (mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
 
     return Scaffold(
@@ -205,8 +207,6 @@ class _DeviceViewState extends State<DeviceView> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          var b = Provider.of<BranchProvider>(context, listen: false);
-          await b.getBranch();
           addDevice();
         },
         child: const Text('Add'),
@@ -245,7 +245,6 @@ class _DevicesPageState extends State<DevicesPage>
               TextEditingController(text: deviceModel.description);
           var dpValue = b.branchList
               .singleWhere((e) => e.branchId == deviceModel.branchId);
-          // var dpValue = b.branchList.first;
 
           return AlertDialog(
             title: const Text('Update Device'),

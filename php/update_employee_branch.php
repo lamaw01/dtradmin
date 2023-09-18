@@ -8,16 +8,16 @@ $input = json_decode($inputJSON, TRUE);
 
 
 if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('id', $input)){
+    $employee_id = $input['employee_id'];
     $branch_id = $input['branch_id'];
-    $branch_name = $input['branch_name'];
     $id = $input['id'];
 
-    $sql = 'UPDATE tbl_branch SET branch_id=:branch_id, branch_name=:branch_name WHERE id=:id';
+    $sql = 'UPDATE tbl_employee_branch SET  employee_id=:employee_id, branch_id=:branch_id WHERE id=:id';
 
     try {
         $sql_update = $conn->prepare($sql);
+        $sql_update->bindParam(':employee_id', $employee_id, PDO::PARAM_STR);
         $sql_update->bindParam(':branch_id', $branch_id, PDO::PARAM_STR);
-        $sql_update->bindParam(':branch_name', $branch_name, PDO::PARAM_STR);
         $sql_update->bindParam(':id', $id, PDO::PARAM_INT);
         $sql_update->execute();
         echo json_encode(array('success'=>true,'message'=>'ok'));

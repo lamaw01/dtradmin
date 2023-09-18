@@ -53,9 +53,9 @@ class HttpService {
     return branchModelFromJson(response.body);
   }
 
-  static Future<List<BranchEmployeeModel>> getBranchEmployee() async {
+  static Future<List<BranchEmployeeModel>> getEmployeeBranch() async {
     var response = await http.get(
-      Uri.parse('$_serverUrl/get_branch_employee.php'),
+      Uri.parse('$_serverUrl/get_employee_branch.php'),
       headers: <String, String>{
         'Accept': '*/*',
         'Content-Type': 'application/json; charset=UTF-8',
@@ -79,7 +79,7 @@ class HttpService {
 
   static Future<List<DepartmentEmployeeModel>> getDepartmentEmployee() async {
     var response = await http.get(
-      Uri.parse('$_serverUrl/get_department_employee.php'),
+      Uri.parse('$_serverUrl/get_employee_department.php'),
       headers: <String, String>{
         'Accept': '*/*',
         'Content-Type': 'application/json; charset=UTF-8',
@@ -221,5 +221,101 @@ class HttpService {
         )
         .timeout(const Duration(seconds: 10));
     debugPrint('addBranch ${response.body}');
+  }
+
+  static Future<void> updateBranch({
+    required String branchId,
+    required String branchName,
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/update_branch.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "branch_id": branchId,
+            "branch_name": branchName,
+            "id": id
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('updateBranch ${response.body}');
+  }
+
+  static Future<void> deleteBranch({
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_branch.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{"id": id}),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteBranch ${response.body}');
+  }
+
+  static Future<void> addEmployeeBranch({
+    required String employeeId,
+    required String branchId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_employee_branch.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "employee_id": employeeId,
+            "branch_id": branchId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addEmployeeBranch ${response.body}');
+  }
+
+  static Future<void> updateEmployeeBranch({
+    required String employeeId,
+    required String branchId,
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/update_employee_branch.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "employee_id": employeeId,
+            "branch_id": branchId,
+            "id": id,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('updateEmployeeBranch ${response.body}');
+  }
+
+  static Future<void> deleteEmployeeBranch({
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_employee_branch.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{"id": id}),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteEmployeeBranch ${response.body}');
   }
 }
