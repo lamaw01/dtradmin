@@ -8,7 +8,7 @@ import 'provider/app_version_provider.dart';
 import 'provider/branch_employee_provider.dart';
 import 'provider/branch_provider.dart';
 import 'provider/department_employee_provider.dart';
-import 'provider/departmet_provider.dart';
+import 'provider/department_provider.dart';
 import 'provider/device_log_provider.dart';
 import 'provider/device_provider.dart';
 import 'provider/employee_provider.dart';

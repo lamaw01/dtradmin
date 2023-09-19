@@ -318,4 +318,62 @@ class HttpService {
         .timeout(const Duration(seconds: 10));
     debugPrint('deleteEmployeeBranch ${response.body}');
   }
+
+  static Future<void> addDepartment({
+    required String departmentId,
+    required String departmentName,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_department.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "department_id": departmentId,
+            "department_name": departmentName,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addDepartment ${response.body}');
+  }
+
+  static Future<void> updateDepartment({
+    required String departmentId,
+    required String departmentName,
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/update_department.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "department_id": departmentId,
+            "department_name": departmentName,
+            "id": id,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('updateDepartment ${response.body}');
+  }
+
+  static Future<void> deleteDepartment({
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_department.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{"id": id}),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteDepartment ${response.body}');
+  }
 }
