@@ -376,4 +376,62 @@ class HttpService {
         .timeout(const Duration(seconds: 10));
     debugPrint('deleteDepartment ${response.body}');
   }
+
+  static Future<void> addEmployeeDepartment({
+    required String departmentId,
+    required String employeeId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_employee_department.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "department_id": departmentId,
+            "employee_id": employeeId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addEmployeeDepartment ${response.body}');
+  }
+
+  static Future<void> updateEmployeeDepartment({
+    required String departmentId,
+    required String employeeId,
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/update_employee_department.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "department_id": departmentId,
+            "employee_id": employeeId,
+            "id": id,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('updateEmployeeDepartment ${response.body}');
+  }
+
+  static Future<void> deleteEmployeeDepartment({
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_employee_department.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{"id": id}),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteDepartment ${response.body}');
+  }
 }
