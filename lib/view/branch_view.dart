@@ -445,7 +445,7 @@ class _BranchPageState extends State<BranchPage>
                   if (branchName.text.isEmpty || branchId.text.isEmpty) {
                     snackBarError('Invalid Branch', context);
                   } else if (branchExist &&
-                      branchModel.branchId.toString() != branchId.text) {
+                      branchModel.branchId.trim() != branchId.text) {
                     snackBarError('Branch Already Exist', context);
                   } else {
                     await b.updateBranch(

@@ -434,4 +434,164 @@ class HttpService {
         .timeout(const Duration(seconds: 10));
     debugPrint('deleteDepartment ${response.body}');
   }
+
+  static Future<void> addEmployee({
+    required String employeeId,
+    required String firstName,
+    required String lastName,
+    required String middleName,
+    required String weekSchedId,
+    required int active,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_employee.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "employee_id": employeeId,
+            "first_name": firstName,
+            "last_name": lastName,
+            "middle_name": middleName,
+            "week_sched_id": weekSchedId,
+            "active": active,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addEmployee ${response.body}');
+  }
+
+  static Future<void> updateEmployee({
+    required String employeeId,
+    required String firstName,
+    required String lastName,
+    required String middleName,
+    required String weekSchedId,
+    required int active,
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/update_employee.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "employee_id": employeeId,
+            "first_name": firstName,
+            "last_name": lastName,
+            "middle_name": middleName,
+            "week_sched_id": weekSchedId,
+            "active": active,
+            "id": id,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addEmployee ${response.body}');
+  }
+
+  static Future<void> deleteEmployee({
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_employee.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{"id": id}),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteEmployee ${response.body}');
+  }
+
+  static Future<void> addWeekSchedule({
+    required String weekSchedId,
+    required String monday,
+    required String tuesday,
+    required String wednesday,
+    required String thursday,
+    required String friday,
+    required String saturday,
+    required String sunday,
+    required String description,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_week_sched.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "week_sched_id": weekSchedId,
+            "monday": monday,
+            "tuesday": tuesday,
+            "wednesday": wednesday,
+            "thursday": thursday,
+            "friday": friday,
+            "saturday": saturday,
+            "sunday": sunday,
+            "description": description,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addWeekSchedule ${response.body}');
+  }
+
+  static Future<void> updateWeekSchedule({
+    required String weekSchedId,
+    required String monday,
+    required String tuesday,
+    required String wednesday,
+    required String thursday,
+    required String friday,
+    required String saturday,
+    required String sunday,
+    required String description,
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/update_week_sched.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "week_sched_id": weekSchedId,
+            "monday": monday,
+            "tuesday": tuesday,
+            "wednesday": wednesday,
+            "thursday": thursday,
+            "friday": friday,
+            "saturday": saturday,
+            "sunday": sunday,
+            "description": description,
+            "id": id,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('updateWeekSchedule ${response.body}');
+  }
+
+  static Future<void> deleteWeekSchedule({
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_week_sched.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{"id": id}),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteWeekSchedule ${response.body}');
+  }
 }
