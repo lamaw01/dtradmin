@@ -11,7 +11,7 @@ import '../model/device_log_model.dart';
 import '../model/device_model.dart';
 import '../model/employee_model.dart';
 import '../model/schedule_model.dart';
-import '../model/version_model.dart';
+import '../model/app_version_model.dart';
 import '../model/week_schedule_model.dart';
 
 class HttpService {
@@ -125,7 +125,7 @@ class HttpService {
     return scheduleModelFromJson(response.body);
   }
 
-  static Future<List<VersionModel>> getAppVersion() async {
+  static Future<List<AppVersionModel>> getAppVersion() async {
     var response = await http.get(
       Uri.parse('$_serverUrl/get_app_version.php'),
       headers: <String, String>{
@@ -134,7 +134,7 @@ class HttpService {
       },
     ).timeout(const Duration(seconds: 10));
     // debugPrint('getAppVersion ${response.body}');
-    return versionModelFromJson(response.body);
+    return appVersionModelFromJson(response.body);
   }
 
   static Future<void> addDevice({
@@ -593,5 +593,105 @@ class HttpService {
         )
         .timeout(const Duration(seconds: 10));
     debugPrint('deleteWeekSchedule ${response.body}');
+  }
+
+  static Future<void> addSchedule({
+    required String schedId,
+    required String schedType,
+    required String schedIn,
+    required String breakStart,
+    required String breakEnd,
+    required String schedOut,
+    required String description,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_sched.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "sched_id": schedId,
+            "sched_type": schedType,
+            "sched_in": schedIn,
+            "break_start": breakStart,
+            "break_end": breakEnd,
+            "sched_out": schedOut,
+            "description": description,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addSchedule ${response.body}');
+  }
+
+  static Future<void> updateSchedule({
+    required String schedId,
+    required String schedType,
+    required String schedIn,
+    required String breakStart,
+    required String breakEnd,
+    required String schedOut,
+    required String description,
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/update_sched.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "sched_id": schedId,
+            "sched_type": schedType,
+            "sched_in": schedIn,
+            "break_start": breakStart,
+            "break_end": breakEnd,
+            "sched_out": schedOut,
+            "description": description,
+            "id": id,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('updateSchedule ${response.body}');
+  }
+
+  static Future<void> deleteSchedule({
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_sched.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{"id": id}),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteSchedule ${response.body}');
+  }
+
+  static Future<void> updateAppVersion({
+    required String name,
+    required String version,
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/update_app_version.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "name": name,
+            "version": version,
+            "id": id,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('updateAppVersion ${response.body}');
   }
 }

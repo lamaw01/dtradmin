@@ -14,7 +14,7 @@ class LoginView extends StatelessWidget {
     bool authenticate(TextEditingController usr, TextEditingController pwd) {
       bool success = false;
 
-      if (usr.text.trim() == 'admin' && pwd.text.trim() == 'admin') {
+      if (usr.text.trim() == 'admin' && pwd.text.trim() == 'admin@dtr') {
         success = true;
         Navigator.pushReplacement(
           context,

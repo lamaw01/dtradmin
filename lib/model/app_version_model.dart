@@ -1,29 +1,31 @@
 // To parse this JSON data, do
 //
-//     final versionModel = versionModelFromJson(jsonString);
+//     final AppVersionModel = AppVersionModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<VersionModel> versionModelFromJson(String str) => List<VersionModel>.from(
-    json.decode(str).map((x) => VersionModel.fromJson(x)));
+List<AppVersionModel> appVersionModelFromJson(String str) =>
+    List<AppVersionModel>.from(
+        json.decode(str).map((x) => AppVersionModel.fromJson(x)));
 
-String versionModelToJson(List<VersionModel> data) =>
+String appVersionModelToJson(List<AppVersionModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class VersionModel {
+class AppVersionModel {
   int id;
   String name;
   String version;
   DateTime updated;
 
-  VersionModel({
+  AppVersionModel({
     required this.id,
     required this.name,
     required this.version,
     required this.updated,
   });
 
-  factory VersionModel.fromJson(Map<String, dynamic> json) => VersionModel(
+  factory AppVersionModel.fromJson(Map<String, dynamic> json) =>
+      AppVersionModel(
         id: json["id"],
         name: json["name"],
         version: json["version"],

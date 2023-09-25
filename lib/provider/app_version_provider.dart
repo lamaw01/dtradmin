@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 
-import '../model/version_model.dart';
+import '../model/app_version_model.dart';
 import '../service/http_service.dart';
 
-enum AppVersionProviderEnum { empty, success, error }
-
 class AppVersionProvider with ChangeNotifier {
-  var appVersionProviderStatus = AppVersionProviderEnum.empty;
-
-  final _appVersionProviderList = <VersionModel>[];
-  List<VersionModel> get appVersionProviderList => _appVersionProviderList;
+  var _appVersionProviderList = <AppVersionModel>[];
+  List<AppVersionModel> get appVersionProviderList => _appVersionProviderList;
 
   Future<void> getAppVersion() async {
-    if (appVersionProviderStatus == AppVersionProviderEnum.empty) {
-      try {
-        final result = await HttpService.getAppVersion();
-        _appVersionProviderList.addAll(result);
-        if (_appVersionProviderList.isNotEmpty) {
-          appVersionProviderStatus = AppVersionProviderEnum.success;
-        }
-      } catch (e) {
-        debugPrint('$e getAppVersion');
-        appVersionProviderStatus = AppVersionProviderEnum.error;
-      } finally {
-        notifyListeners();
-      }
+    try {
+      final result = await HttpService.getAppVersion();
+      _appVersionProviderList = result;
+    } catch (e) {
+      debugPrint('$e getAppVersion');
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateAppVersion({
+    required String name,
+    required String version,
+    required int id,
+  }) async {
+    try {
+      await HttpService.updateAppVersion(name: name, version: version, id: id);
+    } catch (e) {
+      debugPrint('$e updateAppVersion');
+    } finally {
+      await getAppVersion();
     }
   }
 }

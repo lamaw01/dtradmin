@@ -1,4 +1,3 @@
-import 'package:dtradmin/view/home_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -14,7 +13,8 @@ import 'provider/device_provider.dart';
 import 'provider/employee_provider.dart';
 import 'provider/schedule_provider.dart';
 import 'provider/week_scheduke_provider.dart';
-// import 'view/login_view.dart';
+// import 'view/home_view.dart';
+import 'view/login_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,8 +70,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeView(),
-      // home: const LoginView(),
+      // home: const HomeView(),
+      home: const LoginView(),
     );
   }
 }
