@@ -52,7 +52,6 @@ class LoginView extends StatelessWidget {
                       width: 1.0,
                     ),
                   ),
-                  isDense: true,
                   contentPadding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
                 ),
               ),
@@ -69,7 +68,6 @@ class LoginView extends StatelessWidget {
                       width: 1.0,
                     ),
                   ),
-                  isDense: true,
                   contentPadding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
                 ),
                 onSubmitted: (value) {
@@ -82,7 +80,7 @@ class LoginView extends StatelessWidget {
               const SizedBox(height: 10.0),
               Container(
                 color: Colors.green[300],
-                height: 35.0,
+                height: 40.0,
                 width: 300.0,
                 child: TextButton(
                   onPressed: () {
@@ -95,7 +93,7 @@ class LoginView extends StatelessWidget {
                     'Login',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12.0,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

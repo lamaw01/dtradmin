@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/app_version_provider.dart';
 import 'app_version_view.dart';
 import 'branch_view.dart';
 import 'department_view.dart';
@@ -21,11 +23,15 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void initState() {
+    super.initState();
     // Connect SideMenuController and PageController together
     sideMenu.addListener((index) {
       pageController.jumpToPage(index);
     });
-    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Provider.of<AppVersionProvider>(context, listen: false)
+          .getPackageInfo();
+    });
   }
 
   @override
@@ -88,7 +94,23 @@ class _HomeViewState extends State<HomeView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(title),
+        title: Consumer<AppVersionProvider>(
+          builder: (context, provider, child) {
+            var version = 'v${provider.appVersion}';
+            return Row(
+              children: [
+                const Text(title),
+                const SizedBox(
+                  width: 2.5,
+                ),
+                Text(
+                  version,
+                  style: const TextStyle(fontSize: 12.0),
+                ),
+              ],
+            );
+          },
+        ),
       ),
       body: Row(
         children: [
