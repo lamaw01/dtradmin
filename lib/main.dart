@@ -13,7 +13,9 @@ import 'provider/device_provider.dart';
 import 'provider/employee_provider.dart';
 import 'provider/schedule_provider.dart';
 import 'provider/week_scheduke_provider.dart';
-// import 'view/home_view.dart';
+// ignore: unused_import
+import 'view/home_view.dart';
+// ignore: unused_import
 import 'view/login_view.dart';
 
 void main() {

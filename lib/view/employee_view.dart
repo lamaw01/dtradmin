@@ -72,7 +72,7 @@ class _EmployeeViewState extends State<EmployeeView> {
               title: const Text('Add Employee'),
               content: SizedBox(
                 // height: 200.0,
-                width: 400.0,
+                width: 500.0,
                 child: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
@@ -82,7 +82,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                       children: [
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: employeeId,
                             decoration: const InputDecoration(
@@ -92,7 +92,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                                   width: 1.0,
                                 ),
                               ),
-                              label: Text('EmployeeId'),
+                              label: Text('Employee ID'),
                               contentPadding:
                                   EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                             ),
@@ -101,7 +101,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: lastName,
                             decoration: const InputDecoration(
@@ -120,7 +120,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: firtName,
                             decoration: const InputDecoration(
@@ -139,7 +139,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: middleName,
                             decoration: const InputDecoration(
@@ -156,41 +156,48 @@ class _EmployeeViewState extends State<EmployeeView> {
                           ),
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Schedule:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<WeekScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddweekSchedValue,
+                                  onChanged: (WeekScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddweekSchedValue = value;
+                                      });
+                                    }
+                                  },
+                                  items: weekSchedList
+                                      .map<DropdownMenuItem<WeekScheduleModel>>(
+                                          (WeekScheduleModel value) {
+                                    return DropdownMenuItem<WeekScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                          '${value.weekSchedId} | ${value.description}'),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<WeekScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddweekSchedValue,
-                              onChanged: (WeekScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddweekSchedValue = value;
-                                  });
-                                }
-                              },
-                              items: weekSchedList
-                                  .map<DropdownMenuItem<WeekScheduleModel>>(
-                                      (WeekScheduleModel value) {
-                                return DropdownMenuItem<WeekScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                      '${value.weekSchedId} | ${value.description}'),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                       ],
                     );
@@ -276,7 +283,7 @@ class _EmployeeViewState extends State<EmployeeView> {
               title: const Text('Add Employee'),
               content: SizedBox(
                 // height: 200.0,
-                width: 400.0,
+                width: 500.0,
                 child: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
@@ -286,7 +293,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                       children: [
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: employeeId,
                             decoration: const InputDecoration(
@@ -296,7 +303,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                                   width: 1.0,
                                 ),
                               ),
-                              label: Text('EmployeeId'),
+                              label: Text('Employee ID'),
                               contentPadding:
                                   EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                             ),
@@ -305,7 +312,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: lastName,
                             decoration: const InputDecoration(
@@ -324,7 +331,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: firtName,
                             decoration: const InputDecoration(
@@ -343,7 +350,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: middleName,
                             decoration: const InputDecoration(
@@ -360,41 +367,48 @@ class _EmployeeViewState extends State<EmployeeView> {
                           ),
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Schedule:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<WeekScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddweekSchedValue,
+                                  onChanged: (WeekScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddweekSchedValue = value;
+                                      });
+                                    }
+                                  },
+                                  items: weekSchedList
+                                      .map<DropdownMenuItem<WeekScheduleModel>>(
+                                          (WeekScheduleModel value) {
+                                    return DropdownMenuItem<WeekScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                          '${value.weekSchedId} | ${value.description}'),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<WeekScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddweekSchedValue,
-                              onChanged: (WeekScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddweekSchedValue = value;
-                                  });
-                                }
-                              },
-                              items: weekSchedList
-                                  .map<DropdownMenuItem<WeekScheduleModel>>(
-                                      (WeekScheduleModel value) {
-                                return DropdownMenuItem<WeekScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                      '${value.weekSchedId} | ${value.description}'),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
                         SizedBox(
@@ -448,7 +462,8 @@ class _EmployeeViewState extends State<EmployeeView> {
                         ddweekSchedValue.id == 0) {
                       snackBarError(
                           'Invalid Employee/Missing Parameters', context);
-                    } else if (employeeExist) {
+                    } else if (employeeExist &&
+                        employeeModel.employeeId != employeeId.text.trim()) {
                       snackBarError('Employee Already Exist', context);
                     } else {
                       await e.updateEmployee(

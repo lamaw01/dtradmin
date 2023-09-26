@@ -18,10 +18,13 @@ class DeviceView extends StatefulWidget {
   State<DeviceView> createState() => _DeviceViewState();
 }
 
-class _DeviceViewState extends State<DeviceView> {
+class _DeviceViewState extends State<DeviceView>
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
   @override
   void initState() {
     super.initState();
+    tabController = TabController(length: 2, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var dp = Provider.of<DeviceProvider>(context, listen: false);
       var dlp = Provider.of<DeviceLogProvider>(context, listen: false);
@@ -81,40 +84,47 @@ class _DeviceViewState extends State<DeviceView> {
                           ),
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Branch:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 330.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<BranchModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: dpValue,
+                                  onChanged: (BranchModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        dpValue = value;
+                                      });
+                                    }
+                                  },
+                                  items: branchList
+                                      .map<DropdownMenuItem<BranchModel>>(
+                                          (BranchModel value) {
+                                    return DropdownMenuItem<BranchModel>(
+                                      value: value,
+                                      child: Text(value.branchName),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<BranchModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: dpValue,
-                              onChanged: (BranchModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    dpValue = value;
-                                  });
-                                }
-                              },
-                              items: branchList
-                                  .map<DropdownMenuItem<BranchModel>>(
-                                      (BranchModel value) {
-                                return DropdownMenuItem<BranchModel>(
-                                  value: value,
-                                  child: Text(value.branchName),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
                         SizedBox(
@@ -158,11 +168,13 @@ class _DeviceViewState extends State<DeviceView> {
                   onPressed: () async {
                     if (dpValue.id == 0) {
                       snackBarError('Invalid Branch', context);
+                    } else if (deviceId.text.isEmpty ||
+                        description.text.isEmpty) {
+                      snackBarError('Invalid Parameter', context);
                     } else {
                       await d.addDevice(
                           branchId: dpValue.branchId,
                           deviceId: deviceId.text,
-                          active: 1,
                           description: description.text);
                     }
                     if (mounted) {
@@ -184,19 +196,21 @@ class _DeviceViewState extends State<DeviceView> {
           children: [
             Container(
               color: Colors.grey[400],
-              child: const TabBar(
+              child: TabBar(
+                controller: tabController,
                 indicatorColor: Colors.blue,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorWeight: 4.0,
-                tabs: [
+                tabs: const [
                   Tab(text: 'Device'),
                   Tab(text: 'Device Logs'),
                 ],
               ),
             ),
-            const Expanded(
+            Expanded(
               child: TabBarView(
-                children: [
+                controller: tabController,
+                children: const [
                   DevicesPage(),
                   DeviceLogsPage(),
                 ],
@@ -207,7 +221,9 @@ class _DeviceViewState extends State<DeviceView> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          addDevice();
+          if (tabController.index == 0) {
+            addDevice();
+          }
         },
         child: const Text('Add'),
       ),

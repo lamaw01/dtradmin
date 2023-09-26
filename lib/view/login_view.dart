@@ -41,7 +41,7 @@ class LoginView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextFormField(
+              TextField(
                 controller: usr,
                 style: const TextStyle(fontSize: 14.0),
                 decoration: const InputDecoration(
@@ -52,7 +52,7 @@ class LoginView extends StatelessWidget {
                       width: 1.0,
                     ),
                   ),
-                  contentPadding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
+                  contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 ),
               ),
               const SizedBox(height: 5.0),
@@ -68,7 +68,7 @@ class LoginView extends StatelessWidget {
                       width: 1.0,
                     ),
                   ),
-                  contentPadding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
+                  contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                 ),
                 onSubmitted: (value) {
                   bool auth = authenticate(usr, pwd);

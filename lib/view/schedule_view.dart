@@ -70,7 +70,7 @@ class _ScheduleViewState extends State<ScheduleView>
               title: const Text('Add Week Schedule'),
               content: SizedBox(
                 // height: 200.0,
-                width: 400.0,
+                width: 500.0,
                 child: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
@@ -80,7 +80,7 @@ class _ScheduleViewState extends State<ScheduleView>
                       children: [
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: weekSchedId,
                             decoration: const InputDecoration(
@@ -97,286 +97,335 @@ class _ScheduleViewState extends State<ScheduleView>
                           ),
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Monday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddMonday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddMonday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                          "${value.schedId} | ${value.description}"),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddMonday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddMonday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                      "${value.schedId} | ${value.description}"),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Tuesday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddTuesday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddTuesday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddTuesday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddTuesday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Wednesday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddWednesday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddWednesday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddWednesday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddWednesday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Thursday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddThursday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddThursday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddThursday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddThursday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Friday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddFriday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddFriday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddFriday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddFriday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Saturday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddSaturday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddSaturday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddSaturday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddSaturday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Sunday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddSunday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddSunday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddSunday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddSunday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: description,
                             decoration: const InputDecoration(
@@ -423,8 +472,7 @@ class _ScheduleViewState extends State<ScheduleView>
                         ddFriday.id == 0 ||
                         ddSaturday.id == 0 ||
                         ddSunday.id == 0 ||
-                        weekSchedId.text.isEmpty ||
-                        description.text.isEmpty) {
+                        weekSchedId.text.isEmpty) {
                       snackBarError('Invalid Parameters', context);
                     } else if (employeebranchExist) {
                       snackBarError('Week Schedule Already Exist', context);
@@ -752,9 +800,7 @@ class _ScheduleViewState extends State<ScheduleView>
                 ),
                 onPressed: () async {
                   bool schedIdExist = s.checkScheduleId(schedId.text.trim());
-                  if (schedId.text.isEmpty ||
-                      schedType.text.isEmpty ||
-                      description.text.isEmpty) {
+                  if (schedId.text.isEmpty || schedType.text.isEmpty) {
                     snackBarError('Invalid Parameters', context);
                   } else if (schedIdExist) {
                     snackBarError('Schedule Already Exist', context);
@@ -895,7 +941,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
               title: const Text('Add Week Schedule'),
               content: SizedBox(
                 // height: 200.0,
-                width: 400.0,
+                width: 500.0,
                 child: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
@@ -905,7 +951,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                       children: [
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: weekSchedId,
                             decoration: const InputDecoration(
@@ -922,286 +968,335 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                           ),
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Monday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddMonday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddMonday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                          "${value.schedId} | ${value.description}"),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddMonday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddMonday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                      "${value.schedId} | ${value.description}"),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Tuesday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddTuesday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddTuesday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddTuesday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddTuesday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Wednesday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddWednesday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddWednesday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddWednesday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddWednesday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Thursday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddThursday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddThursday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddThursday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddThursday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Friday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddFriday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddFriday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddFriday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddFriday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Saturday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddSaturday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddSaturday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddSaturday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddSaturday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Sunday:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 400.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<ScheduleModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddSunday,
+                                  onChanged: (ScheduleModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddSunday = value;
+                                      });
+                                    }
+                                  },
+                                  items: scheduleList
+                                      .map<DropdownMenuItem<ScheduleModel>>(
+                                          (ScheduleModel value) {
+                                    return DropdownMenuItem<ScheduleModel>(
+                                      value: value,
+                                      child: Text(
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<ScheduleModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddSunday,
-                              onChanged: (ScheduleModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddSunday = value;
-                                  });
-                                }
-                              },
-                              items: scheduleList
-                                  .map<DropdownMenuItem<ScheduleModel>>(
-                                      (ScheduleModel value) {
-                                return DropdownMenuItem<ScheduleModel>(
-                                  value: value,
-                                  child: Text(
-                                    "${value.schedId} | ${value.description}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 400.0,
+                          width: 500.0,
                           child: TextField(
                             controller: description,
                             decoration: const InputDecoration(
@@ -1248,8 +1343,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                         ddFriday.id == 0 ||
                         ddSaturday.id == 0 ||
                         ddSunday.id == 0 ||
-                        weekSchedId.text.isEmpty ||
-                        description.text.isEmpty) {
+                        weekSchedId.text.isEmpty) {
                       snackBarError('Invalid Parameters', context);
                     } else if (weekSchedIdExist &&
                         weekSchedId.text.trim() !=
@@ -1592,108 +1686,137 @@ class _SchedulePageState extends State<SchedulePage>
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      InkWell(
-                        onTap: () async {
-                          DateTime result = await pickTime(dt: schedIn);
-                          setState(() {
-                            schedIn = dateFormat.format(result).toString();
-                          });
-                        },
-                        child: Ink(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Sched In:'),
+                          const SizedBox(width: 5.0),
+                          InkWell(
+                            onTap: () async {
+                              DateTime result = await pickTime(dt: schedIn);
+                              setState(() {
+                                schedIn = dateFormat.format(result).toString();
+                              });
+                            },
+                            child: Ink(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Center(
+                                  child: Text(
+                                schedIn,
+                                textAlign: TextAlign.start,
+                              )),
                             ),
                           ),
-                          child: Center(
-                              child: Text(
-                            schedIn,
-                            textAlign: TextAlign.start,
-                          )),
-                        ),
+                        ],
                       ),
                       const SizedBox(height: 10.0),
-                      InkWell(
-                        onTap: () async {
-                          DateTime result = await pickTime(dt: breakStart);
-                          setState(() {
-                            breakStart = dateFormat.format(result).toString();
-                          });
-                        },
-                        child: Ink(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Break Start:'),
+                          const SizedBox(width: 5.0),
+                          InkWell(
+                            onTap: () async {
+                              DateTime result = await pickTime(dt: breakStart);
+                              setState(() {
+                                breakStart =
+                                    dateFormat.format(result).toString();
+                              });
+                            },
+                            child: Ink(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Center(
+                                  child: Text(
+                                breakStart,
+                                textAlign: TextAlign.start,
+                              )),
                             ),
                           ),
-                          child: Center(
-                              child: Text(
-                            breakStart,
-                            textAlign: TextAlign.start,
-                          )),
-                        ),
+                        ],
                       ),
                       const SizedBox(height: 10.0),
-                      InkWell(
-                        onTap: () async {
-                          DateTime result = await pickTime(dt: breakEnd);
-                          setState(() {
-                            breakEnd = dateFormat.format(result).toString();
-                          });
-                        },
-                        child: Ink(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Break End:'),
+                          const SizedBox(width: 5.0),
+                          InkWell(
+                            onTap: () async {
+                              DateTime result = await pickTime(dt: breakEnd);
+                              setState(() {
+                                breakEnd = dateFormat.format(result).toString();
+                              });
+                            },
+                            child: Ink(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Center(
+                                  child: Text(
+                                breakEnd,
+                                textAlign: TextAlign.start,
+                              )),
                             ),
                           ),
-                          child: Center(
-                              child: Text(
-                            breakEnd,
-                            textAlign: TextAlign.start,
-                          )),
-                        ),
+                        ],
                       ),
                       const SizedBox(height: 10.0),
-                      InkWell(
-                        onTap: () async {
-                          DateTime result = await pickTime(dt: schedOut);
-                          setState(() {
-                            schedOut = dateFormat.format(result).toString();
-                          });
-                        },
-                        child: Ink(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Sched Out:'),
+                          const SizedBox(width: 5.0),
+                          InkWell(
+                            onTap: () async {
+                              DateTime result = await pickTime(dt: schedOut);
+                              setState(() {
+                                schedOut = dateFormat.format(result).toString();
+                              });
+                            },
+                            child: Ink(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: Center(
+                                  child: Text(
+                                schedOut,
+                                textAlign: TextAlign.start,
+                              )),
                             ),
                           ),
-                          child: Center(
-                              child: Text(
-                            schedOut,
-                            textAlign: TextAlign.start,
-                          )),
-                        ),
+                        ],
                       ),
                       const SizedBox(height: 10.0),
                       SizedBox(
@@ -1736,9 +1859,7 @@ class _SchedulePageState extends State<SchedulePage>
                 ),
                 onPressed: () async {
                   bool schedIdExist = s.checkScheduleId(schedId.text.trim());
-                  if (schedId.text.isEmpty ||
-                      schedType.text.isEmpty ||
-                      description.text.isEmpty) {
+                  if (schedId.text.isEmpty || schedType.text.isEmpty) {
                     snackBarError('Invalid Parameters', context);
                   } else if (schedIdExist &&
                       schedId.text.trim().toUpperCase() !=

@@ -20,14 +20,12 @@ class DeviceProvider with ChangeNotifier {
   Future<void> addDevice({
     required String branchId,
     required String deviceId,
-    required int active,
     required String description,
   }) async {
     try {
       await HttpService.addDevice(
         branchId: branchId,
         deviceId: deviceId,
-        active: active,
         description: description,
       );
     } catch (e) {

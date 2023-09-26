@@ -181,76 +181,90 @@ class _BranchViewState extends State<BranchView>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Branch:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<BranchModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddBranchValue,
+                                  onChanged: (BranchModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddBranchValue = value;
+                                      });
+                                    }
+                                  },
+                                  items: branchList
+                                      .map<DropdownMenuItem<BranchModel>>(
+                                          (BranchModel value) {
+                                    return DropdownMenuItem<BranchModel>(
+                                      value: value,
+                                      child: Text(value.branchName),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<BranchModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddBranchValue,
-                              onChanged: (BranchModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddBranchValue = value;
-                                  });
-                                }
-                              },
-                              items: branchList
-                                  .map<DropdownMenuItem<BranchModel>>(
-                                      (BranchModel value) {
-                                return DropdownMenuItem<BranchModel>(
-                                  value: value,
-                                  child: Text(value.branchName),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Employee:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<EmployeeModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddEmployeeValue,
+                                  onChanged: (EmployeeModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddEmployeeValue = value;
+                                      });
+                                    }
+                                  },
+                                  items: employeeList
+                                      .map<DropdownMenuItem<EmployeeModel>>(
+                                          (EmployeeModel value) {
+                                    return DropdownMenuItem<EmployeeModel>(
+                                      value: value,
+                                      child: Text(ep.fullName(value)),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<EmployeeModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddEmployeeValue,
-                              onChanged: (EmployeeModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddEmployeeValue = value;
-                                  });
-                                }
-                              },
-                              items: employeeList
-                                  .map<DropdownMenuItem<EmployeeModel>>(
-                                      (EmployeeModel value) {
-                                return DropdownMenuItem<EmployeeModel>(
-                                  value: value,
-                                  child: Text(ep.fullName(value)),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                       ],
                     );
@@ -647,76 +661,90 @@ class _BranchEmployeePageState extends State<BranchEmployeePage>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Branch:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<BranchModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddBranchValue,
+                                  onChanged: (BranchModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddBranchValue = value;
+                                      });
+                                    }
+                                  },
+                                  items: branchList
+                                      .map<DropdownMenuItem<BranchModel>>(
+                                          (BranchModel value) {
+                                    return DropdownMenuItem<BranchModel>(
+                                      value: value,
+                                      child: Text(value.branchName),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<BranchModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddBranchValue,
-                              onChanged: (BranchModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddBranchValue = value;
-                                  });
-                                }
-                              },
-                              items: branchList
-                                  .map<DropdownMenuItem<BranchModel>>(
-                                      (BranchModel value) {
-                                return DropdownMenuItem<BranchModel>(
-                                  value: value,
-                                  child: Text(value.branchName),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Employee:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<EmployeeModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddEmployeeValue,
+                                  onChanged: (EmployeeModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddEmployeeValue = value;
+                                      });
+                                    }
+                                  },
+                                  items: employeeList
+                                      .map<DropdownMenuItem<EmployeeModel>>(
+                                          (EmployeeModel value) {
+                                    return DropdownMenuItem<EmployeeModel>(
+                                      value: value,
+                                      child: Text(ep.fullName(value)),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<EmployeeModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddEmployeeValue,
-                              onChanged: (EmployeeModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddEmployeeValue = value;
-                                  });
-                                }
-                              },
-                              items: employeeList
-                                  .map<DropdownMenuItem<EmployeeModel>>(
-                                      (EmployeeModel value) {
-                                return DropdownMenuItem<EmployeeModel>(
-                                  value: value,
-                                  child: Text(ep.fullName(value)),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                       ],
                     );

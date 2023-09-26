@@ -184,76 +184,90 @@ class _DepartmentViewState extends State<DepartmentView>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Department:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<DepartmentModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddDepartmentValue,
+                                  onChanged: (DepartmentModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddDepartmentValue = value;
+                                      });
+                                    }
+                                  },
+                                  items: departmentList
+                                      .map<DropdownMenuItem<DepartmentModel>>(
+                                          (DepartmentModel value) {
+                                    return DropdownMenuItem<DepartmentModel>(
+                                      value: value,
+                                      child: Text(value.departmentName),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<DepartmentModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddDepartmentValue,
-                              onChanged: (DepartmentModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddDepartmentValue = value;
-                                  });
-                                }
-                              },
-                              items: departmentList
-                                  .map<DropdownMenuItem<DepartmentModel>>(
-                                      (DepartmentModel value) {
-                                return DropdownMenuItem<DepartmentModel>(
-                                  value: value,
-                                  child: Text(value.departmentName),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Employee:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<EmployeeModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddEmployeeValue,
+                                  onChanged: (EmployeeModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddEmployeeValue = value;
+                                      });
+                                    }
+                                  },
+                                  items: employeeList
+                                      .map<DropdownMenuItem<EmployeeModel>>(
+                                          (EmployeeModel value) {
+                                    return DropdownMenuItem<EmployeeModel>(
+                                      value: value,
+                                      child: Text(ep.fullName(value)),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<EmployeeModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddEmployeeValue,
-                              onChanged: (EmployeeModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddEmployeeValue = value;
-                                  });
-                                }
-                              },
-                              items: employeeList
-                                  .map<DropdownMenuItem<EmployeeModel>>(
-                                      (EmployeeModel value) {
-                                return DropdownMenuItem<EmployeeModel>(
-                                  value: value,
-                                  child: Text(ep.fullName(value)),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                       ],
                     );
@@ -284,7 +298,7 @@ class _DepartmentViewState extends State<DepartmentView>
                         ddDepartmentValue.departmentId == '000') {
                       snackBarError('Invalid Employee or Branch', context);
                     } else if (employeebranchExist) {
-                      snackBarError('Employee Already Branch', context);
+                      snackBarError('Employee Already in Branch', context);
                     } else {
                       await de.addDepartmentEmployee(
                         departmentId: ddDepartmentValue.departmentId,
@@ -655,76 +669,90 @@ class _DepartmentEmployeePageState extends State<DepartmentEmployeePage>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Branch:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<DepartmentModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddDepartmentValue,
+                                  onChanged: (DepartmentModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddDepartmentValue = value;
+                                      });
+                                    }
+                                  },
+                                  items: departmentList
+                                      .map<DropdownMenuItem<DepartmentModel>>(
+                                          (DepartmentModel value) {
+                                    return DropdownMenuItem<DepartmentModel>(
+                                      value: value,
+                                      child: Text(value.departmentName),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<DepartmentModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddDepartmentValue,
-                              onChanged: (DepartmentModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddDepartmentValue = value;
-                                  });
-                                }
-                              },
-                              items: departmentList
-                                  .map<DropdownMenuItem<DepartmentModel>>(
-                                      (DepartmentModel value) {
-                                return DropdownMenuItem<DepartmentModel>(
-                                  value: value,
-                                  child: Text(value.departmentName),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
-                          height: 40.0,
-                          width: 400.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.grey,
-                              style: BorderStyle.solid,
-                              width: 1.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Employee:'),
+                            const SizedBox(width: 5.0),
+                            Container(
+                              height: 40.0,
+                              width: 300.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  style: BorderStyle.solid,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<EmployeeModel>(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  borderRadius: BorderRadius.circular(5),
+                                  value: ddEmployeeValue,
+                                  onChanged: (EmployeeModel? value) async {
+                                    if (value != null) {
+                                      setState(() {
+                                        ddEmployeeValue = value;
+                                      });
+                                    }
+                                  },
+                                  items: employeeList
+                                      .map<DropdownMenuItem<EmployeeModel>>(
+                                          (EmployeeModel value) {
+                                    return DropdownMenuItem<EmployeeModel>(
+                                      value: value,
+                                      child: Text(ep.fullName(value)),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<EmployeeModel>(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              borderRadius: BorderRadius.circular(5),
-                              value: ddEmployeeValue,
-                              onChanged: (EmployeeModel? value) async {
-                                if (value != null) {
-                                  setState(() {
-                                    ddEmployeeValue = value;
-                                  });
-                                }
-                              },
-                              items: employeeList
-                                  .map<DropdownMenuItem<EmployeeModel>>(
-                                      (EmployeeModel value) {
-                                return DropdownMenuItem<EmployeeModel>(
-                                  value: value,
-                                  child: Text(ep.fullName(value)),
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                          ],
                         ),
                       ],
                     );
@@ -755,7 +783,7 @@ class _DepartmentEmployeePageState extends State<DepartmentEmployeePage>
                         ddDepartmentValue.departmentId == '000') {
                       snackBarError('Invalid Employee or Branch', context);
                     } else if (employeebranchExist) {
-                      snackBarError('Employee Already Branch', context);
+                      snackBarError('Employee Already in Branch', context);
                     } else {
                       await de.updateDepartmentEmployee(
                         departmentId: ddDepartmentValue.departmentId,
@@ -768,7 +796,7 @@ class _DepartmentEmployeePageState extends State<DepartmentEmployeePage>
                     }
                   },
                 ),
-              ], //60.159
+              ],
             );
           },
         );

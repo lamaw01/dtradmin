@@ -140,7 +140,6 @@ class HttpService {
   static Future<void> addDevice({
     required String branchId,
     required String deviceId,
-    required int active,
     required String description,
   }) async {
     var response = await http
@@ -153,7 +152,6 @@ class HttpService {
           body: json.encode(<String, dynamic>{
             "branch_id": branchId,
             "device_id": deviceId,
-            "active": active,
             "description": description
           }),
         )
