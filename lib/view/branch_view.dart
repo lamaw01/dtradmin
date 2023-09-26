@@ -878,7 +878,7 @@ class _BranchEmployeePageState extends State<BranchEmployeePage>
                               width: nw,
                               child: const Center(
                                 child: Text(
-                                  'Employee Name',
+                                  'Name',
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -887,7 +887,7 @@ class _BranchEmployeePageState extends State<BranchEmployeePage>
                           ),
                         ),
                         const RowWidget(
-                          s: 'Branch Name',
+                          s: 'Branch',
                           w: bw,
                           c: Colors.blue,
                           f: 2,

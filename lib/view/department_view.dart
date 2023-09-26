@@ -888,7 +888,7 @@ class _DepartmentEmployeePageState extends State<DepartmentEmployeePage>
                               width: dnw,
                               child: const Center(
                                 child: Text(
-                                  'Employee Name',
+                                  'Name',
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -897,7 +897,7 @@ class _DepartmentEmployeePageState extends State<DepartmentEmployeePage>
                           ),
                         ),
                         const RowWidget(
-                          s: 'Department ID',
+                          s: 'Department',
                           w: dIdw,
                           c: Colors.blue,
                           f: 2,
