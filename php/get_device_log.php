@@ -9,7 +9,9 @@ $input = json_decode($inputJSON, TRUE);
 // if not put id die
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
-    $sql = "SELECT * FROM tbl_device_logs ORDER BY id DESC LIMIT 100";
+    $sql = "SELECT tbl_device_logs.id, tbl_device_logs.device_id, tbl_device_logs.address,tbl_device_logs.latlng,tbl_device_logs.app_name,tbl_device_logs.version,tbl_device_logs.log_time,tbl_device_logs.time_stamp, 
+    IFNULL(tbl_device.description, 'unathorized') as description FROM tbl_device_logs 
+    LEFT JOIN tbl_device ON tbl_device.device_id = tbl_device_logs.device_id ORDER BY id DESC LIMIT 100;";
 
     try {
         $get_sql = $conn->prepare($sql);

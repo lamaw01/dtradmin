@@ -9,7 +9,7 @@ $input = json_decode($inputJSON, TRUE);
 // if not put id die
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
-    $sql = "SELECT * FROM tbl_schedule";
+    $sql = "SELECT * FROM tbl_schedule ORDER BY sched_id";
 
     try {
         $get_sql = $conn->prepare($sql);

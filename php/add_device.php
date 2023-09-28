@@ -12,8 +12,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('branch_id', $input)
     $device_id = $input['device_id'];
     $description = $input['description'];
 
-    $sql = 'INSERT INTO tbl_device(branch_id, device_id, active, description)
-    VALUES (:branch_id,:device_id,:active,:description)';
+    $sql = 'INSERT INTO tbl_device(branch_id, device_id, description)
+    VALUES (:branch_id,:device_id,:description)';
 
     try {
         $sql_insert = $conn->prepare($sql);

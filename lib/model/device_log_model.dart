@@ -20,6 +20,7 @@ class DeviceLogModel {
   String version;
   DateTime logTime;
   DateTime timeStamp;
+  String description;
 
   DeviceLogModel({
     required this.id,
@@ -30,6 +31,7 @@ class DeviceLogModel {
     required this.version,
     required this.logTime,
     required this.timeStamp,
+    required this.description,
   });
 
   factory DeviceLogModel.fromJson(Map<String, dynamic> json) => DeviceLogModel(
@@ -41,6 +43,7 @@ class DeviceLogModel {
         version: json["version"],
         logTime: DateTime.parse(json["log_time"]),
         timeStamp: DateTime.parse(json["time_stamp"]),
+        description: json["description"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -52,5 +55,6 @@ class DeviceLogModel {
         "version": version,
         "log_time": logTime.toIso8601String(),
         "time_stamp": timeStamp.toIso8601String(),
+        "description": description,
       };
 }

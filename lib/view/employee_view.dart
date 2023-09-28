@@ -588,7 +588,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                               provider.employeeList[index]);
                         },
                         child: Ink(
-                          color: isActive ? null : Colors.red[300],
+                          color: isActive ? null : Colors.red[200],
                           height: 50.0,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,

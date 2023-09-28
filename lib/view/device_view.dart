@@ -561,7 +561,7 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
       builder: ((context, provider, child) {
         return RefreshIndicator(
           onRefresh: () async {
-            provider.refreshDeviceLog();
+            await provider.getDeviceLog();
           },
           child: CustomScrollView(
             slivers: <Widget>[
@@ -620,6 +620,12 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
                             c: Colors.orange,
                             f: 2,
                           ),
+                          RowWidget(
+                            s: 'Description',
+                            w: logtw,
+                            c: Colors.orange,
+                            f: 3,
+                          ),
                         ],
                       ),
                     ),
@@ -630,7 +636,11 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
                     return Card(
-                      child: SizedBox(
+                      child: Container(
+                        color: provider.deviceLogList[index].description ==
+                                'unathorized'
+                            ? Colors.red[200]
+                            : null,
                         height: 50.0,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -675,6 +685,12 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
                             RowWidget(
                               s: dateFormat.format(
                                   provider.deviceLogList[index].logTime),
+                              w: logtw,
+                              c: Colors.orange,
+                              f: 2,
+                            ),
+                            RowWidget(
+                              s: provider.deviceLogList[index].description,
                               w: logtw,
                               c: Colors.orange,
                               f: 2,

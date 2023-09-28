@@ -11,6 +11,7 @@ import 'provider/department_provider.dart';
 import 'provider/device_log_provider.dart';
 import 'provider/device_provider.dart';
 import 'provider/employee_provider.dart';
+import 'provider/log_provider.dart';
 import 'provider/schedule_provider.dart';
 import 'provider/week_scheduke_provider.dart';
 // ignore: unused_import
@@ -53,6 +54,9 @@ void main() {
         ),
         ChangeNotifierProvider<AppVersionProvider>(
           create: (_) => AppVersionProvider(),
+        ),
+        ChangeNotifierProvider<LogProvider>(
+          create: (_) => LogProvider(),
         ),
       ],
       child: const MyApp(),

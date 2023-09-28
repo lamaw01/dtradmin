@@ -10,6 +10,7 @@ import '../model/department_model.dart';
 import '../model/device_log_model.dart';
 import '../model/device_model.dart';
 import '../model/employee_model.dart';
+import '../model/log_model.dart';
 import '../model/schedule_model.dart';
 import '../model/app_version_model.dart';
 import '../model/week_schedule_model.dart';
@@ -135,6 +136,21 @@ class HttpService {
     ).timeout(const Duration(seconds: 10));
     // debugPrint('getAppVersion ${response.body}');
     return appVersionModelFromJson(response.body);
+  }
+
+  static Future<List<LogModel>> getLog({int? id}) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/get_log.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{"id": id}),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('getLog ${response.body}');
+    return logModelFromJson(response.body);
   }
 
   static Future<void> addDevice({

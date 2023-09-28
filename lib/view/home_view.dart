@@ -8,6 +8,7 @@ import 'branch_view.dart';
 import 'department_view.dart';
 import 'device_view.dart';
 import 'employee_view.dart';
+import 'log_view.dart';
 import 'schedule_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -39,6 +40,13 @@ class _HomeViewState extends State<HomeView> {
     const String title = 'UC-1 DTR Admin';
 
     final menuItems = [
+      SideMenuItem(
+        title: 'Logs',
+        onTap: (index, _) {
+          sideMenu.changePage(index);
+        },
+        icon: const Icon(Icons.timer),
+      ),
       SideMenuItem(
         title: 'Device',
         onTap: (index, _) {
@@ -84,6 +92,7 @@ class _HomeViewState extends State<HomeView> {
     ];
 
     final menuPages = <Widget>[
+      const LogView(),
       const DeviceView(),
       const BranchView(),
       const DepartmentView(),
