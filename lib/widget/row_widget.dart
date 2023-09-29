@@ -24,7 +24,7 @@ class RowWidget extends StatelessWidget {
         child: Center(
           child: Text(
             s,
-            maxLines: 3,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
         ),

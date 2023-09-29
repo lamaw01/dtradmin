@@ -166,11 +166,14 @@ class _DeviceViewState extends State<DeviceView>
                     style: TextStyle(fontSize: 16.0),
                   ),
                   onPressed: () async {
+                    bool devicedExist = d.checkDeviceId(deviceId.text.trim());
                     if (dpValue.id == 0) {
                       snackBarError('Invalid Branch', context);
                     } else if (deviceId.text.isEmpty ||
                         description.text.isEmpty) {
                       snackBarError('Invalid Parameter', context);
+                    } else if (devicedExist) {
+                      snackBarError('Device Already Exist', context);
                     } else {
                       await d.addDevice(
                           branchId: dpValue.branchId,
@@ -368,8 +371,12 @@ class _DevicesPageState extends State<DevicesPage>
                   style: TextStyle(fontSize: 16.0),
                 ),
                 onPressed: () async {
+                  bool devicedExist = d.checkDeviceId(deviceId.text.trim());
                   if (dpValue.id == 0) {
                     snackBarError('Invalid Branch', context);
+                  } else if (devicedExist &&
+                      deviceModel.branchId != deviceId.text.trim()) {
+                    snackBarError('Device Already Exist', context);
                   } else {
                     await d.updateDevice(
                       branchId: dpValue.branchId,
@@ -652,11 +659,29 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
                               c: Colors.red,
                               f: 1,
                             ),
-                            RowWidget(
-                              s: provider.deviceLogList[index].deviceId,
-                              w: dIdw,
-                              c: Colors.blue,
-                              f: 3,
+                            // RowWidget(
+                            //   s: provider.deviceLogList[index].deviceId,
+                            //   w: dIdw,
+                            //   c: Colors.blue,
+                            //   f: 3,
+                            // ),
+                            Flexible(
+                              flex: 3,
+                              fit: FlexFit.loose,
+                              child: SizedBox(
+                                height: 50.0,
+                                width: dIdw,
+                                child: Center(
+                                  child: SelectableText(
+                                    provider.deviceLogList[index].deviceId,
+                                    maxLines: 2,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                             RowWidget(
                               s: provider.deviceLogList[index].address,

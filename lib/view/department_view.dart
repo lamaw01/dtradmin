@@ -782,7 +782,9 @@ class _DepartmentEmployeePageState extends State<DepartmentEmployeePage>
                     if (ddEmployeeValue.employeeId == '00000' ||
                         ddDepartmentValue.departmentId == '000') {
                       snackBarError('Invalid Employee or Branch', context);
-                    } else if (employeebranchExist) {
+                    } else if (employeebranchExist &&
+                        ddEmployeeValue.employeeId !=
+                            departmentEmployeeModel.employeeId) {
                       snackBarError('Employee Already in Branch', context);
                     } else {
                       await de.updateDepartmentEmployee(

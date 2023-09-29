@@ -17,6 +17,15 @@ class DeviceProvider with ChangeNotifier {
     }
   }
 
+  bool checkDeviceId(String deviceId) {
+    for (var device in _deviceList) {
+      if (device.deviceId == deviceId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   Future<void> addDevice({
     required String branchId,
     required String deviceId,

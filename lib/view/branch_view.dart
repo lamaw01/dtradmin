@@ -774,7 +774,9 @@ class _BranchEmployeePageState extends State<BranchEmployeePage>
                     if (ddEmployeeValue.employeeId == '00000' ||
                         ddBranchValue.branchId == '000') {
                       snackBarError('Invalid Employee or Branch', context);
-                    } else if (employeebranchExist) {
+                    } else if (employeebranchExist &&
+                        ddEmployeeValue.employeeId !=
+                            branchEmployeeModel.employeeId) {
                       snackBarError('Employee Already Branch', context);
                     } else {
                       await be.updateEmployeeBranch(
