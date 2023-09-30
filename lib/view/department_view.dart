@@ -525,90 +525,96 @@ class _DepartmentPageState extends State<DepartmentPage>
 
     return Consumer<DepartmentProvider>(
       builder: ((context, provider, child) {
-        return CustomScrollView(
-          slivers: [
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: SliverAppBarDelegate(
-                minHeight: 60.0,
-                maxHeight: 60.0,
-                child: Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        RowWidget(
-                          s: 'ID',
-                          w: idw,
-                          c: Colors.red,
-                          f: 1,
-                        ),
-                        RowWidget(
-                          s: 'Department Name',
-                          w: dnw,
-                          c: Colors.green,
-                          f: 3,
-                        ),
-                        RowWidget(
-                          s: 'Department ID',
-                          w: dIdw,
-                          c: Colors.blue,
-                          f: 2,
-                        ),
-                      ],
+        return RefreshIndicator(
+          onRefresh: () async {
+            await provider.getDepartment();
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: SliverAppBarDelegate(
+                  minHeight: 60.0,
+                  maxHeight: 60.0,
+                  child: Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          RowWidget(
+                            s: 'ID',
+                            w: idw,
+                            c: Colors.red,
+                            f: 1,
+                          ),
+                          RowWidget(
+                            s: 'Department Name',
+                            w: dnw,
+                            c: Colors.green,
+                            f: 3,
+                          ),
+                          RowWidget(
+                            s: 'Department ID',
+                            w: dIdw,
+                            c: Colors.blue,
+                            f: 2,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return Card(
-                    child: InkWell(
-                      onTap: () {
-                        updateDepartment(provider.departmentList[index]);
-                      },
-                      onLongPress: () {
-                        confirmDeleteBranch(provider.departmentList[index]);
-                      },
-                      child: Ink(
-                        height: 50.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            RowWidget(
-                              s: provider.departmentList[index].id.toString(),
-                              w: idw,
-                              c: Colors.red,
-                              f: 1,
-                            ),
-                            RowWidget(
-                              s: provider.departmentList[index].departmentName,
-                              w: dnw,
-                              c: Colors.green,
-                              f: 3,
-                            ),
-                            RowWidget(
-                              s: provider.departmentList[index].departmentId,
-                              w: dIdw,
-                              c: Colors.blue,
-                              f: 2,
-                            ),
-                          ],
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Card(
+                      child: InkWell(
+                        onTap: () {
+                          updateDepartment(provider.departmentList[index]);
+                        },
+                        onLongPress: () {
+                          confirmDeleteBranch(provider.departmentList[index]);
+                        },
+                        child: Ink(
+                          height: 50.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              RowWidget(
+                                s: provider.departmentList[index].id.toString(),
+                                w: idw,
+                                c: Colors.red,
+                                f: 1,
+                              ),
+                              RowWidget(
+                                s: provider
+                                    .departmentList[index].departmentName,
+                                w: dnw,
+                                c: Colors.green,
+                                f: 3,
+                              ),
+                              RowWidget(
+                                s: provider.departmentList[index].departmentId,
+                                w: dIdw,
+                                c: Colors.blue,
+                                f: 2,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-                childCount: provider.departmentList.length,
+                    );
+                  },
+                  childCount: provider.departmentList.length,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       }),
     );
@@ -847,119 +853,124 @@ class _DepartmentEmployeePageState extends State<DepartmentEmployeePage>
 
     return Consumer<DepartmentEmployeeProvider>(
       builder: ((context, provider, child) {
-        return CustomScrollView(
-          slivers: [
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: SliverAppBarDelegate(
-                minHeight: 60.0,
-                maxHeight: 60.0,
-                child: Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: InkWell(
-                            onTap: () {
-                              provider.sortEmployeeDepartmentListId();
-                            },
-                            child: Ink(
-                              width: idw,
-                              child: const Center(
-                                child: Text(
-                                  'ID',
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
+        return RefreshIndicator(
+          onRefresh: () async {
+            await provider.getDepartmentEmployee();
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: SliverAppBarDelegate(
+                  minHeight: 60.0,
+                  maxHeight: 60.0,
+                  child: Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            flex: 1,
+                            child: InkWell(
+                              onTap: () {
+                                provider.sortEmployeeDepartmentListId();
+                              },
+                              child: Ink(
+                                width: idw,
+                                child: const Center(
+                                  child: Text(
+                                    'ID',
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Flexible(
-                          flex: 3,
-                          child: InkWell(
-                            onTap: () {
-                              provider.sortEmployeeDepartmentListLastName();
-                            },
-                            child: Ink(
-                              width: dnw,
-                              child: const Center(
-                                child: Text(
-                                  'Name',
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
+                          Flexible(
+                            flex: 3,
+                            child: InkWell(
+                              onTap: () {
+                                provider.sortEmployeeDepartmentListLastName();
+                              },
+                              child: Ink(
+                                width: dnw,
+                                child: const Center(
+                                  child: Text(
+                                    'Name',
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const RowWidget(
-                          s: 'Department',
-                          w: dIdw,
-                          c: Colors.blue,
-                          f: 2,
-                        ),
-                      ],
+                          const RowWidget(
+                            s: 'Department',
+                            w: dIdw,
+                            c: Colors.blue,
+                            f: 2,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return Card(
-                    child: InkWell(
-                      onTap: () {
-                        updateEmployeeDepartment(
-                            provider.departmentEmployeeList[index]);
-                      },
-                      onLongPress: () {
-                        confirmDeleteEmployeeBranch(
-                            provider.departmentEmployeeList[index]);
-                      },
-                      child: Ink(
-                        height: 50.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            RowWidget(
-                              s: provider.departmentEmployeeList[index].id
-                                  .toString(),
-                              w: idw,
-                              c: Colors.red,
-                              f: 1,
-                            ),
-                            RowWidget(
-                              s: provider.fullName(
-                                  provider.departmentEmployeeList[index]),
-                              w: dnw,
-                              c: Colors.green,
-                              f: 3,
-                            ),
-                            RowWidget(
-                              s: provider
-                                  .departmentEmployeeList[index].departmentName,
-                              w: dIdw,
-                              c: Colors.blue,
-                              f: 2,
-                            ),
-                          ],
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Card(
+                      child: InkWell(
+                        onTap: () {
+                          updateEmployeeDepartment(
+                              provider.departmentEmployeeList[index]);
+                        },
+                        onLongPress: () {
+                          confirmDeleteEmployeeBranch(
+                              provider.departmentEmployeeList[index]);
+                        },
+                        child: Ink(
+                          height: 50.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              RowWidget(
+                                s: provider.departmentEmployeeList[index].id
+                                    .toString(),
+                                w: idw,
+                                c: Colors.red,
+                                f: 1,
+                              ),
+                              RowWidget(
+                                s: provider.fullName(
+                                    provider.departmentEmployeeList[index]),
+                                w: dnw,
+                                c: Colors.green,
+                                f: 3,
+                              ),
+                              RowWidget(
+                                s: provider.departmentEmployeeList[index]
+                                    .departmentName,
+                                w: dIdw,
+                                c: Colors.blue,
+                                f: 2,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-                childCount: provider.departmentEmployeeList.length,
+                    );
+                  },
+                  childCount: provider.departmentEmployeeList.length,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       }),
     );

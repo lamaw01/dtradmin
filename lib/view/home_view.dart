@@ -3,6 +3,16 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/app_version_provider.dart';
+import '../provider/branch_employee_provider.dart';
+import '../provider/branch_provider.dart';
+import '../provider/department_employee_provider.dart';
+import '../provider/department_provider.dart';
+import '../provider/device_log_provider.dart';
+import '../provider/device_provider.dart';
+import '../provider/employee_provider.dart';
+import '../provider/log_provider.dart';
+import '../provider/schedule_provider.dart';
+import '../provider/week_scheduke_provider.dart';
 import 'app_version_view.dart';
 import 'branch_view.dart';
 import 'department_view.dart';
@@ -42,50 +52,78 @@ class _HomeViewState extends State<HomeView> {
     final menuItems = [
       SideMenuItem(
         title: 'Logs',
-        onTap: (index, _) {
+        onTap: (index, _) async {
           sideMenu.changePage(index);
+          await Provider.of<LogProvider>(context, listen: false).getLog();
         },
         icon: const Icon(Icons.timer),
       ),
       SideMenuItem(
         title: 'Device',
-        onTap: (index, _) {
+        onTap: (index, _) async {
           sideMenu.changePage(index);
+          var dp = Provider.of<DeviceProvider>(context, listen: false);
+          var dlp = Provider.of<DeviceLogProvider>(context, listen: false);
+
+          await dp.getDevice();
+          await dlp.getDeviceLog();
         },
         icon: const Icon(Icons.phone_android),
       ),
       SideMenuItem(
         title: 'Branch',
-        onTap: (index, _) {
+        onTap: (index, _) async {
           sideMenu.changePage(index);
+          var b = Provider.of<BranchProvider>(context, listen: false);
+          var be = Provider.of<BranchEmployeeProvider>(context, listen: false);
+
+          await b.getBranch();
+          await be.getEmployeeBranch();
         },
         icon: const Icon(Icons.home),
       ),
       SideMenuItem(
         title: 'Department',
-        onTap: (index, _) {
+        onTap: (index, _) async {
           sideMenu.changePage(index);
+          var dp = Provider.of<DepartmentProvider>(context, listen: false);
+          var dpe =
+              Provider.of<DepartmentEmployeeProvider>(context, listen: false);
+
+          await dp.getDepartment();
+          await dpe.getDepartmentEmployee();
         },
         icon: const Icon(Icons.people),
       ),
       SideMenuItem(
         title: 'Employee',
-        onTap: (index, _) {
+        onTap: (index, _) async {
           sideMenu.changePage(index);
+          var e = Provider.of<EmployeeProvider>(context, listen: false);
+
+          await e.getEmployee();
         },
         icon: const Icon(Icons.person),
       ),
       SideMenuItem(
         title: 'Schedule',
-        onTap: (index, _) {
+        onTap: (index, _) async {
           sideMenu.changePage(index);
+          var ws = Provider.of<WeekScheduleProvider>(context, listen: false);
+          var s = Provider.of<ScheduleProvider>(context, listen: false);
+
+          await ws.getWeekSchedule();
+          await s.getSchedule();
         },
         icon: const Icon(Icons.calendar_month),
       ),
       SideMenuItem(
         title: 'App Version',
-        onTap: (index, _) {
+        onTap: (index, _) async {
           sideMenu.changePage(index);
+          var a = Provider.of<AppVersionProvider>(context, listen: false);
+
+          await a.getAppVersion();
         },
         icon: const Icon(Icons.format_list_numbered),
       ),

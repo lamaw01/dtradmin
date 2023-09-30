@@ -437,103 +437,108 @@ class _DevicesPageState extends State<DevicesPage>
     return Consumer<DeviceProvider>(
       builder: ((context, provider, child) {
         var b = Provider.of<BranchProvider>(context, listen: false);
-        return CustomScrollView(
-          slivers: [
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: SliverAppBarDelegate(
-                minHeight: 60.0,
-                maxHeight: 60.0,
-                child: Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        RowWidget(
-                          s: 'ID',
-                          w: idw,
-                          c: Colors.red,
-                          f: 1,
-                        ),
-                        RowWidget(
-                          s: 'Device ID',
-                          w: dIdw,
-                          c: Colors.blue,
-                          f: 3,
-                        ),
-                        RowWidget(
-                          s: 'Branch Name',
-                          w: bw,
-                          c: Colors.green,
-                          f: 2,
-                        ),
-                        RowWidget(
-                          s: 'Description',
-                          w: dw,
-                          c: Colors.yellow,
-                          f: 2,
-                        ),
-                      ],
+        return RefreshIndicator(
+          onRefresh: () async {
+            await provider.getDevice();
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: SliverAppBarDelegate(
+                  minHeight: 60.0,
+                  maxHeight: 60.0,
+                  child: Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          RowWidget(
+                            s: 'ID',
+                            w: idw,
+                            c: Colors.red,
+                            f: 1,
+                          ),
+                          RowWidget(
+                            s: 'Device ID',
+                            w: dIdw,
+                            c: Colors.blue,
+                            f: 3,
+                          ),
+                          RowWidget(
+                            s: 'Branch Name',
+                            w: bw,
+                            c: Colors.green,
+                            f: 2,
+                          ),
+                          RowWidget(
+                            s: 'Description',
+                            w: dw,
+                            c: Colors.yellow,
+                            f: 2,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return Card(
-                    child: InkWell(
-                      onTap: () async {
-                        await b.getBranch();
-                        updateDevice(provider.deviceList[index]);
-                      },
-                      onLongPress: () async {
-                        confirmDeleteDevice(provider.deviceList[index]);
-                      },
-                      child: Ink(
-                        height: 50.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            RowWidget(
-                              s: provider.deviceList[index].id.toString(),
-                              w: idw,
-                              c: Colors.red,
-                              f: 1,
-                            ),
-                            RowWidget(
-                              s: provider.deviceList[index].deviceId,
-                              w: dIdw,
-                              c: Colors.blue,
-                              f: 3,
-                            ),
-                            RowWidget(
-                              s: provider.deviceList[index].branchName,
-                              w: bw,
-                              c: Colors.green,
-                              f: 2,
-                            ),
-                            RowWidget(
-                              s: provider.deviceList[index].description,
-                              w: dw,
-                              c: Colors.yellow,
-                              f: 2,
-                            ),
-                          ],
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Card(
+                      child: InkWell(
+                        onTap: () async {
+                          await b.getBranch();
+                          updateDevice(provider.deviceList[index]);
+                        },
+                        onLongPress: () async {
+                          confirmDeleteDevice(provider.deviceList[index]);
+                        },
+                        child: Ink(
+                          height: 50.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              RowWidget(
+                                s: provider.deviceList[index].id.toString(),
+                                w: idw,
+                                c: Colors.red,
+                                f: 1,
+                              ),
+                              RowWidget(
+                                s: provider.deviceList[index].deviceId,
+                                w: dIdw,
+                                c: Colors.blue,
+                                f: 3,
+                              ),
+                              RowWidget(
+                                s: provider.deviceList[index].branchName,
+                                w: bw,
+                                c: Colors.green,
+                                f: 2,
+                              ),
+                              RowWidget(
+                                s: provider.deviceList[index].description,
+                                w: dw,
+                                c: Colors.yellow,
+                                f: 2,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-                childCount: provider.deviceList.length,
+                    );
+                  },
+                  childCount: provider.deviceList.length,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       }),
     );
@@ -643,7 +648,7 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
                     return Card(
-                      child: Container(
+                      child: Ink(
                         color: provider.deviceLogList[index].description ==
                                 'unathorized'
                             ? Colors.red[200]

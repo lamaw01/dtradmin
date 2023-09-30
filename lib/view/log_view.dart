@@ -76,71 +76,68 @@ class _LogViewState extends State<LogView>
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
                     return Card(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Ink(
-                          height: 50.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              RowWidget(
-                                s: provider.logList[index].id.toString(),
-                                w: 100.0,
-                                c: Colors.red,
-                                f: 1,
-                              ),
-                              RowWidget(
-                                s: provider.logList[index].employeeId,
-                                w: 100.0,
-                                c: Colors.blue,
-                                f: 1,
-                              ),
-                              RowWidget(
-                                s: provider.logList[index].logType,
-                                w: 100.0,
-                                c: Colors.green,
-                                f: 1,
-                              ),
-                              RowWidget(
-                                s: provider.logList[index].deviceId,
-                                w: 350.0,
-                                c: Colors.yellow,
-                                f: 3,
-                              ),
-                              RowWidget(
-                                s: provider.logList[index].address,
-                                w: 220.0,
-                                c: Colors.purple,
-                                f: 3,
-                              ),
-                              RowWidget(
-                                s: dateFormat
-                                    .format(provider.logList[index].timeStamp),
-                                w: 180.0,
-                                c: Colors.pink,
-                                f: 2,
-                              ),
-                              RowWidget(
-                                s: provider.logList[index].team,
-                                w: 180.0,
-                                c: Colors.pink,
-                                f: 2,
-                              ),
-                              RowWidget(
-                                s: provider.logList[index].app,
-                                w: 100.0,
-                                c: Colors.teal,
-                                f: 1,
-                              ),
-                              RowWidget(
-                                s: provider.logList[index].version,
-                                w: 100.0,
-                                c: Colors.brown,
-                                f: 1,
-                              ),
-                            ],
-                          ),
+                      child: Ink(
+                        height: 50.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            RowWidget(
+                              s: provider.logList[index].id.toString(),
+                              w: 100.0,
+                              c: Colors.red,
+                              f: 1,
+                            ),
+                            RowWidget(
+                              s: provider.logList[index].employeeId,
+                              w: 100.0,
+                              c: Colors.blue,
+                              f: 1,
+                            ),
+                            RowWidget(
+                              s: provider.logList[index].logType,
+                              w: 100.0,
+                              c: Colors.green,
+                              f: 1,
+                            ),
+                            RowWidget(
+                              s: provider.logList[index].deviceId,
+                              w: 350.0,
+                              c: Colors.yellow,
+                              f: 3,
+                            ),
+                            RowWidget(
+                              s: provider.logList[index].address,
+                              w: 220.0,
+                              c: Colors.purple,
+                              f: 3,
+                            ),
+                            RowWidget(
+                              s: dateFormat
+                                  .format(provider.logList[index].timeStamp),
+                              w: 180.0,
+                              c: Colors.pink,
+                              f: 2,
+                            ),
+                            RowWidget(
+                              s: provider.logList[index].team,
+                              w: 180.0,
+                              c: Colors.pink,
+                              f: 2,
+                            ),
+                            RowWidget(
+                              s: provider.logList[index].app,
+                              w: 100.0,
+                              c: Colors.teal,
+                              f: 1,
+                            ),
+                            RowWidget(
+                              s: provider.logList[index].version,
+                              w: 100.0,
+                              c: Colors.brown,
+                              f: 1,
+                            ),
+                          ],
                         ),
                       ),
                     );

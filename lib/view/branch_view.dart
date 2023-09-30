@@ -518,90 +518,95 @@ class _BranchPageState extends State<BranchPage>
 
     return Consumer<BranchProvider>(
       builder: ((context, provider, child) {
-        return CustomScrollView(
-          slivers: [
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: SliverAppBarDelegate(
-                minHeight: 60.0,
-                maxHeight: 60.0,
-                child: Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        RowWidget(
-                          s: 'ID',
-                          w: idw,
-                          c: Colors.red,
-                          f: 1,
-                        ),
-                        RowWidget(
-                          s: 'Branch Name',
-                          w: bIdw,
-                          c: Colors.green,
-                          f: 3,
-                        ),
-                        RowWidget(
-                          s: 'Branch ID',
-                          w: bw,
-                          c: Colors.blue,
-                          f: 2,
-                        ),
-                      ],
+        return RefreshIndicator(
+          onRefresh: () async {
+            await provider.getBranch();
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: SliverAppBarDelegate(
+                  minHeight: 60.0,
+                  maxHeight: 60.0,
+                  child: Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          RowWidget(
+                            s: 'ID',
+                            w: idw,
+                            c: Colors.red,
+                            f: 1,
+                          ),
+                          RowWidget(
+                            s: 'Branch Name',
+                            w: bIdw,
+                            c: Colors.green,
+                            f: 3,
+                          ),
+                          RowWidget(
+                            s: 'Branch ID',
+                            w: bw,
+                            c: Colors.blue,
+                            f: 2,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return Card(
-                    child: InkWell(
-                      onTap: () async {
-                        updateBranch(provider.branchList[index]);
-                      },
-                      onLongPress: () {
-                        confirmDeleteBranch(provider.branchList[index]);
-                      },
-                      child: Ink(
-                        height: 50.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            RowWidget(
-                              s: provider.branchList[index].id.toString(),
-                              w: idw,
-                              c: Colors.red,
-                              f: 1,
-                            ),
-                            RowWidget(
-                              s: provider.branchList[index].branchName,
-                              w: bIdw,
-                              c: Colors.green,
-                              f: 3,
-                            ),
-                            RowWidget(
-                              s: provider.branchList[index].branchId,
-                              w: bw,
-                              c: Colors.blue,
-                              f: 2,
-                            ),
-                          ],
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Card(
+                      child: InkWell(
+                        onTap: () async {
+                          updateBranch(provider.branchList[index]);
+                        },
+                        onLongPress: () {
+                          confirmDeleteBranch(provider.branchList[index]);
+                        },
+                        child: Ink(
+                          height: 50.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              RowWidget(
+                                s: provider.branchList[index].id.toString(),
+                                w: idw,
+                                c: Colors.red,
+                                f: 1,
+                              ),
+                              RowWidget(
+                                s: provider.branchList[index].branchName,
+                                w: bIdw,
+                                c: Colors.green,
+                                f: 3,
+                              ),
+                              RowWidget(
+                                s: provider.branchList[index].branchId,
+                                w: bw,
+                                c: Colors.blue,
+                                f: 2,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-                childCount: provider.branchList.length,
+                    );
+                  },
+                  childCount: provider.branchList.length,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       }),
     );
@@ -837,118 +842,124 @@ class _BranchEmployeePageState extends State<BranchEmployeePage>
 
     return Consumer<BranchEmployeeProvider>(
       builder: ((context, provider, child) {
-        return CustomScrollView(
-          slivers: [
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: SliverAppBarDelegate(
-                minHeight: 60.0,
-                maxHeight: 60.0,
-                child: Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: InkWell(
-                            onTap: () {
-                              provider.sortBranchListId();
-                            },
-                            child: Ink(
-                              width: idw,
-                              child: const Center(
-                                child: Text(
-                                  'ID',
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
+        return RefreshIndicator(
+          onRefresh: () async {
+            await provider.getEmployeeBranch();
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: SliverAppBarDelegate(
+                  minHeight: 60.0,
+                  maxHeight: 60.0,
+                  child: Container(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            flex: 1,
+                            child: InkWell(
+                              onTap: () {
+                                provider.sortBranchListId();
+                              },
+                              child: Ink(
+                                width: idw,
+                                child: const Center(
+                                  child: Text(
+                                    'ID',
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Flexible(
-                          flex: 4,
-                          child: InkWell(
-                            onTap: () {
-                              provider.sortBranchListLastName();
-                            },
-                            child: Ink(
-                              width: nw,
-                              child: const Center(
-                                child: Text(
-                                  'Name',
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
+                          Flexible(
+                            flex: 4,
+                            child: InkWell(
+                              onTap: () {
+                                provider.sortBranchListLastName();
+                              },
+                              child: Ink(
+                                width: nw,
+                                child: const Center(
+                                  child: Text(
+                                    'Name',
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const RowWidget(
-                          s: 'Branch',
-                          w: bw,
-                          c: Colors.blue,
-                          f: 2,
-                        ),
-                      ],
+                          const RowWidget(
+                            s: 'Branch',
+                            w: bw,
+                            c: Colors.blue,
+                            f: 2,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return Card(
-                    child: InkWell(
-                      onTap: () {
-                        updateEmployeeBranch(
-                            provider.branchEmployeeList[index]);
-                      },
-                      onLongPress: () {
-                        confirmDeleteEmployeeBranch(
-                            provider.branchEmployeeList[index]);
-                      },
-                      child: Ink(
-                        height: 50.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            RowWidget(
-                              s: provider.branchEmployeeList[index].id
-                                  .toString(),
-                              w: idw,
-                              c: Colors.red,
-                              f: 1,
-                            ),
-                            RowWidget(
-                              s: provider
-                                  .fullName(provider.branchEmployeeList[index]),
-                              w: nw,
-                              c: Colors.green,
-                              f: 4,
-                            ),
-                            RowWidget(
-                              s: provider.branchEmployeeList[index].branchName,
-                              w: bw,
-                              c: Colors.blue,
-                              f: 2,
-                            ),
-                          ],
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return Card(
+                      child: InkWell(
+                        onTap: () {
+                          updateEmployeeBranch(
+                              provider.branchEmployeeList[index]);
+                        },
+                        onLongPress: () {
+                          confirmDeleteEmployeeBranch(
+                              provider.branchEmployeeList[index]);
+                        },
+                        child: Ink(
+                          height: 50.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              RowWidget(
+                                s: provider.branchEmployeeList[index].id
+                                    .toString(),
+                                w: idw,
+                                c: Colors.red,
+                                f: 1,
+                              ),
+                              RowWidget(
+                                s: provider.fullName(
+                                    provider.branchEmployeeList[index]),
+                                w: nw,
+                                c: Colors.green,
+                                f: 4,
+                              ),
+                              RowWidget(
+                                s: provider
+                                    .branchEmployeeList[index].branchName,
+                                w: bw,
+                                c: Colors.blue,
+                                f: 2,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-                childCount: provider.branchEmployeeList.length,
+                    );
+                  },
+                  childCount: provider.branchEmployeeList.length,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       }),
     );
