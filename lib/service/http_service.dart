@@ -149,7 +149,7 @@ class HttpService {
           body: json.encode(<String, dynamic>{"id": id}),
         )
         .timeout(const Duration(seconds: 10));
-    debugPrint('getLog ${response.body}');
+    // debugPrint('getLog ${response.body}');
     return logModelFromJson(response.body);
   }
 

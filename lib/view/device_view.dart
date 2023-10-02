@@ -569,6 +569,16 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
     const appvw = 100.0;
     const logtw = 180.0;
 
+    Color? backgroundColor(String description) {
+      if (description == 'unathorized') {
+        return Colors.red[200];
+      } else if (description == 'unknown') {
+        return Colors.orange[200];
+      } else {
+        return null;
+      }
+    }
+
     return Consumer<DeviceLogProvider>(
       builder: ((context, provider, child) {
         return RefreshIndicator(
@@ -649,10 +659,8 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
                   (BuildContext context, int index) {
                     return Card(
                       child: Ink(
-                        color: provider.deviceLogList[index].description ==
-                                'unathorized'
-                            ? Colors.red[200]
-                            : null,
+                        color: backgroundColor(
+                            provider.deviceLogList[index].description),
                         height: 50.0,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
