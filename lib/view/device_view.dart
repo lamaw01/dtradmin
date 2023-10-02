@@ -570,12 +570,13 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
     const logtw = 180.0;
 
     Color? backgroundColor(String description) {
-      if (description == 'unathorized') {
-        return Colors.red[200];
-      } else if (description == 'unknown') {
-        return Colors.orange[200];
-      } else {
-        return null;
+      switch (description) {
+        case 'unathorized':
+          return Colors.red[200];
+        case 'unknown':
+          return Colors.orange[200];
+        default:
+          return null;
       }
     }
 
