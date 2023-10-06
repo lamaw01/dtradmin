@@ -279,7 +279,7 @@ class _EmployeeViewState extends State<EmployeeView> {
             bool isActive = employeeModel.active == 1 ? true : false;
 
             return AlertDialog(
-              title: const Text('Add Employee'),
+              title: const Text('Update Employee'),
               content: SizedBox(
                 // height: 200.0,
                 width: 500.0,

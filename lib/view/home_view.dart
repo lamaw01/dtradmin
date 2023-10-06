@@ -167,8 +167,10 @@ class _HomeViewState extends State<HomeView> {
             items: menuItems,
             style: SideMenuStyle(
               backgroundColor: Colors.grey[300],
+              itemInnerSpacing: 16.0,
               iconSize: 16.0,
               itemOuterPadding: EdgeInsets.zero,
+              openSideMenuWidth: 160.0,
             ),
           ),
           Expanded(

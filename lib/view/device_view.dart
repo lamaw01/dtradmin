@@ -2,8 +2,10 @@ import 'package:dtradmin/model/branch_model.dart';
 import 'package:dtradmin/model/device_model.dart';
 import 'package:dtradmin/provider/branch_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import '../provider/device_log_provider.dart';
 import '../provider/device_provider.dart';
@@ -557,6 +559,63 @@ class DeviceLogsPage extends StatefulWidget {
 
 class _DeviceLogsPageState extends State<DeviceLogsPage>
     with AutomaticKeepAliveClientMixin<DeviceLogsPage> {
+  Color? backgroundColor(String description) {
+    switch (description) {
+      case 'unathorized':
+        return Colors.red[200];
+      case 'unknown':
+        return Colors.orange[200];
+      default:
+        return null;
+    }
+  }
+
+  Future<void> showToast(
+    BuildContext context, {
+    required String message,
+  }) async {
+    showToastWidget(
+      Container(
+        height: 150.0,
+        width: 300.0,
+        padding: const EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          color: Colors.blue[300],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Device ID copied',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+      context: context,
+      animation: StyledToastAnimation.none,
+      reverseAnimation: StyledToastAnimation.fade,
+      position: StyledToastPosition.center,
+      animDuration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 3),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -565,20 +624,9 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
     const dIdw = 350.0;
     const addw = 220.0;
     const ltw = 180.0;
-    const appnw = 100.0;
-    const appvw = 100.0;
+    const appnw = 120.0;
+    const appvw = 120.0;
     const logtw = 180.0;
-
-    Color? backgroundColor(String description) {
-      switch (description) {
-        case 'unathorized':
-          return Colors.red[200];
-        case 'unknown':
-          return Colors.orange[200];
-        default:
-          return null;
-      }
-    }
 
     return Consumer<DeviceLogProvider>(
       builder: ((context, provider, child) {
@@ -588,160 +636,350 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
           },
           child: CustomScrollView(
             slivers: <Widget>[
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: SliverAppBarDelegate(
-                  minHeight: 60.0,
-                  maxHeight: 60.0,
-                  child: Container(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          RowWidget(
-                            s: 'ID',
-                            w: idw,
-                            c: Colors.red,
-                            f: 1,
-                          ),
-                          RowWidget(
-                            s: 'Device ID',
-                            w: dIdw,
-                            c: Colors.blue,
-                            f: 3,
-                          ),
-                          RowWidget(
-                            s: 'Address',
-                            w: addw,
-                            c: Colors.green,
-                            f: 3,
-                          ),
-                          RowWidget(
-                            s: 'LatLng',
-                            w: ltw,
-                            c: Colors.yellow,
-                            f: 2,
-                          ),
-                          RowWidget(
-                            s: 'App name',
-                            w: appnw,
-                            c: Colors.pink,
-                            f: 1,
-                          ),
-                          RowWidget(
-                            s: 'App Version',
-                            w: appvw,
-                            c: Colors.purple,
-                            f: 1,
-                          ),
-                          RowWidget(
-                            s: 'Log Time',
-                            w: logtw,
-                            c: Colors.orange,
-                            f: 2,
-                          ),
-                          RowWidget(
-                            s: 'Description',
-                            w: logtw,
-                            c: Colors.orange,
-                            f: 3,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return Card(
-                      child: Ink(
-                        color: backgroundColor(
-                            provider.deviceLogList[index].description),
-                        height: 50.0,
+              if (MediaQuery.of(context).size.width > 600) ...[
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: SliverAppBarDelegate(
+                    minHeight: 60.0,
+                    maxHeight: 60.0,
+                    child: Container(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             RowWidget(
-                              s: 'ID: ${provider.deviceLogList[index].id}',
+                              s: 'ID',
                               w: idw,
                               c: Colors.red,
                               f: 1,
                             ),
-                            // RowWidget(
-                            //   s: provider.deviceLogList[index].deviceId,
-                            //   w: dIdw,
-                            //   c: Colors.blue,
-                            //   f: 3,
-                            // ),
-                            Flexible(
-                              flex: 3,
-                              fit: FlexFit.loose,
-                              child: SizedBox(
-                                height: 50.0,
-                                width: dIdw,
-                                child: Center(
-                                  child: SelectableText(
-                                    provider.deviceLogList[index].deviceId,
-                                    maxLines: 2,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                            RowWidget(
+                              s: 'Device ID',
+                              w: dIdw,
+                              c: Colors.blue,
+                              f: 3,
                             ),
                             RowWidget(
-                              s: provider.deviceLogList[index].address,
+                              s: 'Address',
                               w: addw,
                               c: Colors.green,
                               f: 3,
                             ),
                             RowWidget(
-                              s: provider.deviceLogList[index].latlng,
+                              s: 'LatLng',
                               w: ltw,
                               c: Colors.yellow,
                               f: 2,
                             ),
                             RowWidget(
-                              s: provider.deviceLogList[index].appName,
+                              s: 'App name',
                               w: appnw,
                               c: Colors.pink,
-                              f: 1,
+                              f: 2,
                             ),
                             RowWidget(
-                              s: provider.deviceLogList[index].version,
+                              s: 'App Version',
                               w: appvw,
                               c: Colors.purple,
-                              f: 1,
+                              f: 2,
                             ),
                             RowWidget(
-                              s: dateFormat.format(
-                                  provider.deviceLogList[index].logTime),
+                              s: 'Log Time',
                               w: logtw,
                               c: Colors.orange,
                               f: 2,
                             ),
                             RowWidget(
-                              s: provider.deviceLogList[index].description,
+                              s: 'Description',
                               w: logtw,
                               c: Colors.orange,
-                              f: 2,
+                              f: 3,
                             ),
                           ],
                         ),
                       ),
-                    );
-                  },
-                  childCount: provider.deviceLogList.length,
+                    ),
+                  ),
                 ),
-              ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return Card(
+                        child: Ink(
+                          color: backgroundColor(
+                              provider.deviceLogList[index].description),
+                          height: 50.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              RowWidget(
+                                s: 'ID: ${provider.deviceLogList[index].id}',
+                                w: idw,
+                                c: Colors.red,
+                                f: 1,
+                              ),
+                              // RowWidget(
+                              //   s: provider.deviceLogList[index].deviceId,
+                              //   w: dIdw,
+                              //   c: Colors.blue,
+                              //   f: 3,
+                              // ),
+                              Flexible(
+                                flex: 3,
+                                fit: FlexFit.loose,
+                                child: SizedBox(
+                                  height: 50.0,
+                                  width: dIdw,
+                                  child: Center(
+                                    child: SelectableText(
+                                      provider.deviceLogList[index].deviceId,
+                                      maxLines: 2,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              RowWidget(
+                                s: provider.deviceLogList[index].address,
+                                w: addw,
+                                c: Colors.green,
+                                f: 3,
+                              ),
+                              RowWidget(
+                                s: provider.deviceLogList[index].latlng,
+                                w: ltw,
+                                c: Colors.yellow,
+                                f: 2,
+                              ),
+                              RowWidget(
+                                s: provider.deviceLogList[index].appName,
+                                w: appnw,
+                                c: Colors.pink,
+                                f: 2,
+                              ),
+                              RowWidget(
+                                s: provider.deviceLogList[index].version,
+                                w: appvw,
+                                c: Colors.purple,
+                                f: 2,
+                              ),
+                              RowWidget(
+                                s: dateFormat.format(
+                                    provider.deviceLogList[index].logTime),
+                                w: logtw,
+                                c: Colors.orange,
+                                f: 2,
+                              ),
+                              RowWidget(
+                                s: provider.deviceLogList[index].description,
+                                w: logtw,
+                                c: Colors.orange,
+                                f: 2,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    childCount: provider.deviceLogList.length,
+                  ),
+                ),
+              ] else ...[
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return Card(
+                        child: InkWell(
+                          onLongPress: () async {
+                            showToast(context,
+                                message:
+                                    provider.deviceLogList[index].deviceId);
+                            await Clipboard.setData(ClipboardData(
+                                text: provider.deviceLogList[index].deviceId));
+                          },
+                          child: Ink(
+                            height: 180.0,
+                            width: 550.0,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'ID: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text:
+                                              '${provider.deviceLogList[index].id}',
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Device ID: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .deviceLogList[index].deviceId,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Address: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .deviceLogList[index].address,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Lat Long: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .deviceLogList[index].latlng,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    maxLines: 1,
+                                    text: TextSpan(
+                                      text: 'App: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .deviceLogList[index].appName,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                      text: 'Version: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .deviceLogList[index].version,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Timestamp: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: dateFormat.format(provider
+                                              .deviceLogList[index].timeStamp),
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Description: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .deviceLogList[index].description,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    childCount: provider.deviceLogList.length,
+                  ),
+                ),
+              ]
             ],
           ),
         );

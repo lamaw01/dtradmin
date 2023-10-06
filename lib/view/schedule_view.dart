@@ -1421,126 +1421,352 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
           },
           child: CustomScrollView(
             slivers: [
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: SliverAppBarDelegate(
-                  minHeight: 60.0,
-                  maxHeight: 60.0,
-                  child: Container(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          RowWidget(s: 'ID', w: idw, c: Colors.red, f: 1),
-                          RowWidget(
-                              s: 'Week Sched ID', w: cw, c: Colors.green, f: 1),
-                          RowWidget(s: 'Monday', w: cw, c: Colors.blue, f: 1),
-                          RowWidget(s: 'Tuesday', w: cw, c: Colors.blue, f: 1),
-                          RowWidget(
-                              s: 'Wednesday', w: cw, c: Colors.blue, f: 1),
-                          RowWidget(s: 'Thursday', w: cw, c: Colors.blue, f: 1),
-                          RowWidget(s: 'Friday', w: cw, c: Colors.blue, f: 1),
-                          RowWidget(s: 'Saturday', w: cw, c: Colors.blue, f: 1),
-                          RowWidget(s: 'Sunday', w: cw, c: Colors.blue, f: 1),
-                          RowWidget(
-                              s: 'Description', w: descw, c: Colors.blue, f: 3),
-                        ],
+              if (MediaQuery.of(context).size.width > 600) ...[
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: SliverAppBarDelegate(
+                    minHeight: 60.0,
+                    maxHeight: 60.0,
+                    child: Container(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            RowWidget(s: 'ID', w: idw, c: Colors.red, f: 1),
+                            RowWidget(
+                                s: 'Week Sched ID',
+                                w: cw,
+                                c: Colors.green,
+                                f: 1),
+                            RowWidget(s: 'Monday', w: cw, c: Colors.blue, f: 1),
+                            RowWidget(
+                                s: 'Tuesday', w: cw, c: Colors.blue, f: 1),
+                            RowWidget(
+                                s: 'Wednesday', w: cw, c: Colors.blue, f: 1),
+                            RowWidget(
+                                s: 'Thursday', w: cw, c: Colors.blue, f: 1),
+                            RowWidget(s: 'Friday', w: cw, c: Colors.blue, f: 1),
+                            RowWidget(
+                                s: 'Saturday', w: cw, c: Colors.blue, f: 1),
+                            RowWidget(s: 'Sunday', w: cw, c: Colors.blue, f: 1),
+                            RowWidget(
+                                s: 'Description',
+                                w: descw,
+                                c: Colors.blue,
+                                f: 3),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return Card(
-                      child: InkWell(
-                        onTap: () {
-                          updateWeeklySchedule(
-                              provider.weekScheduleProviderList[index]);
-                        },
-                        onLongPress: () {
-                          confirmDeleteWeekSchedule(
-                              provider.weekScheduleProviderList[index]);
-                        },
-                        child: Ink(
-                          height: 50.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              RowWidget(
-                                  s: provider.weekScheduleProviderList[index].id
-                                      .toString(),
-                                  w: idw,
-                                  c: Colors.red,
-                                  f: 1),
-                              RowWidget(
-                                  s: provider.weekScheduleProviderList[index]
-                                      .weekSchedId,
-                                  w: cw,
-                                  c: Colors.green,
-                                  f: 1),
-                              RowWidget(
-                                  s: provider
-                                      .weekScheduleProviderList[index].monday,
-                                  w: cw,
-                                  c: Colors.blue,
-                                  f: 1),
-                              RowWidget(
-                                  s: provider
-                                      .weekScheduleProviderList[index].tuesday,
-                                  w: cw,
-                                  c: Colors.blue,
-                                  f: 1),
-                              RowWidget(
-                                  s: provider.weekScheduleProviderList[index]
-                                      .wednesday,
-                                  w: cw,
-                                  c: Colors.blue,
-                                  f: 1),
-                              RowWidget(
-                                  s: provider
-                                      .weekScheduleProviderList[index].thursday,
-                                  w: cw,
-                                  c: Colors.blue,
-                                  f: 1),
-                              RowWidget(
-                                  s: provider
-                                      .weekScheduleProviderList[index].friday,
-                                  w: cw,
-                                  c: Colors.blue,
-                                  f: 1),
-                              RowWidget(
-                                  s: provider
-                                      .weekScheduleProviderList[index].saturday,
-                                  w: cw,
-                                  c: Colors.blue,
-                                  f: 1),
-                              RowWidget(
-                                  s: provider
-                                      .weekScheduleProviderList[index].sunday,
-                                  w: cw,
-                                  c: Colors.blue,
-                                  f: 1),
-                              RowWidget(
-                                  s: provider.weekScheduleProviderList[index]
-                                      .description,
-                                  w: descw,
-                                  c: Colors.blue,
-                                  f: 3),
-                            ],
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return Card(
+                        child: InkWell(
+                          onTap: () {
+                            updateWeeklySchedule(
+                                provider.weekScheduleProviderList[index]);
+                          },
+                          onLongPress: () {
+                            confirmDeleteWeekSchedule(
+                                provider.weekScheduleProviderList[index]);
+                          },
+                          child: Ink(
+                            height: 50.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                RowWidget(
+                                    s: provider
+                                        .weekScheduleProviderList[index].id
+                                        .toString(),
+                                    w: idw,
+                                    c: Colors.red,
+                                    f: 1),
+                                RowWidget(
+                                    s: provider.weekScheduleProviderList[index]
+                                        .weekSchedId,
+                                    w: cw,
+                                    c: Colors.green,
+                                    f: 1),
+                                RowWidget(
+                                    s: provider
+                                        .weekScheduleProviderList[index].monday,
+                                    w: cw,
+                                    c: Colors.blue,
+                                    f: 1),
+                                RowWidget(
+                                    s: provider.weekScheduleProviderList[index]
+                                        .tuesday,
+                                    w: cw,
+                                    c: Colors.blue,
+                                    f: 1),
+                                RowWidget(
+                                    s: provider.weekScheduleProviderList[index]
+                                        .wednesday,
+                                    w: cw,
+                                    c: Colors.blue,
+                                    f: 1),
+                                RowWidget(
+                                    s: provider.weekScheduleProviderList[index]
+                                        .thursday,
+                                    w: cw,
+                                    c: Colors.blue,
+                                    f: 1),
+                                RowWidget(
+                                    s: provider
+                                        .weekScheduleProviderList[index].friday,
+                                    w: cw,
+                                    c: Colors.blue,
+                                    f: 1),
+                                RowWidget(
+                                    s: provider.weekScheduleProviderList[index]
+                                        .saturday,
+                                    w: cw,
+                                    c: Colors.blue,
+                                    f: 1),
+                                RowWidget(
+                                    s: provider
+                                        .weekScheduleProviderList[index].sunday,
+                                    w: cw,
+                                    c: Colors.blue,
+                                    f: 1),
+                                RowWidget(
+                                    s: provider.weekScheduleProviderList[index]
+                                        .description,
+                                    w: descw,
+                                    c: Colors.blue,
+                                    f: 3),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                  childCount: provider.weekScheduleProviderList.length,
+                      );
+                    },
+                    childCount: provider.weekScheduleProviderList.length,
+                  ),
                 ),
-              ),
+              ] else ...[
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return Card(
+                        child: InkWell(
+                          onTap: () {
+                            updateWeeklySchedule(
+                                provider.weekScheduleProviderList[index]);
+                          },
+                          child: Ink(
+                            height: 200.0,
+                            width: 550.0,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'ID: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text:
+                                              '${provider.weekScheduleProviderList[index].id}',
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Wee Sched ID: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .weekScheduleProviderList[index]
+                                              .weekSchedId,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Monday: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .weekScheduleProviderList[index]
+                                              .monday,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Tuesday: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .weekScheduleProviderList[index]
+                                              .tuesday,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    maxLines: 1,
+                                    text: TextSpan(
+                                      text: 'Wednesday: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .weekScheduleProviderList[index]
+                                              .wednesday,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                      text: 'Thursday: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .weekScheduleProviderList[index]
+                                              .thursday,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Friday: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .weekScheduleProviderList[index]
+                                              .friday,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                      text: 'Saturday: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .weekScheduleProviderList[index]
+                                              .saturday,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Sunday: ',
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: provider
+                                              .weekScheduleProviderList[index]
+                                              .sunday,
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    childCount: provider.weekScheduleProviderList.length,
+                  ),
+                ),
+              ],
             ],
           ),
         );
