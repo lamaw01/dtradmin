@@ -500,7 +500,6 @@ class _ScheduleViewState extends State<ScheduleView>
                       );
                     }
                     if (mounted) {
-                      //60.121
                       Navigator.of(context).pop();
                     }
                   },

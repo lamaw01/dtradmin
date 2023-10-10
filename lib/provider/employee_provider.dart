@@ -1,3 +1,4 @@
+import 'package:dtradmin/model/branch_model.dart';
 import 'package:flutter/material.dart';
 
 import '../model/employee_model.dart';
@@ -10,6 +11,9 @@ class EmployeeProvider with ChangeNotifier {
   String fullName(EmployeeModel m) {
     return '${m.lastName}, ${m.firstName} ${m.middleName}';
   }
+
+  var _branchOfEmployeeList = <BranchModel>[];
+  List<BranchModel> get branchOfEmployeeList => _branchOfEmployeeList;
 
   bool checkEmployeeId(String employeeId) {
     for (var employee in _employeeList) {
@@ -92,6 +96,19 @@ class EmployeeProvider with ChangeNotifier {
       debugPrint('$e deleteEmployee');
     } finally {
       await getEmployee();
+    }
+  }
+
+  Future<void> getBranchOfEmployee({
+    required String employeeId,
+  }) async {
+    try {
+      var result = await HttpService.getBranchOfEmployee(
+        employeeId: employeeId,
+      );
+      _branchOfEmployeeList = result;
+    } catch (e) {
+      debugPrint('$e getBranchOfEmployee');
     }
   }
 }

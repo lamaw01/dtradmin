@@ -708,4 +708,23 @@ class HttpService {
         .timeout(const Duration(seconds: 10));
     debugPrint('updateAppVersion ${response.body}');
   }
+
+  static Future<List<BranchModel>> getBranchOfEmployee({
+    required String employeeId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/get_branch_of_employee.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "employee_id": employeeId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('getBranchOfEmployee ${response.body}');
+    return branchModelFromJson(response.body);
+  }
 }

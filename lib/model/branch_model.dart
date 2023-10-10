@@ -14,11 +14,13 @@ class BranchModel {
   int id;
   String branchId;
   String branchName;
+  bool selected;
 
   BranchModel({
     required this.id,
     required this.branchId,
     required this.branchName,
+    this.selected = false,
   });
 
   factory BranchModel.fromJson(Map<String, dynamic> json) => BranchModel(
