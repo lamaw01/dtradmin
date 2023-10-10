@@ -158,12 +158,26 @@ class _AppVersionViewState extends State<AppVersionView>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          RowWidget(s: 'ID', w: idw, c: Colors.red, f: 1),
                           RowWidget(
-                              s: 'App name', w: cw, c: Colors.green, f: 1),
-                          RowWidget(s: 'Version', w: cw, c: Colors.blue, f: 1),
+                              s: 'ID', w: idw, c: Colors.red, f: 1, bold: true),
                           RowWidget(
-                              s: 'Last Update', w: updtw, c: Colors.blue, f: 2),
+                              s: 'App name',
+                              w: cw,
+                              c: Colors.green,
+                              f: 1,
+                              bold: true),
+                          RowWidget(
+                              s: 'Version',
+                              w: cw,
+                              c: Colors.blue,
+                              f: 1,
+                              bold: true),
+                          RowWidget(
+                              s: 'Last Update',
+                              w: updtw,
+                              c: Colors.blue,
+                              f: 2,
+                              bold: true),
                         ],
                       ),
                     ),

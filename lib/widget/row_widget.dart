@@ -7,11 +7,13 @@ class RowWidget extends StatelessWidget {
     required this.w,
     this.c,
     required this.f,
+    this.bold = false,
   });
   final String s;
   final double w;
   final Color? c;
   final int f;
+  final bool bold;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,8 @@ class RowWidget extends StatelessWidget {
             s,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontWeight: bold ? FontWeight.bold : FontWeight.normal),
           ),
         ),
       ),

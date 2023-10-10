@@ -71,7 +71,7 @@ class _EmployeeViewState extends State<EmployeeView> {
               title: const Text('Add Employee'),
               content: SizedBox(
                 // height: 200.0,
-                width: 500.0,
+                width: 400.0,
                 child: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
@@ -81,7 +81,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                       children: [
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          width: 400.0,
                           child: TextField(
                             controller: employeeId,
                             decoration: const InputDecoration(
@@ -100,7 +100,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          width: 400.0,
                           child: TextField(
                             controller: lastName,
                             decoration: const InputDecoration(
@@ -119,7 +119,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          width: 400.0,
                           child: TextField(
                             controller: firtName,
                             decoration: const InputDecoration(
@@ -138,7 +138,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          width: 400.0,
                           child: TextField(
                             controller: middleName,
                             decoration: const InputDecoration(
@@ -162,7 +162,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -190,7 +190,11 @@ class _EmployeeViewState extends State<EmployeeView> {
                                     return DropdownMenuItem<WeekScheduleModel>(
                                       value: value,
                                       child: Text(
-                                          '${value.weekSchedId} | ${value.description}'),
+                                        '${value.weekSchedId} | ${value.description}',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
+                                      ),
                                     );
                                   }).toList(),
                                 ),
@@ -282,7 +286,7 @@ class _EmployeeViewState extends State<EmployeeView> {
               title: const Text('Update Employee'),
               content: SizedBox(
                 // height: 200.0,
-                width: 500.0,
+                width: 400.0,
                 child: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
@@ -292,7 +296,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                       children: [
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          width: 400.0,
                           child: TextField(
                             controller: employeeId,
                             decoration: const InputDecoration(
@@ -311,7 +315,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          width: 400.0,
                           child: TextField(
                             controller: lastName,
                             decoration: const InputDecoration(
@@ -330,7 +334,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          width: 400.0,
                           child: TextField(
                             controller: firtName,
                             decoration: const InputDecoration(
@@ -349,7 +353,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          width: 400.0,
                           child: TextField(
                             controller: middleName,
                             decoration: const InputDecoration(
@@ -373,7 +377,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -401,7 +405,11 @@ class _EmployeeViewState extends State<EmployeeView> {
                                     return DropdownMenuItem<WeekScheduleModel>(
                                       value: value,
                                       child: Text(
-                                          '${value.weekSchedId} | ${value.description}'),
+                                        '${value.weekSchedId} | ${value.description}',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
+                                      ),
                                     );
                                   }).toList(),
                                 ),
@@ -547,29 +555,29 @@ class _EmployeeViewState extends State<EmployeeView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             RowWidget(
-                              s: 'ID',
-                              w: idw,
-                              c: Colors.red,
-                              f: 1,
-                            ),
+                                s: 'ID',
+                                w: idw,
+                                c: Colors.red,
+                                f: 1,
+                                bold: true),
                             RowWidget(
-                              s: 'Emp ID',
-                              w: empIdw,
-                              c: Colors.green,
-                              f: 2,
-                            ),
+                                s: 'Emp ID',
+                                w: empIdw,
+                                c: Colors.green,
+                                f: 2,
+                                bold: true),
                             RowWidget(
-                              s: 'Name',
-                              w: dIdw,
-                              c: Colors.blue,
-                              f: 3,
-                            ),
+                                s: 'Name',
+                                w: dIdw,
+                                c: Colors.blue,
+                                f: 3,
+                                bold: true),
                             RowWidget(
-                              s: 'Week Schedule',
-                              w: wsIdw,
-                              c: Colors.yellow,
-                              f: 2,
-                            ),
+                                s: 'Week Schedule',
+                                w: wsIdw,
+                                c: Colors.yellow,
+                                f: 2,
+                                bold: true),
                           ],
                         ),
                       ),

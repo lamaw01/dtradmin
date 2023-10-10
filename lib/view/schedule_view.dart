@@ -70,7 +70,7 @@ class _ScheduleViewState extends State<ScheduleView>
               title: const Text('Add Week Schedule'),
               content: SizedBox(
                 // height: 200.0,
-                width: 500.0,
+                width: 400.0,
                 child: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
@@ -80,7 +80,7 @@ class _ScheduleViewState extends State<ScheduleView>
                       children: [
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          // width: 400.0,
                           child: TextField(
                             controller: weekSchedId,
                             decoration: const InputDecoration(
@@ -104,7 +104,7 @@ class _ScheduleViewState extends State<ScheduleView>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -132,7 +132,11 @@ class _ScheduleViewState extends State<ScheduleView>
                                     return DropdownMenuItem<ScheduleModel>(
                                       value: value,
                                       child: Text(
-                                          "${value.schedId} | ${value.description}"),
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
+                                      ),
                                     );
                                   }).toList(),
                                 ),
@@ -148,7 +152,7 @@ class _ScheduleViewState extends State<ScheduleView>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -179,6 +183,7 @@ class _ScheduleViewState extends State<ScheduleView>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -195,7 +200,7 @@ class _ScheduleViewState extends State<ScheduleView>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -226,6 +231,7 @@ class _ScheduleViewState extends State<ScheduleView>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -242,7 +248,7 @@ class _ScheduleViewState extends State<ScheduleView>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -273,6 +279,7 @@ class _ScheduleViewState extends State<ScheduleView>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -289,7 +296,7 @@ class _ScheduleViewState extends State<ScheduleView>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -320,6 +327,7 @@ class _ScheduleViewState extends State<ScheduleView>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -336,7 +344,7 @@ class _ScheduleViewState extends State<ScheduleView>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -367,6 +375,7 @@ class _ScheduleViewState extends State<ScheduleView>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -383,7 +392,7 @@ class _ScheduleViewState extends State<ScheduleView>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -414,6 +423,7 @@ class _ScheduleViewState extends State<ScheduleView>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -425,7 +435,7 @@ class _ScheduleViewState extends State<ScheduleView>
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          // width: 400.0,
                           child: TextField(
                             controller: description,
                             decoration: const InputDecoration(
@@ -941,7 +951,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
               title: const Text('Add Week Schedule'),
               content: SizedBox(
                 // height: 200.0,
-                width: 500.0,
+                width: 400.0,
                 child: StatefulBuilder(
                   builder: (context, setState) {
                     return Column(
@@ -951,7 +961,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                       children: [
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          width: 400.0,
                           child: TextField(
                             controller: weekSchedId,
                             decoration: const InputDecoration(
@@ -975,7 +985,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -1003,7 +1013,11 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                                     return DropdownMenuItem<ScheduleModel>(
                                       value: value,
                                       child: Text(
-                                          "${value.schedId} | ${value.description}"),
+                                        "${value.schedId} | ${value.description}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
+                                      ),
                                     );
                                   }).toList(),
                                 ),
@@ -1019,7 +1033,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -1050,6 +1064,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -1066,7 +1081,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -1097,6 +1112,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -1113,7 +1129,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -1144,6 +1160,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -1160,7 +1177,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -1191,6 +1208,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -1207,7 +1225,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -1238,6 +1256,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -1254,7 +1273,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                             const SizedBox(width: 5.0),
                             Container(
                               height: 40.0,
-                              width: 400.0,
+                              // width: 400.0,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -1285,6 +1304,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                                         "${value.schedId} | ${value.description}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(fontSize: 14.0),
                                       ),
                                     );
                                   }).toList(),
@@ -1296,7 +1316,7 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                         const SizedBox(height: 10.0),
                         SizedBox(
                           height: 40.0,
-                          width: 500.0,
+                          width: 400.0,
                           child: TextField(
                             controller: description,
                             decoration: const InputDecoration(
@@ -1435,28 +1455,66 @@ class _WeekSchedulePageState extends State<WeekSchedulePage>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            RowWidget(s: 'ID', w: idw, c: Colors.red, f: 1),
+                            RowWidget(
+                                s: 'ID',
+                                w: idw,
+                                c: Colors.red,
+                                f: 1,
+                                bold: true),
                             RowWidget(
                                 s: 'Week Sched ID',
                                 w: cw,
                                 c: Colors.green,
-                                f: 1),
-                            RowWidget(s: 'Monday', w: cw, c: Colors.blue, f: 1),
+                                f: 1,
+                                bold: true),
                             RowWidget(
-                                s: 'Tuesday', w: cw, c: Colors.blue, f: 1),
+                                s: 'Monday',
+                                w: cw,
+                                c: Colors.blue,
+                                f: 1,
+                                bold: true),
                             RowWidget(
-                                s: 'Wednesday', w: cw, c: Colors.blue, f: 1),
+                                s: 'Tuesday',
+                                w: cw,
+                                c: Colors.blue,
+                                f: 1,
+                                bold: true),
                             RowWidget(
-                                s: 'Thursday', w: cw, c: Colors.blue, f: 1),
-                            RowWidget(s: 'Friday', w: cw, c: Colors.blue, f: 1),
+                                s: 'Wednesday',
+                                w: cw,
+                                c: Colors.blue,
+                                f: 1,
+                                bold: true),
                             RowWidget(
-                                s: 'Saturday', w: cw, c: Colors.blue, f: 1),
-                            RowWidget(s: 'Sunday', w: cw, c: Colors.blue, f: 1),
+                                s: 'Thursday',
+                                w: cw,
+                                c: Colors.blue,
+                                f: 1,
+                                bold: true),
+                            RowWidget(
+                                s: 'Friday',
+                                w: cw,
+                                c: Colors.blue,
+                                f: 1,
+                                bold: true),
+                            RowWidget(
+                                s: 'Saturday',
+                                w: cw,
+                                c: Colors.blue,
+                                f: 1,
+                                bold: true),
+                            RowWidget(
+                                s: 'Sunday',
+                                w: cw,
+                                c: Colors.blue,
+                                f: 1,
+                                bold: true),
                             RowWidget(
                                 s: 'Description',
                                 w: descw,
                                 c: Colors.blue,
-                                f: 3),
+                                f: 3,
+                                bold: true),
                           ],
                         ),
                       ),
@@ -2200,18 +2258,46 @@ class _SchedulePageState extends State<SchedulePage>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          RowWidget(s: 'ID', w: idw, c: Colors.red, f: 1),
                           RowWidget(
-                              s: 'Sched ID', w: cw, c: Colors.green, f: 1),
+                              s: 'ID', w: idw, c: Colors.red, f: 1, bold: true),
                           RowWidget(
-                              s: 'Sched type', w: cw, c: Colors.blue, f: 1),
-                          RowWidget(s: 'In', w: cw, c: Colors.blue, f: 1),
+                              s: 'Sched ID',
+                              w: cw,
+                              c: Colors.green,
+                              f: 1,
+                              bold: true),
                           RowWidget(
-                              s: 'Out Break', w: cw, c: Colors.blue, f: 1),
-                          RowWidget(s: 'In Break', w: cw, c: Colors.blue, f: 1),
-                          RowWidget(s: 'Out', w: cw, c: Colors.blue, f: 1),
+                              s: 'Sched type',
+                              w: cw,
+                              c: Colors.blue,
+                              f: 1,
+                              bold: true),
                           RowWidget(
-                              s: 'Description', w: descw, c: Colors.blue, f: 3),
+                              s: 'In', w: cw, c: Colors.blue, f: 1, bold: true),
+                          RowWidget(
+                              s: 'Out Break',
+                              w: cw,
+                              c: Colors.blue,
+                              f: 1,
+                              bold: true),
+                          RowWidget(
+                              s: 'In Break',
+                              w: cw,
+                              c: Colors.blue,
+                              f: 1,
+                              bold: true),
+                          RowWidget(
+                              s: 'Out',
+                              w: cw,
+                              c: Colors.blue,
+                              f: 1,
+                              bold: true),
+                          RowWidget(
+                              s: 'Description',
+                              w: descw,
+                              c: Colors.blue,
+                              f: 3,
+                              bold: true),
                         ],
                       ),
                     ),
