@@ -111,4 +111,30 @@ class EmployeeProvider with ChangeNotifier {
       debugPrint('$e getBranchOfEmployee');
     }
   }
+
+  Future<void> addEmployeeMultiBranch({
+    required String employeeId,
+    required List<String> branchId,
+  }) async {
+    try {
+      await HttpService.addEmployeeMultiBranch(
+        employeeId: employeeId,
+        branchId: branchId,
+      );
+    } catch (e) {
+      debugPrint('$e addEmployeeMultiBranch');
+    }
+  }
+
+  Future<void> deleteEmployeeMultiBranch({
+    required String employeeId,
+    required List<String> branchId,
+  }) async {
+    try {
+      await HttpService.deleteEmployeeMultiBranch(
+          employeeId: employeeId, branchId: branchId);
+    } catch (e) {
+      debugPrint('$e deleteEmployeeMultiBranch');
+    }
+  }
 }

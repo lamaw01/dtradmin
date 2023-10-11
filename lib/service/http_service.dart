@@ -504,7 +504,7 @@ class HttpService {
           }),
         )
         .timeout(const Duration(seconds: 10));
-    debugPrint('addEmployee ${response.body}');
+    debugPrint('updateEmployee ${response.body}');
   }
 
   static Future<void> deleteEmployee({
@@ -726,5 +726,45 @@ class HttpService {
         .timeout(const Duration(seconds: 10));
     debugPrint('getBranchOfEmployee ${response.body}');
     return branchModelFromJson(response.body);
+  }
+
+  static Future<void> addEmployeeMultiBranch({
+    required String employeeId,
+    required List<String> branchId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_employee_multi_branch.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "employee_id": employeeId,
+            "branch_id": branchId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addEmployeeMultiBranch ${response.body}');
+  }
+
+  static Future<void> deleteEmployeeMultiBranch({
+    required String employeeId,
+    required List<String> branchId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_employee_multi_branch.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "employee_id": employeeId,
+            "branch_id": branchId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteEmployeeMultiBranch ${response.body}');
   }
 }

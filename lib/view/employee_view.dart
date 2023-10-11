@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dtradmin/model/branch_model.dart';
 import 'package:dtradmin/model/employee_model.dart';
 import 'package:dtradmin/provider/branch_provider.dart';
@@ -277,6 +275,8 @@ class _EmployeeViewState extends State<EmployeeView> {
           var ddweekSchedValue = weekSchedSolo;
 
           bool isActive = employeeModel.active == 1 ? true : false;
+          var selectedBranch = <String>[];
+          var unselectedBranch = <String>[];
 
           return AlertDialog(
             title: const Text('Update Employee'),
@@ -288,7 +288,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         height: 40.0,
@@ -438,10 +438,22 @@ class _EmployeeViewState extends State<EmployeeView> {
                       const SizedBox(height: 10.0),
                       InkWell(
                         onTap: () async {
-                          await showSelectBranch(employeeModel);
+                          await showSelectBranch(employeeModel).then((value) {
+                            selectedBranch = value.addedBranch;
+                            unselectedBranch = value.unselectedBranch;
+                          });
                         },
                         child: Ink(
-                          child: const Text('Change Branch'),
+                          height: 30.0,
+                          width: 120.0,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: const Center(
+                            child: Text('Change Branch',
+                                style: TextStyle(color: Colors.white)),
+                          ),
                         ),
                       ),
                     ],
@@ -487,6 +499,19 @@ class _EmployeeViewState extends State<EmployeeView> {
                       active: isActive ? 1 : 0,
                       id: employeeModel.id,
                     );
+
+                    if (selectedBranch.isNotEmpty) {
+                      await e.addEmployeeMultiBranch(
+                        employeeId: employeeModel.employeeId,
+                        branchId: selectedBranch,
+                      );
+                    }
+
+                    if (unselectedBranch.isNotEmpty) {
+                      await e.deleteEmployeeMultiBranch(
+                          employeeId: employeeModel.employeeId,
+                          branchId: unselectedBranch);
+                    }
                   }
                   if (mounted) {
                     Navigator.of(context).pop();
@@ -537,14 +562,16 @@ class _EmployeeViewState extends State<EmployeeView> {
     );
   }
 
-  Future<List<BranchModel>> showSelectBranch(
+  Future<EmlpoyeeMultiBranch> showSelectBranch(
       EmployeeModel employeeModel) async {
     var b = Provider.of<BranchProvider>(context, listen: false);
     var e = Provider.of<EmployeeProvider>(context, listen: false);
     await e.getBranchOfEmployee(employeeId: employeeModel.employeeId);
     await b.getBranch();
     var selectedBranchList = <BranchModel>[...b.branchList];
-    log(selectedBranchList.length.toString());
+    var selectedBranchString = <String>[];
+    var unselectedBranch = <String>[];
+    // log(selectedBranchList.length.toString());
     for (int i = 0; i < selectedBranchList.length; i++) {
       for (int j = 0; j < e.branchOfEmployeeList.length; j++) {
         if (selectedBranchList[i].branchId ==
@@ -601,7 +628,32 @@ class _EmployeeViewState extends State<EmployeeView> {
         },
       );
     }
-    return selectedBranchList;
+
+    for (final branch in selectedBranchList) {
+      if (branch.selected) {
+        selectedBranchString.add(branch.branchId);
+      }
+    }
+
+    for (final branchOfEmployee in e.branchOfEmployeeList) {
+      bool exist = selectedBranchString.contains(branchOfEmployee.branchId);
+      if (exist) {
+        selectedBranchString.remove(branchOfEmployee.branchId);
+      }
+    }
+
+    for (final branch in selectedBranchList) {
+      for (final branchOfEmployee in e.branchOfEmployeeList) {
+        if (!branch.selected && branchOfEmployee.branchId == branch.branchId) {
+          unselectedBranch.add(branch.branchId);
+        }
+      }
+    }
+
+    return EmlpoyeeMultiBranch(
+      addedBranch: selectedBranchString,
+      unselectedBranch: unselectedBranch,
+    );
   }
 
   @override
@@ -653,6 +705,12 @@ class _EmployeeViewState extends State<EmployeeView> {
                                 bold: true),
                             RowWidget(
                                 s: 'Week Schedule',
+                                w: wsIdw,
+                                c: Colors.yellow,
+                                f: 2,
+                                bold: true),
+                            RowWidget(
+                                s: 'Branch',
                                 w: wsIdw,
                                 c: Colors.yellow,
                                 f: 2,
@@ -732,4 +790,14 @@ class _EmployeeViewState extends State<EmployeeView> {
       ),
     );
   }
+}
+
+class EmlpoyeeMultiBranch {
+  List<String> addedBranch;
+  List<String> unselectedBranch;
+
+  EmlpoyeeMultiBranch({
+    required this.addedBranch,
+    required this.unselectedBranch,
+  });
 }
