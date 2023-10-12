@@ -36,7 +36,7 @@ class BranchEmployeeModel {
         employeeId: json["employee_id"],
         firstName: json["first_name"],
         lastName: json["last_name"],
-        middleName: json["middle_name"] ?? '',
+        middleName: json["middle_name"],
         branchId: json["branch_id"],
         branchName: json["branch_name"],
       );

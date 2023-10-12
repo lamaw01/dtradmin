@@ -567,8 +567,8 @@ class _EmployeeViewState extends State<EmployeeView> {
     var b = Provider.of<BranchProvider>(context, listen: false);
     var e = Provider.of<EmployeeProvider>(context, listen: false);
     await e.getBranchOfEmployee(employeeId: employeeModel.employeeId);
-    await b.getBranch();
-    var selectedBranchList = <BranchModel>[...b.branchList];
+    await b.getBranchSelect();
+    var selectedBranchList = <BranchModel>[...b.branchListSelect];
     var selectedBranchString = <String>[];
     var unselectedBranch = <String>[];
     // log(selectedBranchList.length.toString());
@@ -705,12 +705,6 @@ class _EmployeeViewState extends State<EmployeeView> {
                                 bold: true),
                             RowWidget(
                                 s: 'Week Schedule',
-                                w: wsIdw,
-                                c: Colors.yellow,
-                                f: 2,
-                                bold: true),
-                            RowWidget(
-                                s: 'Branch',
                                 w: wsIdw,
                                 c: Colors.yellow,
                                 f: 2,

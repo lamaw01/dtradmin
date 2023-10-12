@@ -7,10 +7,35 @@ class BranchProvider with ChangeNotifier {
   var _branchList = <BranchModel>[];
   List<BranchModel> get branchList => _branchList;
 
+  var _branchListSelect = <BranchModel>[];
+  List<BranchModel> get branchListSelect => _branchListSelect;
+
+  var _selectedBranch =
+      BranchModel(id: 0, branchId: '000', branchName: '--Select--');
+  BranchModel get selectedBranch => _selectedBranch;
+
+  void changeSelectedBranch(BranchModel branchModel) {
+    _selectedBranch = branchModel;
+    notifyListeners();
+  }
+
   Future<void> getBranch() async {
     try {
       final result = await HttpService.getBranch();
+      result.insert(0, _selectedBranch);
       _branchList = result;
+      // _branchList.insert(0, _selectedBranch);
+      notifyListeners();
+    } catch (e) {
+      debugPrint('$e getBranch');
+    }
+  }
+
+  Future<void> getBranchSelect() async {
+    try {
+      final result = await HttpService.getBranch();
+      _branchListSelect = result;
+      // _branchList.insert(0, _selectedBranch);
       notifyListeners();
     } catch (e) {
       debugPrint('$e getBranch');

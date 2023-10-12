@@ -10,6 +10,7 @@ import '../model/department_model.dart';
 import '../model/device_log_model.dart';
 import '../model/device_model.dart';
 import '../model/employee_model.dart';
+import '../model/employee_of_branch_model.dart';
 import '../model/log_model.dart';
 import '../model/schedule_model.dart';
 import '../model/app_version_model.dart';
@@ -766,5 +767,82 @@ class HttpService {
         )
         .timeout(const Duration(seconds: 10));
     debugPrint('deleteEmployeeMultiBranch ${response.body}');
+  }
+
+  static Future<List<EmployeeOfBranchModel>> getEmployeeOfBranch({
+    required String branchId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/get_employee_of_branch.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "branch_id": branchId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('getEmployeeOfBranch ${response.body}');
+    return employeeOfBranchModelFromJson(response.body);
+  }
+
+  static Future<List<EmployeeOfBranchModel>> getEmployeeUnassignedBranch({
+    required String branchId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/get_unassigned_employee_branch.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "branch_id": branchId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('getEmployeeOfBranch ${response.body}');
+    return employeeOfBranchModelFromJson(response.body);
+  }
+
+  static Future<List<EmployeeOfBranchModel>> getEmployeeAssignedBranch({
+    required String branchId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/get_assigned_employee_branch.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "branch_id": branchId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('getEmployeeOfBranch ${response.body}');
+    return employeeOfBranchModelFromJson(response.body);
+  }
+
+  static Future<void> addEmployeeBranchMulti({
+    required String branchId,
+    required List<String> employeeId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_branch_multi_employee.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "branch_id": branchId,
+            "employee_id": employeeId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addEmployeeBranchMulti ${response.body}');
   }
 }
