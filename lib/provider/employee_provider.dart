@@ -1,4 +1,5 @@
 import 'package:dtradmin/model/branch_model.dart';
+import 'package:dtradmin/model/department_model.dart';
 import 'package:flutter/material.dart';
 
 import '../model/employee_model.dart';
@@ -14,6 +15,10 @@ class EmployeeProvider with ChangeNotifier {
 
   var _branchOfEmployeeList = <BranchModel>[];
   List<BranchModel> get branchOfEmployeeList => _branchOfEmployeeList;
+
+  var _departmentOfEmployeeList = <DepartmentModel>[];
+  List<DepartmentModel> get departmentOfEmployeeList =>
+      _departmentOfEmployeeList;
 
   bool checkEmployeeId(String employeeId) {
     for (var employee in _employeeList) {
@@ -135,6 +140,45 @@ class EmployeeProvider with ChangeNotifier {
           employeeId: employeeId, branchId: branchId);
     } catch (e) {
       debugPrint('$e deleteEmployeeMultiBranch');
+    }
+  }
+
+  Future<void> getDepartmentOfEmployee({
+    required String employeeId,
+  }) async {
+    try {
+      var result = await HttpService.getDepartmentOfEmployee(
+        employeeId: employeeId,
+      );
+      _departmentOfEmployeeList = result;
+    } catch (e) {
+      debugPrint('$e getDepartmentOfEmployee');
+    }
+  }
+
+  Future<void> addEmployeeMultiDepartment({
+    required String employeeId,
+    required List<String> departmentId,
+  }) async {
+    try {
+      await HttpService.addEmployeeMultiDepartment(
+        employeeId: employeeId,
+        departmentId: departmentId,
+      );
+    } catch (e) {
+      debugPrint('$e addEmployeeMultiDepartment');
+    }
+  }
+
+  Future<void> deleteEmployeeMultiDepartment({
+    required String employeeId,
+    required List<String> departmentId,
+  }) async {
+    try {
+      await HttpService.deleteEmployeeMultiDepartment(
+          employeeId: employeeId, departmentId: departmentId);
+    } catch (e) {
+      debugPrint('$e deleteEmployeeMultiDepartment');
     }
   }
 }

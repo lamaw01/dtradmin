@@ -1,4 +1,3 @@
-import 'package:dtradmin/model/department_employee_model.dart';
 import 'package:dtradmin/model/department_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +20,7 @@ class DepartmentView extends StatefulWidget {
 class _DepartmentViewState extends State<DepartmentView>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  ValueNotifier<bool> hideFloating = ValueNotifier(false);
 
   @override
   void initState() {
@@ -32,6 +32,13 @@ class _DepartmentViewState extends State<DepartmentView>
 
       await dp.getDepartment();
       await dpe.getDepartmentEmployee();
+      tabController.addListener(() {
+        if (tabController.index == 1) {
+          hideFloating.value = true;
+        } else {
+          hideFloating.value = false;
+        }
+      });
     });
   }
 
@@ -347,15 +354,24 @@ class _DepartmentViewState extends State<DepartmentView>
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (tabController.index == 0) {
-            addDepartment();
+      floatingActionButton: ValueListenableBuilder<bool>(
+        valueListenable: hideFloating,
+        builder: (context, value, child) {
+          if (!value) {
+            return FloatingActionButton(
+              onPressed: () async {
+                if (tabController.index == 0) {
+                  addDepartment();
+                } else {
+                  addEmployeeDepartment();
+                }
+              },
+              child: const Text('Add'),
+            );
           } else {
-            addEmployeeDepartment();
+            return const SizedBox();
           }
         },
-        child: const Text('Add'),
       ),
     );
   }
@@ -545,23 +561,19 @@ class _DepartmentPageState extends State<DepartmentPage>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           RowWidget(
-                            s: 'ID',
-                            w: idw,
-                            c: Colors.red,
-                            f: 1,
-                          ),
+                              s: 'ID', w: idw, c: Colors.red, f: 1, bold: true),
                           RowWidget(
-                            s: 'Department Name',
-                            w: dnw,
-                            c: Colors.green,
-                            f: 3,
-                          ),
+                              s: 'Department Name',
+                              w: dnw,
+                              c: Colors.green,
+                              f: 3,
+                              bold: true),
                           RowWidget(
-                            s: 'Department ID',
-                            w: dIdw,
-                            c: Colors.blue,
-                            f: 2,
-                          ),
+                              s: 'Department ID',
+                              w: dIdw,
+                              c: Colors.blue,
+                              f: 2,
+                              bold: true),
                         ],
                       ),
                     ),
@@ -636,343 +648,561 @@ class _DepartmentEmployeePageState extends State<DepartmentEmployeePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    const idw = 100.0;
-    const dnw = 350.0;
-    const dIdw = 200.0;
+    // const idw = 100.0;
+    // const dnw = 350.0;
+    // const dIdw = 200.0;
 
-    void updateEmployeeDepartment(
-        DepartmentEmployeeModel departmentEmployeeModel) async {
-      var de = Provider.of<DepartmentEmployeeProvider>(context, listen: false);
-      var ep = Provider.of<EmployeeProvider>(context, listen: false);
-      var dp = Provider.of<DepartmentProvider>(context, listen: false);
-      await ep.getEmployee();
-      DepartmentModel departmentSolo = dp.departmentList.singleWhere(
-          (e) => e.departmentId == departmentEmployeeModel.departmentId);
-      EmployeeModel employeeSolo = ep.employeeList.singleWhere(
-          (e) => e.employeeId == departmentEmployeeModel.employeeId);
-      if (mounted) {
-        await showDialog<void>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            var departmentList = <DepartmentModel>[];
-            departmentList.addAll(dp.departmentList);
-            var ddDepartmentValue = departmentSolo;
+    // void updateEmployeeDepartment(
+    //     DepartmentEmployeeModel departmentEmployeeModel) async {
+    //   var de = Provider.of<DepartmentEmployeeProvider>(context, listen: false);
+    //   var ep = Provider.of<EmployeeProvider>(context, listen: false);
+    //   var dp = Provider.of<DepartmentProvider>(context, listen: false);
+    //   await ep.getEmployee();
+    //   DepartmentModel departmentSolo = dp.departmentList.singleWhere(
+    //       (e) => e.departmentId == departmentEmployeeModel.departmentId);
+    //   EmployeeModel employeeSolo = ep.employeeList.singleWhere(
+    //       (e) => e.employeeId == departmentEmployeeModel.employeeId);
+    //   if (mounted) {
+    //     await showDialog<void>(
+    //       context: context,
+    //       barrierDismissible: false,
+    //       builder: (BuildContext context) {
+    //         var departmentList = <DepartmentModel>[];
+    //         departmentList.addAll(dp.departmentList);
+    //         var ddDepartmentValue = departmentSolo;
 
-            var employeeList = <EmployeeModel>[];
-            employeeList.addAll(ep.employeeList);
-            var ddEmployeeValue = employeeSolo;
+    //         var employeeList = <EmployeeModel>[];
+    //         employeeList.addAll(ep.employeeList);
+    //         var ddEmployeeValue = employeeSolo;
 
-            return AlertDialog(
-              title: const Text('Update Employee Department'),
-              content: SizedBox(
-                // height: 200.0,
-                width: 400.0,
-                child: StatefulBuilder(
-                  builder: (context, setState) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Branch:'),
-                            const SizedBox(width: 5.0),
-                            Container(
-                              height: 40.0,
-                              width: 300.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                              ),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<DepartmentModel>(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
-                                  borderRadius: BorderRadius.circular(5),
-                                  value: ddDepartmentValue,
-                                  onChanged: (DepartmentModel? value) async {
-                                    if (value != null) {
-                                      setState(() {
-                                        ddDepartmentValue = value;
-                                      });
-                                    }
-                                  },
-                                  items: departmentList
-                                      .map<DropdownMenuItem<DepartmentModel>>(
-                                          (DepartmentModel value) {
-                                    return DropdownMenuItem<DepartmentModel>(
-                                      value: value,
-                                      child: Text(value.departmentName),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Employee:'),
-                            const SizedBox(width: 5.0),
-                            Container(
-                              height: 40.0,
-                              width: 300.0,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  style: BorderStyle.solid,
-                                  width: 1.0,
-                                ),
-                              ),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<EmployeeModel>(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
-                                  borderRadius: BorderRadius.circular(5),
-                                  value: ddEmployeeValue,
-                                  onChanged: (EmployeeModel? value) async {
-                                    if (value != null) {
-                                      setState(() {
-                                        ddEmployeeValue = value;
-                                      });
-                                    }
-                                  },
-                                  items: employeeList
-                                      .map<DropdownMenuItem<EmployeeModel>>(
-                                          (EmployeeModel value) {
-                                    return DropdownMenuItem<EmployeeModel>(
-                                      value: value,
-                                      child: Text(ep.fullName(value)),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(fontSize: 16.0),
+    //         return AlertDialog(
+    //           title: const Text('Update Employee Department'),
+    //           content: SizedBox(
+    //             // height: 200.0,
+    //             width: 400.0,
+    //             child: StatefulBuilder(
+    //               builder: (context, setState) {
+    //                 return Column(
+    //                   mainAxisSize: MainAxisSize.min,
+    //                   mainAxisAlignment: MainAxisAlignment.center,
+    //                   crossAxisAlignment: CrossAxisAlignment.center,
+    //                   children: [
+    //                     Row(
+    //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                       children: [
+    //                         const Text('Branch:'),
+    //                         const SizedBox(width: 5.0),
+    //                         Container(
+    //                           height: 40.0,
+    //                           width: 300.0,
+    //                           decoration: BoxDecoration(
+    //                             borderRadius: BorderRadius.circular(5),
+    //                             border: Border.all(
+    //                               color: Colors.grey,
+    //                               style: BorderStyle.solid,
+    //                               width: 1.0,
+    //                             ),
+    //                           ),
+    //                           child: DropdownButtonHideUnderline(
+    //                             child: DropdownButton<DepartmentModel>(
+    //                               padding: const EdgeInsets.symmetric(
+    //                                   horizontal: 10.0),
+    //                               borderRadius: BorderRadius.circular(5),
+    //                               value: ddDepartmentValue,
+    //                               onChanged: (DepartmentModel? value) async {
+    //                                 if (value != null) {
+    //                                   setState(() {
+    //                                     ddDepartmentValue = value;
+    //                                   });
+    //                                 }
+    //                               },
+    //                               items: departmentList
+    //                                   .map<DropdownMenuItem<DepartmentModel>>(
+    //                                       (DepartmentModel value) {
+    //                                 return DropdownMenuItem<DepartmentModel>(
+    //                                   value: value,
+    //                                   child: Text(value.departmentName),
+    //                                 );
+    //                               }).toList(),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                     const SizedBox(height: 10.0),
+    //                     Row(
+    //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                       children: [
+    //                         const Text('Employee:'),
+    //                         const SizedBox(width: 5.0),
+    //                         Container(
+    //                           height: 40.0,
+    //                           width: 300.0,
+    //                           decoration: BoxDecoration(
+    //                             borderRadius: BorderRadius.circular(5),
+    //                             border: Border.all(
+    //                               color: Colors.grey,
+    //                               style: BorderStyle.solid,
+    //                               width: 1.0,
+    //                             ),
+    //                           ),
+    //                           child: DropdownButtonHideUnderline(
+    //                             child: DropdownButton<EmployeeModel>(
+    //                               padding: const EdgeInsets.symmetric(
+    //                                   horizontal: 10.0),
+    //                               borderRadius: BorderRadius.circular(5),
+    //                               value: ddEmployeeValue,
+    //                               onChanged: (EmployeeModel? value) async {
+    //                                 if (value != null) {
+    //                                   setState(() {
+    //                                     ddEmployeeValue = value;
+    //                                   });
+    //                                 }
+    //                               },
+    //                               items: employeeList
+    //                                   .map<DropdownMenuItem<EmployeeModel>>(
+    //                                       (EmployeeModel value) {
+    //                                 return DropdownMenuItem<EmployeeModel>(
+    //                                   value: value,
+    //                                   child: Text(ep.fullName(value)),
+    //                                 );
+    //                               }).toList(),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ],
+    //                 );
+    //               },
+    //             ),
+    //           ),
+    //           actions: <Widget>[
+    //             TextButton(
+    //               child: const Text(
+    //                 'Cancel',
+    //                 style: TextStyle(fontSize: 16.0),
+    //               ),
+    //               onPressed: () {
+    //                 Navigator.of(context).pop();
+    //               },
+    //             ),
+    //             TextButton(
+    //               child: const Text(
+    //                 'Ok',
+    //                 style: TextStyle(fontSize: 16.0),
+    //               ),
+    //               onPressed: () async {
+    //                 bool employeebranchExist = de.checkEmployeeDepartmentId(
+    //                   employeeId: ddEmployeeValue.employeeId,
+    //                   departmentId: ddDepartmentValue.departmentId,
+    //                 );
+    //                 if (ddEmployeeValue.employeeId == '00000' ||
+    //                     ddDepartmentValue.departmentId == '000') {
+    //                   snackBarError('Invalid Employee or Branch', context);
+    //                 } else if (employeebranchExist &&
+    //                     ddEmployeeValue.employeeId !=
+    //                         departmentEmployeeModel.employeeId) {
+    //                   snackBarError('Employee Already in Branch', context);
+    //                 } else {
+    //                   await de.updateDepartmentEmployee(
+    //                     departmentId: ddDepartmentValue.departmentId,
+    //                     employeeId: ddEmployeeValue.employeeId,
+    //                     id: departmentEmployeeModel.id,
+    //                   );
+    //                 }
+    //                 if (mounted) {
+    //                   Navigator.of(context).pop();
+    //                 }
+    //               },
+    //             ),
+    //           ],
+    //         );
+    //       },
+    //     );
+    //   }
+    // }
+
+    // void confirmDeleteEmployeeBranch(
+    //     DepartmentEmployeeModel departmentEmployeeModel) async {
+    //   var de = Provider.of<DepartmentEmployeeProvider>(context, listen: false);
+    //   await showDialog<void>(
+    //     context: context,
+    //     barrierDismissible: false,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         title: const Text('Remove Employee in Department'),
+    //         content: Text(
+    //             'Delete ${de.fullName(departmentEmployeeModel)} in ${departmentEmployeeModel.departmentName}?'),
+    //         actions: <Widget>[
+    //           TextButton(
+    //             child: const Text(
+    //               'Cancel',
+    //               style: TextStyle(fontSize: 16.0),
+    //             ),
+    //             onPressed: () {
+    //               Navigator.of(context).pop();
+    //             },
+    //           ),
+    //           TextButton(
+    //             child: const Text(
+    //               'Ok',
+    //               style: TextStyle(fontSize: 16.0),
+    //             ),
+    //             onPressed: () async {
+    //               await de.deleteDepartmentEmployee(
+    //                   id: departmentEmployeeModel.id);
+    //               if (mounted) {
+    //                 Navigator.of(context).pop();
+    //               }
+    //             },
+    //           ),
+    //         ],
+    //       );
+    //     },
+    //   );
+    // }
+
+    // return Consumer<DepartmentEmployeeProvider>(
+    //   builder: ((context, provider, child) {
+    //     return RefreshIndicator(
+    //       onRefresh: () async {
+    //         await provider.getDepartmentEmployee();
+    //       },
+    //       child: CustomScrollView(
+    //         slivers: [
+    //           SliverPersistentHeader(
+    //             pinned: true,
+    //             delegate: SliverAppBarDelegate(
+    //               minHeight: 60.0,
+    //               maxHeight: 60.0,
+    //               child: Container(
+    //                 color: Theme.of(context).scaffoldBackgroundColor,
+    //                 child: Padding(
+    //                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
+    //                   child: Row(
+    //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //                     crossAxisAlignment: CrossAxisAlignment.center,
+    //                     children: [
+    //                       Flexible(
+    //                         flex: 1,
+    //                         child: InkWell(
+    //                           onTap: () {
+    //                             provider.sortEmployeeDepartmentListId();
+    //                           },
+    //                           child: Ink(
+    //                             width: idw,
+    //                             child: const Center(
+    //                               child: Text(
+    //                                 'ID',
+    //                                 maxLines: 3,
+    //                                 overflow: TextOverflow.ellipsis,
+    //                               ),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                       Flexible(
+    //                         flex: 3,
+    //                         child: InkWell(
+    //                           onTap: () {
+    //                             provider.sortEmployeeDepartmentListLastName();
+    //                           },
+    //                           child: Ink(
+    //                             width: dnw,
+    //                             child: const Center(
+    //                               child: Text(
+    //                                 'Name',
+    //                                 maxLines: 3,
+    //                                 overflow: TextOverflow.ellipsis,
+    //                               ),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ),
+    //                       const RowWidget(
+    //                         s: 'Department',
+    //                         w: dIdw,
+    //                         c: Colors.blue,
+    //                         f: 2,
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //           SliverList(
+    //             delegate: SliverChildBuilderDelegate(
+    //               (BuildContext context, int index) {
+    //                 return Card(
+    //                   child: InkWell(
+    //                     onTap: () {
+    //                       updateEmployeeDepartment(
+    //                           provider.departmentEmployeeList[index]);
+    //                     },
+    //                     onLongPress: () {
+    //                       confirmDeleteEmployeeBranch(
+    //                           provider.departmentEmployeeList[index]);
+    //                     },
+    //                     child: Ink(
+    //                       height: 50.0,
+    //                       child: Row(
+    //                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //                         crossAxisAlignment: CrossAxisAlignment.center,
+    //                         children: [
+    //                           RowWidget(
+    //                             s: provider.departmentEmployeeList[index].id
+    //                                 .toString(),
+    //                             w: idw,
+    //                             c: Colors.red,
+    //                             f: 1,
+    //                           ),
+    //                           RowWidget(
+    //                             s: provider.fullName(
+    //                                 provider.departmentEmployeeList[index]),
+    //                             w: dnw,
+    //                             c: Colors.green,
+    //                             f: 3,
+    //                           ),
+    //                           RowWidget(
+    //                             s: provider.departmentEmployeeList[index]
+    //                                 .departmentName,
+    //                             w: dIdw,
+    //                             c: Colors.blue,
+    //                             f: 2,
+    //                           ),
+    //                         ],
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 );
+    //               },
+    //               childCount: provider.departmentEmployeeList.length,
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     );
+    //   }),
+    // );
+
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Consumer<DepartmentProvider>(
+            builder: (context, provider, child) {
+              return Container(
+                height: 40.0,
+                width: 300.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
+                    color: Colors.grey,
+                    style: BorderStyle.solid,
+                    width: 1.0,
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
                 ),
-                TextButton(
-                  child: const Text(
-                    'Ok',
-                    style: TextStyle(fontSize: 16.0),
-                  ),
-                  onPressed: () async {
-                    bool employeebranchExist = de.checkEmployeeDepartmentId(
-                      employeeId: ddEmployeeValue.employeeId,
-                      departmentId: ddDepartmentValue.departmentId,
-                    );
-                    if (ddEmployeeValue.employeeId == '00000' ||
-                        ddDepartmentValue.departmentId == '000') {
-                      snackBarError('Invalid Employee or Branch', context);
-                    } else if (employeebranchExist &&
-                        ddEmployeeValue.employeeId !=
-                            departmentEmployeeModel.employeeId) {
-                      snackBarError('Employee Already in Branch', context);
-                    } else {
-                      await de.updateDepartmentEmployee(
-                        departmentId: ddDepartmentValue.departmentId,
-                        employeeId: ddEmployeeValue.employeeId,
-                        id: departmentEmployeeModel.id,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<DepartmentModel>(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    borderRadius: BorderRadius.circular(5),
+                    value: provider.selectedDepartment,
+                    onChanged: (DepartmentModel? value) async {
+                      if (value != null) {
+                        provider.changeSelectedDepartment(value);
+                        var dep = Provider.of<DepartmentEmployeeProvider>(
+                            context,
+                            listen: false);
+                        await dep.getEmployeeUnassignedDepartment(
+                            departmentId: value.departmentId);
+                        await dep.getEmployeeAssignedDepartment(
+                            departmentId: value.departmentId);
+                        dep.removeAssignedDuplicate();
+                      }
+                    },
+                    items: provider.departmentList
+                        .map<DropdownMenuItem<DepartmentModel>>(
+                            (DepartmentModel value) {
+                      return DropdownMenuItem<DepartmentModel>(
+                        value: value,
+                        child: Text(value.departmentName),
                       );
-                    }
-                    if (mounted) {
-                      Navigator.of(context).pop();
-                    }
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
-    }
-
-    void confirmDeleteEmployeeBranch(
-        DepartmentEmployeeModel departmentEmployeeModel) async {
-      var de = Provider.of<DepartmentEmployeeProvider>(context, listen: false);
-      await showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Remove Employee in Department'),
-            content: Text(
-                'Delete ${de.fullName(departmentEmployeeModel)} in ${departmentEmployeeModel.departmentName}?'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: const Text(
-                  'Ok',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-                onPressed: () async {
-                  await de.deleteDepartmentEmployee(
-                      id: departmentEmployeeModel.id);
-                  if (mounted) {
-                    Navigator.of(context).pop();
-                  }
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-
-    return Consumer<DepartmentEmployeeProvider>(
-      builder: ((context, provider, child) {
-        return RefreshIndicator(
-          onRefresh: () async {
-            await provider.getDepartmentEmployee();
-          },
-          child: CustomScrollView(
-            slivers: [
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: SliverAppBarDelegate(
-                  minHeight: 60.0,
-                  maxHeight: 60.0,
-                  child: Container(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: InkWell(
-                              onTap: () {
-                                provider.sortEmployeeDepartmentListId();
-                              },
-                              child: Ink(
-                                width: idw,
-                                child: const Center(
-                                  child: Text(
-                                    'ID',
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 3,
-                            child: InkWell(
-                              onTap: () {
-                                provider.sortEmployeeDepartmentListLastName();
-                              },
-                              child: Ink(
-                                width: dnw,
-                                child: const Center(
-                                  child: Text(
-                                    'Name',
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const RowWidget(
-                            s: 'Department',
-                            w: dIdw,
-                            c: Colors.blue,
-                            f: 2,
-                          ),
-                        ],
-                      ),
-                    ),
+                    }).toList(),
                   ),
                 ),
+              );
+            },
+          ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Flexible(
+                flex: 1,
+                child: SizedBox(
+                    width: 500.0,
+                    height: 50.0,
+                    child: Center(
+                        child: Text(
+                      'Unassigned',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))),
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return Card(
-                      child: InkWell(
-                        onTap: () {
-                          updateEmployeeDepartment(
-                              provider.departmentEmployeeList[index]);
-                        },
-                        onLongPress: () {
-                          confirmDeleteEmployeeBranch(
-                              provider.departmentEmployeeList[index]);
-                        },
-                        child: Ink(
-                          height: 50.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              RowWidget(
-                                s: provider.departmentEmployeeList[index].id
-                                    .toString(),
-                                w: idw,
-                                c: Colors.red,
-                                f: 1,
-                              ),
-                              RowWidget(
-                                s: provider.fullName(
-                                    provider.departmentEmployeeList[index]),
-                                w: dnw,
-                                c: Colors.green,
-                                f: 3,
-                              ),
-                              RowWidget(
-                                s: provider.departmentEmployeeList[index]
-                                    .departmentName,
-                                w: dIdw,
-                                c: Colors.blue,
-                                f: 2,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  childCount: provider.departmentEmployeeList.length,
-                ),
+              Flexible(
+                flex: 1,
+                child: SizedBox(
+                    width: 500.0,
+                    height: 50.0,
+                    child: Center(
+                        child: Text(
+                      'Assigned',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ))),
               ),
             ],
           ),
-        );
-      }),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Consumer<DepartmentEmployeeProvider>(
+                    builder: (context, provider, child) {
+                  return Flexible(
+                    flex: 1,
+                    child: SizedBox(
+                      width: 500.0,
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) =>
+                            const Divider(height: 0.0),
+                        itemCount: provider.employeeUnassignedDepartment.length,
+                        itemBuilder: ((context, index) {
+                          return CheckboxListTile(
+                            title: Text(provider.fullNameEmpOfDepartment(
+                                provider.employeeUnassignedDepartment[index])),
+                            value: provider
+                                .employeeUnassignedDepartment[index].isSelected,
+                            onChanged: (bool? value) {
+                              if (value != null) {
+                                setState(() {
+                                  provider.employeeUnassignedDepartment[index]
+                                      .isSelected = value;
+                                });
+                              }
+                            },
+                            dense: true,
+                          );
+                        }),
+                      ),
+                    ),
+                  );
+                }),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        var bep = Provider.of<DepartmentEmployeeProvider>(
+                            context,
+                            listen: false);
+                        var bp = Provider.of<DepartmentProvider>(context,
+                            listen: false);
+                        final listOfEmployeeId = bep.assignedListToAdd();
+                        await bep.addEmployeeDepartmentMulti(
+                            departmentId: bp.selectedDepartment.departmentId,
+                            employeeId: listOfEmployeeId);
+                      },
+                      child: Ink(
+                        color: Colors.green[400],
+                        width: 80.0,
+                        height: 35.0,
+                        child: const Center(
+                          child: Text(
+                            'Add>>',
+                            style: TextStyle(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5.0),
+                    InkWell(
+                      onTap: () async {
+                        var bep = Provider.of<DepartmentEmployeeProvider>(
+                            context,
+                            listen: false);
+                        var bp = Provider.of<DepartmentProvider>(context,
+                            listen: false);
+                        final listOfEmployeeId = bep.unAssignedListToAdd();
+                        await bep.deleteEmployeeDepartmentMulti(
+                            departmentId: bp.selectedDepartment.departmentId,
+                            employeeId: listOfEmployeeId);
+                      },
+                      child: Ink(
+                        color: Colors.red[400],
+                        width: 80.0,
+                        height: 35.0,
+                        child: const Center(
+                          child: Text(
+                            '<<Remove',
+                            style: TextStyle(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Consumer<DepartmentEmployeeProvider>(
+                    builder: (context, provider, child) {
+                  return Flexible(
+                    flex: 1,
+                    child: SizedBox(
+                      // color: Colors.amber,
+                      // height: 700.0,
+                      width: 500.0,
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) =>
+                            const Divider(height: 0.0),
+                        itemCount: provider.employeeAssignedDepartment.length,
+                        itemBuilder: ((context, index) {
+                          // return InkWell(
+                          //   onTap: () {},
+                          //   child: Ink(
+                          //     height: 40.0,
+                          //     width: 500.0,
+                          //     child: Center(
+                          //       child: Text(provider.fullNameEmpOfBranch(
+                          //           provider.employeeAssignedBranch[index])),
+                          //     ),
+                          //   ),
+                          // );
+                          return CheckboxListTile(
+                            title: Text(provider.fullNameEmpOfDepartment(
+                                provider.employeeAssignedDepartment[index])),
+                            value: provider
+                                .employeeAssignedDepartment[index].isSelected,
+                            onChanged: (bool? value) {
+                              if (value != null) {
+                                setState(() {
+                                  provider.employeeAssignedDepartment[index]
+                                      .isSelected = value;
+                                });
+                              }
+                            },
+                            dense: true,
+                          );
+                        }),
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

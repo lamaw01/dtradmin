@@ -20,6 +20,7 @@ class BranchView extends StatefulWidget {
 class _BranchViewState extends State<BranchView>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  ValueNotifier<bool> hideFloating = ValueNotifier(false);
 
   @override
   void initState() {
@@ -31,6 +32,13 @@ class _BranchViewState extends State<BranchView>
 
       await b.getBranch();
       // await be.getEmployeeBranch();
+      tabController.addListener(() {
+        if (tabController.index == 1) {
+          hideFloating.value = true;
+        } else {
+          hideFloating.value = false;
+        }
+      });
     });
   }
 
@@ -344,15 +352,34 @@ class _BranchViewState extends State<BranchView>
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (tabController.index == 0) {
-            addBranch();
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     if (tabController.index == 0) {
+      //       addBranch();
+      //     } else {
+      //       // addEmployeeBranch();
+      //     }
+      //   },
+      //   child: const Text('Add'),
+      // ),
+      floatingActionButton: ValueListenableBuilder<bool>(
+        valueListenable: hideFloating,
+        builder: (context, value, child) {
+          if (!value) {
+            return FloatingActionButton(
+              onPressed: () async {
+                if (tabController.index == 0) {
+                  addBranch();
+                } else {
+                  // addEmployeeBranch();
+                }
+              },
+              child: const Text('Add'),
+            );
           } else {
-            // addEmployeeBranch();
+            return const SizedBox();
           }
         },
-        child: const Text('Add'),
       ),
     );
   }
@@ -538,23 +565,19 @@ class _BranchPageState extends State<BranchPage>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           RowWidget(
-                            s: 'ID',
-                            w: idw,
-                            c: Colors.red,
-                            f: 1,
-                          ),
+                              s: 'ID', w: idw, c: Colors.red, f: 1, bold: true),
                           RowWidget(
-                            s: 'Branch Name',
-                            w: bIdw,
-                            c: Colors.green,
-                            f: 3,
-                          ),
+                              s: 'Branch Name',
+                              w: bIdw,
+                              c: Colors.green,
+                              f: 3,
+                              bold: true),
                           RowWidget(
-                            s: 'Branch ID',
-                            w: bw,
-                            c: Colors.blue,
-                            f: 2,
-                          ),
+                              s: 'Branch ID',
+                              w: bw,
+                              c: Colors.blue,
+                              f: 2,
+                              bold: true),
                         ],
                       ),
                     ),
@@ -1124,7 +1147,16 @@ class _BranchEmployeePageState extends State<BranchEmployeePage>
                     ),
                     const SizedBox(height: 5.0),
                     InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        var bep = Provider.of<BranchEmployeeProvider>(context,
+                            listen: false);
+                        var bp =
+                            Provider.of<BranchProvider>(context, listen: false);
+                        final listOfEmployeeId = bep.unAssignedListToAdd();
+                        await bep.deleteEmployeeBranchMulti(
+                            branchId: bp.selectedBranch.branchId,
+                            employeeId: listOfEmployeeId);
+                      },
                       child: Ink(
                         color: Colors.red[400],
                         width: 80.0,

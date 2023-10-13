@@ -24,7 +24,6 @@ class BranchProvider with ChangeNotifier {
       final result = await HttpService.getBranch();
       result.insert(0, _selectedBranch);
       _branchList = result;
-      // _branchList.insert(0, _selectedBranch);
       notifyListeners();
     } catch (e) {
       debugPrint('$e getBranch');
@@ -35,7 +34,6 @@ class BranchProvider with ChangeNotifier {
     try {
       final result = await HttpService.getBranch();
       _branchListSelect = result;
-      // _branchList.insert(0, _selectedBranch);
       notifyListeners();
     } catch (e) {
       debugPrint('$e getBranch');

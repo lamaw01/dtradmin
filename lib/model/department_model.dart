@@ -15,11 +15,13 @@ class DepartmentModel {
   int id;
   String departmentId;
   String departmentName;
+  bool selected;
 
   DepartmentModel({
     required this.id,
     required this.departmentId,
     required this.departmentName,
+    this.selected = false,
   });
 
   factory DepartmentModel.fromJson(Map<String, dynamic> json) =>

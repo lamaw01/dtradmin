@@ -1,4 +1,5 @@
 import 'package:dtradmin/model/branch_model.dart';
+import 'package:dtradmin/model/department_model.dart';
 import 'package:dtradmin/model/employee_model.dart';
 import 'package:dtradmin/provider/branch_provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../model/week_schedule_model.dart';
+import '../provider/department_provider.dart';
 import '../provider/employee_provider.dart';
 import '../provider/week_scheduke_provider.dart';
 import '../widget/delegate.dart';
@@ -277,6 +279,8 @@ class _EmployeeViewState extends State<EmployeeView> {
           bool isActive = employeeModel.active == 1 ? true : false;
           var selectedBranch = <String>[];
           var unselectedBranch = <String>[];
+          var selectedDepartment = <String>[];
+          var unselectedDepartment = <String>[];
 
           return AlertDialog(
             title: const Text('Update Employee'),
@@ -456,6 +460,28 @@ class _EmployeeViewState extends State<EmployeeView> {
                           ),
                         ),
                       ),
+                      const SizedBox(height: 10.0),
+                      InkWell(
+                        onTap: () async {
+                          await showSelectDepartment(employeeModel)
+                              .then((value) {
+                            selectedDepartment = value.addedDepartment;
+                            unselectedDepartment = value.unselectedDepartment;
+                          });
+                        },
+                        child: Ink(
+                          height: 30.0,
+                          width: 150.0,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: const Center(
+                            child: Text('Change Department',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 },
@@ -511,6 +537,19 @@ class _EmployeeViewState extends State<EmployeeView> {
                       await e.deleteEmployeeMultiBranch(
                           employeeId: employeeModel.employeeId,
                           branchId: unselectedBranch);
+                    }
+
+                    if (selectedDepartment.isNotEmpty) {
+                      await e.addEmployeeMultiDepartment(
+                        employeeId: employeeModel.employeeId,
+                        departmentId: selectedDepartment,
+                      );
+                    }
+
+                    if (unselectedDepartment.isNotEmpty) {
+                      await e.deleteEmployeeMultiDepartment(
+                          employeeId: employeeModel.employeeId,
+                          departmentId: unselectedDepartment);
                     }
                   }
                   if (mounted) {
@@ -590,7 +629,7 @@ class _EmployeeViewState extends State<EmployeeView> {
               return AlertDialog(
                 contentPadding: const EdgeInsetsDirectional.all(10.0),
                 content: SizedBox(
-                  height: 700.0,
+                  height: 500.0,
                   width: 400.0,
                   child: ListView.builder(
                     itemCount: selectedBranchList.length,
@@ -653,6 +692,103 @@ class _EmployeeViewState extends State<EmployeeView> {
     return EmlpoyeeMultiBranch(
       addedBranch: selectedBranchString,
       unselectedBranch: unselectedBranch,
+    );
+  }
+
+  Future<EmlpoyeeMultiDepartment> showSelectDepartment(
+      EmployeeModel employeeModel) async {
+    var b = Provider.of<DepartmentProvider>(context, listen: false);
+    var e = Provider.of<EmployeeProvider>(context, listen: false);
+    await e.getDepartmentOfEmployee(employeeId: employeeModel.employeeId);
+    await b.getDepartmentSelect();
+    var selectedDepartmentList = <DepartmentModel>[...b.departmentListSelect];
+    var selectedDepartmentString = <String>[];
+    var unselectedDepartment = <String>[];
+    // log(selectedBranchList.length.toString());
+    for (int i = 0; i < selectedDepartmentList.length; i++) {
+      for (int j = 0; j < e.departmentOfEmployeeList.length; j++) {
+        if (selectedDepartmentList[i].departmentId ==
+            e.branchOfEmployeeList[j].branchId) {
+          selectedDepartmentList[i].selected = true;
+        }
+      }
+    }
+    if (mounted) {
+      await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                contentPadding: const EdgeInsetsDirectional.all(10.0),
+                content: SizedBox(
+                  height: 500.0,
+                  width: 400.0,
+                  child: ListView.builder(
+                    itemCount: selectedDepartmentList.length,
+                    itemBuilder: (context, index) {
+                      return CheckboxListTile(
+                        value: selectedDepartmentList[index].selected,
+                        title:
+                            Text(selectedDepartmentList[index].departmentName),
+                        onChanged: (bool? value) {
+                          setState(() {
+                            selectedDepartmentList[index].selected = value!;
+                          });
+                        },
+                      );
+                    },
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Ok', style: TextStyle(fontSize: 16.0)),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child:
+                        const Text('Cancel', style: TextStyle(fontSize: 16.0)),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+    }
+
+    for (final department in selectedDepartmentList) {
+      if (department.selected) {
+        selectedDepartmentString.add(department.departmentId);
+      }
+    }
+
+    for (final departmentOfEmployee in e.departmentOfEmployeeList) {
+      bool exist =
+          selectedDepartmentString.contains(departmentOfEmployee.departmentId);
+      if (exist) {
+        selectedDepartmentString.remove(departmentOfEmployee.departmentId);
+      }
+    }
+
+    for (final department in selectedDepartmentList) {
+      for (final departmentOfEmployee in e.departmentOfEmployeeList) {
+        if (!department.selected &&
+            departmentOfEmployee.departmentId == department.departmentId) {
+          unselectedDepartment.add(department.departmentId);
+        }
+      }
+    }
+
+    return EmlpoyeeMultiDepartment(
+      addedDepartment: selectedDepartmentString,
+      unselectedDepartment: unselectedDepartment,
     );
   }
 
@@ -793,5 +929,15 @@ class EmlpoyeeMultiBranch {
   EmlpoyeeMultiBranch({
     required this.addedBranch,
     required this.unselectedBranch,
+  });
+}
+
+class EmlpoyeeMultiDepartment {
+  List<String> addedDepartment;
+  List<String> unselectedDepartment;
+
+  EmlpoyeeMultiDepartment({
+    required this.addedDepartment,
+    required this.unselectedDepartment,
   });
 }

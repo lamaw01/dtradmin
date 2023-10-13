@@ -51,6 +51,17 @@ class BranchEmployeeProvider with ChangeNotifier {
     return listString;
   }
 
+  List<String> unAssignedListToAdd() {
+    var listString = <String>[];
+    for (int i = 0; i < _employeeAssignedBranch.length; i++) {
+      if (_employeeAssignedBranch[i].isSelected) {
+        listString.add(_employeeAssignedBranch[i].employeeId);
+        log('true ${_employeeAssignedBranch[i].lastName}');
+      }
+    }
+    return listString;
+  }
+
   void sortBranchListLastName() {
     _branchEmployeeList.sort((a, b) {
       var valueA = a.lastName.toLowerCase();
@@ -197,6 +208,23 @@ class BranchEmployeeProvider with ChangeNotifier {
     } finally {
       await getEmployeeAssignedBranch(branchId: branchId);
       await getEmployeeUnassignedBranch(branchId: branchId);
+      removeAssignedDuplicate();
+    }
+  }
+
+  Future<void> deleteEmployeeBranchMulti({
+    required String branchId,
+    required List<String> employeeId,
+  }) async {
+    log(employeeId.toString());
+    try {
+      await HttpService.deleteEmployeeBranchMulti(
+          branchId: branchId, employeeId: employeeId);
+    } catch (e) {
+      debugPrint('$e deleteEmployeeBranchMulti');
+    } finally {
+      await getEmployeeUnassignedBranch(branchId: branchId);
+      await getEmployeeAssignedBranch(branchId: branchId);
       removeAssignedDuplicate();
     }
   }
