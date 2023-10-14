@@ -28,10 +28,10 @@ class _DepartmentViewState extends State<DepartmentView>
     tabController = TabController(length: 2, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       var dp = Provider.of<DepartmentProvider>(context, listen: false);
-      var dpe = Provider.of<DepartmentEmployeeProvider>(context, listen: false);
+      // var dpe = Provider.of<DepartmentEmployeeProvider>(context, listen: false);
 
       await dp.getDepartment();
-      await dpe.getDepartmentEmployee();
+      // await dpe.getDepartmentEmployee();
       tabController.addListener(() {
         if (tabController.index == 1) {
           hideFloating.value = true;
@@ -149,7 +149,7 @@ class _DepartmentViewState extends State<DepartmentView>
     }
 
     void addEmployeeDepartment() async {
-      var de = Provider.of<DepartmentEmployeeProvider>(context, listen: false);
+      // var de = Provider.of<DepartmentEmployeeProvider>(context, listen: false);
       var ep = Provider.of<EmployeeProvider>(context, listen: false);
       var dp = Provider.of<DepartmentProvider>(context, listen: false);
       await ep.getEmployee();
@@ -297,24 +297,24 @@ class _DepartmentViewState extends State<DepartmentView>
                     style: TextStyle(fontSize: 16.0),
                   ),
                   onPressed: () async {
-                    bool employeebranchExist = de.checkEmployeeDepartmentId(
-                      employeeId: ddEmployeeValue.employeeId,
-                      departmentId: ddDepartmentValue.departmentId,
-                    );
-                    if (ddEmployeeValue.employeeId == '00000' ||
-                        ddDepartmentValue.departmentId == '000') {
-                      snackBarError('Invalid Employee or Branch', context);
-                    } else if (employeebranchExist) {
-                      snackBarError('Employee Already in Branch', context);
-                    } else {
-                      await de.addDepartmentEmployee(
-                        departmentId: ddDepartmentValue.departmentId,
-                        employeeId: ddEmployeeValue.employeeId,
-                      );
-                    }
-                    if (mounted) {
-                      Navigator.of(context).pop();
-                    }
+                    // bool employeebranchExist = de.checkEmployeeDepartmentId(
+                    //   employeeId: ddEmployeeValue.employeeId,
+                    //   departmentId: ddDepartmentValue.departmentId,
+                    // );
+                    // if (ddEmployeeValue.employeeId == '00000' ||
+                    //     ddDepartmentValue.departmentId == '000') {
+                    //   snackBarError('Invalid Employee or Branch', context);
+                    // } else if (employeebranchExist) {
+                    //   snackBarError('Employee Already in Branch', context);
+                    // } else {
+                    //   await de.addDepartmentEmployee(
+                    //     departmentId: ddDepartmentValue.departmentId,
+                    //     employeeId: ddEmployeeValue.employeeId,
+                    //   );
+                    // }
+                    // if (mounted) {
+                    //   Navigator.of(context).pop();
+                    // }
                   },
                 ),
               ],
@@ -1016,11 +1016,12 @@ class _DepartmentEmployeePageState extends State<DepartmentEmployeePage>
                         var dep = Provider.of<DepartmentEmployeeProvider>(
                             context,
                             listen: false);
-                        await dep.getEmployeeUnassignedDepartment(
-                            departmentId: value.departmentId);
+                        // await dep.getEmployeeUnassignedDepartment(
+                        //     departmentId: value.departmentId);
+                        await dep.getEmployeeBranchUnassigned();
                         await dep.getEmployeeAssignedDepartment(
                             departmentId: value.departmentId);
-                        dep.removeAssignedDuplicate();
+                        dep.removeEmployeeAssignedDuplicate();
                       }
                     },
                     items: provider.departmentList
@@ -1078,17 +1079,20 @@ class _DepartmentEmployeePageState extends State<DepartmentEmployeePage>
                       child: ListView.separated(
                         separatorBuilder: (context, index) =>
                             const Divider(height: 0.0),
-                        itemCount: provider.employeeUnassignedDepartment.length,
+                        itemCount:
+                            provider.employeeUnassigendDepartmentList.length,
                         itemBuilder: ((context, index) {
                           return CheckboxListTile(
-                            title: Text(provider.fullNameEmpOfDepartment(
-                                provider.employeeUnassignedDepartment[index])),
+                            title: Text(provider.fullNameEmp(provider
+                                .employeeUnassigendDepartmentList[index])),
                             value: provider
-                                .employeeUnassignedDepartment[index].isSelected,
+                                .employeeUnassigendDepartmentList[index]
+                                .isSelected,
                             onChanged: (bool? value) {
                               if (value != null) {
                                 setState(() {
-                                  provider.employeeUnassignedDepartment[index]
+                                  provider
+                                      .employeeUnassigendDepartmentList[index]
                                       .isSelected = value;
                                 });
                               }

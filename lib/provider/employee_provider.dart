@@ -29,6 +29,33 @@ class EmployeeProvider with ChangeNotifier {
     return false;
   }
 
+  void sortEmployeeListName() {
+    _employeeList.sort((a, b) {
+      var valueA = a.lastName.toLowerCase();
+      var valueB = b.lastName.toLowerCase();
+      return valueA.compareTo(valueB);
+    });
+    notifyListeners();
+  }
+
+  void sortEmployeeListId() {
+    _employeeList.sort((a, b) {
+      var valueA = a.id;
+      var valueB = b.id;
+      return valueA.compareTo(valueB);
+    });
+    notifyListeners();
+  }
+
+  void sortEmployeeListEmpId() {
+    _employeeList.sort((a, b) {
+      var valueA = a.employeeId;
+      var valueB = b.employeeId;
+      return valueA.compareTo(valueB);
+    });
+    notifyListeners();
+  }
+
   Future<void> getEmployee() async {
     try {
       final result = await HttpService.getEmployee();

@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
     $sql = "SELECT tbl_employee.id, tbl_employee.employee_id, tbl_employee.first_name, tbl_employee.last_name, tbl_employee.middle_name, tbl_employee.week_sched_id, tbl_employee.active
     FROM tbl_employee 
-    LEFT JOIN tbl_week_schedule ON tbl_week_schedule.week_sched_id = tbl_employee.week_sched_id";
+    LEFT JOIN tbl_week_schedule ON tbl_week_schedule.week_sched_id = tbl_employee.week_sched_id ORDER BY tbl_employee.last_name ASC;";
     
     try {
         $get_sql = $conn->prepare($sql);

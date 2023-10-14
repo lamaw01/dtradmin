@@ -148,7 +148,7 @@ class _BranchViewState extends State<BranchView>
 
     // ignore: unused_element
     void addEmployeeBranch() async {
-      var be = Provider.of<BranchEmployeeProvider>(context, listen: false);
+      // var be = Provider.of<BranchEmployeeProvider>(context, listen: false);
       var ep = Provider.of<EmployeeProvider>(context, listen: false);
       var bp = Provider.of<BranchProvider>(context, listen: false);
       await ep.getEmployee();
@@ -295,24 +295,24 @@ class _BranchViewState extends State<BranchView>
                     style: TextStyle(fontSize: 16.0),
                   ),
                   onPressed: () async {
-                    bool employeebranchExist = be.checkEmployeeBranchId(
-                      employeeId: ddEmployeeValue.employeeId,
-                      branchId: ddBranchValue.branchId,
-                    );
-                    if (ddEmployeeValue.employeeId == '00000' ||
-                        ddBranchValue.branchId == '000') {
-                      snackBarError('Invalid Employee or Branch', context);
-                    } else if (employeebranchExist) {
-                      snackBarError('Employee Already Branch', context);
-                    } else {
-                      await be.addEmployeeBranch(
-                        employeeId: ddEmployeeValue.employeeId,
-                        branchId: ddBranchValue.branchId,
-                      );
-                    }
-                    if (mounted) {
-                      Navigator.of(context).pop();
-                    }
+                    // bool employeebranchExist = be.checkEmployeeBranchId(
+                    //   employeeId: ddEmployeeValue.employeeId,
+                    //   branchId: ddBranchValue.branchId,
+                    // );
+                    // if (ddEmployeeValue.employeeId == '00000' ||
+                    //     ddBranchValue.branchId == '000') {
+                    //   snackBarError('Invalid Employee or Branch', context);
+                    // } else if (employeebranchExist) {
+                    //   snackBarError('Employee Already Branch', context);
+                    // } else {
+                    //   await be.addEmployeeBranch(
+                    //     employeeId: ddEmployeeValue.employeeId,
+                    //     branchId: ddBranchValue.branchId,
+                    //   );
+                    // }
+                    // if (mounted) {
+                    //   Navigator.of(context).pop();
+                    // }
                   },
                 ),
               ],
@@ -1008,18 +1008,21 @@ class _BranchEmployeePageState extends State<BranchEmployeePage>
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<BranchModel>(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(5.0),
                     value: provider.selectedBranch,
                     onChanged: (BranchModel? value) async {
                       if (value != null) {
                         provider.changeSelectedBranch(value);
                         var bep = Provider.of<BranchEmployeeProvider>(context,
                             listen: false);
-                        await bep.getEmployeeUnassignedBranch(
-                            branchId: value.branchId);
+
+                        // await bep.getEmployeeUnassignedBranch(
+                        //     branchId: value.branchId);
+                        await bep.getEmployeeBranchUnassigned();
                         await bep.getEmployeeAssignedBranch(
                             branchId: value.branchId);
-                        bep.removeAssignedDuplicate();
+                        // bep.removeAssignedDuplicate();
+                        bep.removeEmployeeAssignedDuplicate();
                       }
                     },
                     items: provider.branchList
@@ -1079,7 +1082,7 @@ class _BranchEmployeePageState extends State<BranchEmployeePage>
                       child: ListView.separated(
                         separatorBuilder: (context, index) =>
                             const Divider(height: 0.0),
-                        itemCount: provider.employeeUnassignedBranch.length,
+                        itemCount: provider.employeeUnassigendBranchList.length,
                         itemBuilder: ((context, index) {
                           // return InkWell(
                           //   onTap: () async {
@@ -1100,14 +1103,14 @@ class _BranchEmployeePageState extends State<BranchEmployeePage>
                           //   ),
                           // );
                           return CheckboxListTile(
-                            title: Text(provider.fullNameEmpOfBranch(
-                                provider.employeeUnassignedBranch[index])),
+                            title: Text(provider.fullNameEmp(
+                                provider.employeeUnassigendBranchList[index])),
                             value: provider
-                                .employeeUnassignedBranch[index].isSelected,
+                                .employeeUnassigendBranchList[index].isSelected,
                             onChanged: (bool? value) {
                               if (value != null) {
                                 setState(() {
-                                  provider.employeeUnassignedBranch[index]
+                                  provider.employeeUnassigendBranchList[index]
                                       .isSelected = value;
                                 });
                               }

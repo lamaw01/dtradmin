@@ -19,6 +19,7 @@ class EmployeeModel {
   String middleName;
   String weekSchedId;
   int active;
+  bool isSelected;
 
   EmployeeModel({
     required this.id,
@@ -28,6 +29,7 @@ class EmployeeModel {
     required this.middleName,
     required this.weekSchedId,
     required this.active,
+    this.isSelected = false,
   });
 
   factory EmployeeModel.fromJson(Map<String, dynamic> json) => EmployeeModel(

@@ -3,9 +3,7 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/app_version_provider.dart';
-import '../provider/branch_employee_provider.dart';
 import '../provider/branch_provider.dart';
-import '../provider/department_employee_provider.dart';
 import '../provider/department_provider.dart';
 import '../provider/device_log_provider.dart';
 import '../provider/device_provider.dart';
@@ -75,10 +73,8 @@ class _HomeViewState extends State<HomeView> {
         onTap: (index, _) async {
           sideMenu.changePage(index);
           var b = Provider.of<BranchProvider>(context, listen: false);
-          var be = Provider.of<BranchEmployeeProvider>(context, listen: false);
 
           await b.getBranch();
-          await be.getEmployeeBranch();
         },
         icon: const Icon(Icons.home),
       ),
@@ -87,11 +83,8 @@ class _HomeViewState extends State<HomeView> {
         onTap: (index, _) async {
           sideMenu.changePage(index);
           var dp = Provider.of<DepartmentProvider>(context, listen: false);
-          var dpe =
-              Provider.of<DepartmentEmployeeProvider>(context, listen: false);
 
           await dp.getDepartment();
-          await dpe.getDepartmentEmployee();
         },
         icon: const Icon(Icons.people),
       ),

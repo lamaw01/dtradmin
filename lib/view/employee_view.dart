@@ -815,31 +815,73 @@ class _EmployeeViewState extends State<EmployeeView> {
                     maxHeight: 60.0,
                     child: Container(
                       color: Theme.of(context).scaffoldBackgroundColor,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            RowWidget(
-                                s: 'ID',
-                                w: idw,
-                                c: Colors.red,
-                                f: 1,
-                                bold: true),
-                            RowWidget(
-                                s: 'Emp ID',
-                                w: empIdw,
-                                c: Colors.green,
-                                f: 2,
-                                bold: true),
-                            RowWidget(
-                                s: 'Name',
-                                w: dIdw,
-                                c: Colors.blue,
-                                f: 3,
-                                bold: true),
-                            RowWidget(
+                            Flexible(
+                              flex: 1,
+                              child: InkWell(
+                                onTap: () {
+                                  provider.sortEmployeeListId();
+                                },
+                                child: Ink(
+                                  width: idw,
+                                  child: const Center(
+                                    child: Text(
+                                      'ID',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 2,
+                              child: InkWell(
+                                onTap: () {
+                                  provider.sortEmployeeListEmpId();
+                                },
+                                child: Ink(
+                                  width: empIdw,
+                                  child: const Center(
+                                    child: Text(
+                                      'Emp ID',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 3,
+                              child: InkWell(
+                                onTap: () {
+                                  provider.sortEmployeeListName();
+                                },
+                                child: Ink(
+                                  width: dIdw,
+                                  child: const Center(
+                                    child: Text(
+                                      'Name',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const RowWidget(
                                 s: 'Week Schedule',
                                 w: wsIdw,
                                 c: Colors.yellow,

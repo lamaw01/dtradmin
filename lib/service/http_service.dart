@@ -100,7 +100,7 @@ class HttpService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     ).timeout(const Duration(seconds: 10));
-    // debugPrint('getEmployee ${response.body}');
+    debugPrint('getEmployee ${response.body}');
     return employeeModelFromJson(response.body);
   }
 
@@ -789,24 +789,24 @@ class HttpService {
     return employeeOfBranchModelFromJson(response.body);
   }
 
-  static Future<List<EmployeeOfBranchModel>> getEmployeeUnassignedBranch({
-    required String branchId,
-  }) async {
-    var response = await http
-        .post(
-          Uri.parse('$_serverUrl/get_unassigned_employee_branch.php'),
-          headers: <String, String>{
-            'Accept': '*/*',
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: json.encode(<String, dynamic>{
-            "branch_id": branchId,
-          }),
-        )
-        .timeout(const Duration(seconds: 10));
-    debugPrint('getEmployeeUnassignedBranch ${response.body}');
-    return employeeOfBranchModelFromJson(response.body);
-  }
+  // static Future<List<EmployeeOfBranchModel>> getEmployeeUnassignedBranch({
+  //   required String branchId,
+  // }) async {
+  //   var response = await http
+  //       .post(
+  //         Uri.parse('$_serverUrl/get_unassigned_employee_branch.php'),
+  //         headers: <String, String>{
+  //           'Accept': '*/*',
+  //           'Content-Type': 'application/json; charset=UTF-8',
+  //         },
+  //         body: json.encode(<String, dynamic>{
+  //           "branch_id": branchId,
+  //         }),
+  //       )
+  //       .timeout(const Duration(seconds: 10));
+  //   debugPrint('getEmployeeUnassignedBranch ${response.body}');
+  //   return employeeOfBranchModelFromJson(response.body);
+  // }
 
   static Future<List<EmployeeOfBranchModel>> getEmployeeAssignedBranch({
     required String branchId,
