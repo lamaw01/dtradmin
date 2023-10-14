@@ -708,7 +708,7 @@ class _EmployeeViewState extends State<EmployeeView> {
     for (int i = 0; i < selectedDepartmentList.length; i++) {
       for (int j = 0; j < e.departmentOfEmployeeList.length; j++) {
         if (selectedDepartmentList[i].departmentId ==
-            e.branchOfEmployeeList[j].branchId) {
+            e.departmentOfEmployeeList[j].departmentId) {
           selectedDepartmentList[i].selected = true;
         }
       }

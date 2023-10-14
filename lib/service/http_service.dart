@@ -100,7 +100,7 @@ class HttpService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     ).timeout(const Duration(seconds: 10));
-    debugPrint('getEmployee ${response.body}');
+    // debugPrint('getEmployee ${response.body}');
     return employeeModelFromJson(response.body);
   }
 
@@ -926,23 +926,23 @@ class HttpService {
     debugPrint('deleteEmployeeMultiDepartment ${response.body}');
   }
 
-  static Future<List<EmployeeOfDepartmentModel>>
-      getEmployeeUnassignedDepartment({required String departmentId}) async {
-    var response = await http
-        .post(
-          Uri.parse('$_serverUrl/get_unassigned_employee_department.php'),
-          headers: <String, String>{
-            'Accept': '*/*',
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: json.encode(<String, dynamic>{
-            "department_id": departmentId,
-          }),
-        )
-        .timeout(const Duration(seconds: 10));
-    debugPrint('getEmployeeUnassignedDepartment ${response.body}');
-    return employeeOfDepartmentModelFromJson(response.body);
-  }
+  // static Future<List<EmployeeOfDepartmentModel>>
+  //     getEmployeeUnassignedDepartment({required String departmentId}) async {
+  //   var response = await http
+  //       .post(
+  //         Uri.parse('$_serverUrl/get_unassigned_employee_department.php'),
+  //         headers: <String, String>{
+  //           'Accept': '*/*',
+  //           'Content-Type': 'application/json; charset=UTF-8',
+  //         },
+  //         body: json.encode(<String, dynamic>{
+  //           "department_id": departmentId,
+  //         }),
+  //       )
+  //       .timeout(const Duration(seconds: 10));
+  //   debugPrint('getEmployeeUnassignedDepartment ${response.body}');
+  //   return employeeOfDepartmentModelFromJson(response.body);
+  // }
 
   static Future<List<EmployeeOfDepartmentModel>> getEmployeeAssignedDepartment({
     required String departmentId,
