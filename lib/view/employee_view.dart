@@ -22,6 +22,8 @@ class EmployeeView extends StatefulWidget {
 }
 
 class _EmployeeViewState extends State<EmployeeView> {
+  final idController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -811,144 +813,276 @@ class _EmployeeViewState extends State<EmployeeView> {
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: SliverAppBarDelegate(
-                    minHeight: 60.0,
-                    maxHeight: 60.0,
+                    minHeight: 100.0,
+                    maxHeight: 100.0,
                     child: Container(
                       color: Theme.of(context).scaffoldBackgroundColor,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Flexible(
-                              flex: 1,
-                              child: InkWell(
-                                onTap: () {
-                                  provider.sortEmployeeListId();
+                            SizedBox(
+                              width: 500.0,
+                              child: TextField(
+                                style: const TextStyle(fontSize: 20.0),
+                                decoration: const InputDecoration(
+                                  label: Text('Search name/id..'),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                      width: 1.0,
+                                    ),
+                                  ),
+                                  contentPadding: EdgeInsets.fromLTRB(
+                                      12.0, 12.0, 12.0, 12.0),
+                                  isDense: true,
+                                ),
+                                controller: idController,
+                                onChanged: (String value) async {
+                                  if (idController.text.isEmpty) {
+                                    provider.changeStateSearching(false);
+                                  } else {
+                                    provider.changeStateSearching(true);
+                                    await provider.searchEmployee(
+                                      employeeId: value.trim(),
+                                    );
+                                  }
                                 },
-                                child: Ink(
-                                  width: idw,
-                                  child: const Center(
-                                    child: Text(
-                                      'ID',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  flex: 1,
+                                  child: InkWell(
+                                    onTap: () {
+                                      provider.sortEmployeeListId();
+                                    },
+                                    child: Ink(
+                                      width: idw,
+                                      child: const Center(
+                                        child: Text(
+                                          'ID',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: InkWell(
-                                onTap: () {
-                                  provider.sortEmployeeListEmpId();
-                                },
-                                child: Ink(
-                                  width: empIdw,
-                                  child: const Center(
-                                    child: Text(
-                                      'Emp ID',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                Flexible(
+                                  flex: 2,
+                                  child: InkWell(
+                                    onTap: () {
+                                      provider.sortEmployeeListEmpId();
+                                    },
+                                    child: Ink(
+                                      width: empIdw,
+                                      child: const Center(
+                                        child: Text(
+                                          'Emp ID',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 3,
-                              child: InkWell(
-                                onTap: () {
-                                  provider.sortEmployeeListName();
-                                },
-                                child: Ink(
-                                  width: dIdw,
-                                  child: const Center(
-                                    child: Text(
-                                      'Name',
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                Flexible(
+                                  flex: 3,
+                                  child: InkWell(
+                                    onTap: () {
+                                      provider.sortEmployeeListName();
+                                    },
+                                    child: Ink(
+                                      width: dIdw,
+                                      child: const Center(
+                                        child: Text(
+                                          'Name',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                                const RowWidget(
+                                    s: 'Week Schedule',
+                                    w: wsIdw,
+                                    c: Colors.yellow,
+                                    f: 2,
+                                    bold: true),
+                              ],
                             ),
-                            const RowWidget(
-                                s: 'Week Schedule',
-                                w: wsIdw,
-                                c: Colors.yellow,
-                                f: 2,
-                                bold: true),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      bool isActive = provider.employeeList[index].active == 1
-                          ? true
-                          : false;
-                      return Card(
-                        child: InkWell(
-                          onTap: () {
-                            updateEmployee(provider.employeeList[index]);
-                          },
-                          onLongPress: () {
-                            confirmDeleteEmployeeBranch(
-                                provider.employeeList[index]);
-                          },
-                          child: Ink(
-                            color: isActive ? null : Colors.red[200],
-                            height: 50.0,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                RowWidget(
-                                  s: provider.employeeList[index].id.toString(),
-                                  w: idw,
-                                  c: Colors.red,
-                                  f: 1,
-                                ),
-                                RowWidget(
-                                  s: provider.employeeList[index].employeeId,
-                                  w: empIdw,
-                                  c: Colors.green,
-                                  f: 2,
-                                ),
-                                RowWidget(
-                                  s: provider
-                                      .fullName(provider.employeeList[index]),
-                                  w: dIdw,
-                                  c: Colors.blue,
-                                  f: 3,
-                                ),
-                                RowWidget(
-                                  s: provider.employeeList[index].weekSchedId,
-                                  w: wsIdw,
-                                  c: Colors.yellow,
-                                  f: 2,
-                                ),
-                              ],
+                // SliverToBoxAdapter(
+                //   child: SizedBox(
+                //     width: 500.0,
+                //     child: TextField(
+                //       enabled: true,
+                //       style: const TextStyle(fontSize: 20.0),
+                //       decoration: const InputDecoration(
+                //         label: Text('Search name/id..'),
+                //         border: OutlineInputBorder(
+                //           borderSide: BorderSide(
+                //             color: Colors.grey,
+                //             width: 1.0,
+                //           ),
+                //         ),
+                //         contentPadding:
+                //             EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
+                //       ),
+                //       controller: idController,
+                //       onChanged: (String value) async {
+                //         if (idController.text.isEmpty) {
+                //           provider.changeStateSearching(false);
+                //         } else {
+                //           provider.changeStateSearching(true);
+                //           await provider.searchEmployee(
+                //             employeeId: value.trim(),
+                //           );
+                //         }
+                //       },
+                //     ),
+                //   ),
+                // ),
+                if (provider.isSearching) ...[
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        bool isActive =
+                            provider.searchEmployeeList[index].active == 1
+                                ? true
+                                : false;
+                        return Card(
+                          child: InkWell(
+                            onTap: () {
+                              updateEmployee(
+                                  provider.searchEmployeeList[index]);
+                            },
+                            onLongPress: () {
+                              confirmDeleteEmployeeBranch(
+                                  provider.searchEmployeeList[index]);
+                            },
+                            child: Ink(
+                              color: isActive ? null : Colors.red[200],
+                              height: 50.0,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  RowWidget(
+                                    s: provider.searchEmployeeList[index].id
+                                        .toString(),
+                                    w: idw,
+                                    c: Colors.red,
+                                    f: 1,
+                                  ),
+                                  RowWidget(
+                                    s: provider
+                                        .searchEmployeeList[index].employeeId,
+                                    w: empIdw,
+                                    c: Colors.green,
+                                    f: 2,
+                                  ),
+                                  RowWidget(
+                                    s: provider.fullName(
+                                        provider.searchEmployeeList[index]),
+                                    w: dIdw,
+                                    c: Colors.blue,
+                                    f: 3,
+                                  ),
+                                  RowWidget(
+                                    s: provider
+                                        .searchEmployeeList[index].weekSchedId,
+                                    w: wsIdw,
+                                    c: Colors.yellow,
+                                    f: 2,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                    childCount: provider.employeeList.length,
+                        );
+                      },
+                      childCount: provider.searchEmployeeList.length,
+                    ),
                   ),
-                ),
+                ] else ...[
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        bool isActive = provider.employeeList[index].active == 1
+                            ? true
+                            : false;
+                        return Card(
+                          child: InkWell(
+                            onTap: () {
+                              updateEmployee(provider.employeeList[index]);
+                            },
+                            onLongPress: () {
+                              confirmDeleteEmployeeBranch(
+                                  provider.employeeList[index]);
+                            },
+                            child: Ink(
+                              color: isActive ? null : Colors.red[200],
+                              height: 50.0,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  RowWidget(
+                                    s: provider.employeeList[index].id
+                                        .toString(),
+                                    w: idw,
+                                    c: Colors.red,
+                                    f: 1,
+                                  ),
+                                  RowWidget(
+                                    s: provider.employeeList[index].employeeId,
+                                    w: empIdw,
+                                    c: Colors.green,
+                                    f: 2,
+                                  ),
+                                  RowWidget(
+                                    s: provider
+                                        .fullName(provider.employeeList[index]),
+                                    w: dIdw,
+                                    c: Colors.blue,
+                                    f: 3,
+                                  ),
+                                  RowWidget(
+                                    s: provider.employeeList[index].weekSchedId,
+                                    w: wsIdw,
+                                    c: Colors.yellow,
+                                    f: 2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: provider.employeeList.length,
+                    ),
+                  ),
+                ],
               ],
             ),
           );

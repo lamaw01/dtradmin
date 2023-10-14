@@ -1002,4 +1002,23 @@ class HttpService {
         .timeout(const Duration(seconds: 10));
     debugPrint('deleteEmployeeDepartmentMulti ${response.body}');
   }
+
+  static Future<List<EmployeeModel>> searchEmployee({
+    required String employeeId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/search_employee.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "employee_id": employeeId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteEmployeeDepartmentMulti ${response.body}');
+    return employeeModelFromJson(response.body);
+  }
 }

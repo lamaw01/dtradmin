@@ -20,6 +20,22 @@ class EmployeeProvider with ChangeNotifier {
   List<DepartmentModel> get departmentOfEmployeeList =>
       _departmentOfEmployeeList;
 
+  var _isSearching = false;
+  bool get isSearching => _isSearching;
+
+  final _searchEmployeeList = <EmployeeModel>[];
+  List<EmployeeModel> get searchEmployeeList => _searchEmployeeList;
+
+  void changeStateSearching(bool state) {
+    _isSearching = state;
+    notifyListeners();
+  }
+
+  void clearSearchList() {
+    _searchEmployeeList.clear();
+    changeStateSearching(false);
+  }
+
   bool checkEmployeeId(String employeeId) {
     for (var employee in _employeeList) {
       if (employee.employeeId == employeeId) {
@@ -206,6 +222,17 @@ class EmployeeProvider with ChangeNotifier {
           employeeId: employeeId, departmentId: departmentId);
     } catch (e) {
       debugPrint('$e deleteEmployeeMultiDepartment');
+    }
+  }
+
+  Future<void> searchEmployee({required String employeeId}) async {
+    try {
+      var result = await HttpService.searchEmployee(employeeId: employeeId);
+      _searchEmployeeList.replaceRange(0, _searchEmployeeList.length, result);
+    } catch (e) {
+      debugPrint('$e searchEmployee');
+    } finally {
+      notifyListeners();
     }
   }
 }
