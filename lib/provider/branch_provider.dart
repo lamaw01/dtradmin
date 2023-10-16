@@ -7,6 +7,9 @@ class BranchProvider with ChangeNotifier {
   var _branchList = <BranchModel>[];
   List<BranchModel> get branchList => _branchList;
 
+  var _branchListForEmployee = <BranchModel>[];
+  List<BranchModel> get branchListForEmployee => _branchListForEmployee;
+
   var _branchListSelect = <BranchModel>[];
   List<BranchModel> get branchListSelect => _branchListSelect;
 
@@ -22,8 +25,18 @@ class BranchProvider with ChangeNotifier {
   Future<void> getBranch() async {
     try {
       final result = await HttpService.getBranch();
-      result.insert(0, _selectedBranch);
       _branchList = result;
+      notifyListeners();
+    } catch (e) {
+      debugPrint('$e getBranch');
+    }
+  }
+
+  Future<void> getBranchForEmployee() async {
+    try {
+      final result = await HttpService.getBranch();
+      result.insert(0, _selectedBranch);
+      _branchListForEmployee = result;
       notifyListeners();
     } catch (e) {
       debugPrint('$e getBranch');

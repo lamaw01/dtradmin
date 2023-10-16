@@ -7,6 +7,10 @@ class DepartmentProvider with ChangeNotifier {
   var _departmentList = <DepartmentModel>[];
   List<DepartmentModel> get departmentList => _departmentList;
 
+  var _departmentListForEmployee = <DepartmentModel>[];
+  List<DepartmentModel> get departmentListForEmployee =>
+      _departmentListForEmployee;
+
   var _departmentListSelect = <DepartmentModel>[];
   List<DepartmentModel> get departmentListSelect => _departmentListSelect;
 
@@ -22,8 +26,18 @@ class DepartmentProvider with ChangeNotifier {
   Future<void> getDepartment() async {
     try {
       final result = await HttpService.getDepartment();
-      result.insert(0, _selectedDepartment);
       _departmentList = result;
+      notifyListeners();
+    } catch (e) {
+      debugPrint('$e getDepartment');
+    }
+  }
+
+  Future<void> getDepartmentForEmployee() async {
+    try {
+      final result = await HttpService.getDepartment();
+      result.insert(0, _selectedDepartment);
+      _departmentListForEmployee = result;
       notifyListeners();
     } catch (e) {
       debugPrint('$e getDepartment');
