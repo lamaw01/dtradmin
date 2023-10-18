@@ -23,6 +23,8 @@ class DeviceView extends StatefulWidget {
 class _DeviceViewState extends State<DeviceView>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  ValueNotifier<bool> hideFloating = ValueNotifier(false);
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +35,13 @@ class _DeviceViewState extends State<DeviceView>
 
       await dp.getDevice();
       await dlp.getDeviceLog();
+      tabController.addListener(() {
+        if (tabController.index == 1) {
+          hideFloating.value = true;
+        } else {
+          hideFloating.value = false;
+        }
+      });
     });
   }
 
@@ -224,13 +233,22 @@ class _DeviceViewState extends State<DeviceView>
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (tabController.index == 0) {
-            addDevice();
+      floatingActionButton: ValueListenableBuilder<bool>(
+        valueListenable: hideFloating,
+        builder: (context, value, child) {
+          if (!value) {
+            return FloatingActionButton(
+              onPressed: () async {
+                if (tabController.index == 0) {
+                  addDevice();
+                }
+              },
+              child: const Text('Add'),
+            );
+          } else {
+            return const SizedBox();
           }
         },
-        child: const Text('Add'),
       ),
     );
   }
@@ -704,82 +722,91 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                       return Card(
-                        child: Ink(
-                          color: backgroundColor(
-                              provider.deviceLogList[index].description),
-                          height: 50.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              RowWidget(
-                                s: 'ID: ${provider.deviceLogList[index].id}',
-                                w: idw,
-                                c: Colors.red,
-                                f: 1,
-                              ),
-                              // RowWidget(
-                              //   s: provider.deviceLogList[index].deviceId,
-                              //   w: dIdw,
-                              //   c: Colors.blue,
-                              //   f: 3,
-                              // ),
-                              Flexible(
-                                flex: 3,
-                                fit: FlexFit.loose,
-                                child: SizedBox(
-                                  height: 50.0,
-                                  width: dIdw,
-                                  child: Center(
-                                    child: SelectableText(
-                                      provider.deviceLogList[index].deviceId,
-                                      maxLines: 2,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ),
+                        child: InkWell(
+                          onTap: () async {
+                            showToast(context,
+                                message:
+                                    provider.deviceLogList[index].deviceId);
+                            await Clipboard.setData(ClipboardData(
+                                text: provider.deviceLogList[index].deviceId));
+                          },
+                          child: Ink(
+                            color: backgroundColor(
+                                provider.deviceLogList[index].description),
+                            height: 50.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                RowWidget(
+                                  s: 'ID: ${provider.deviceLogList[index].id}',
+                                  w: idw,
+                                  c: Colors.red,
+                                  f: 1,
                                 ),
-                              ),
-                              RowWidget(
-                                s: provider.deviceLogList[index].address,
-                                w: addw,
-                                c: Colors.green,
-                                f: 3,
-                              ),
-                              RowWidget(
-                                s: provider.deviceLogList[index].latlng,
-                                w: ltw,
-                                c: Colors.yellow,
-                                f: 2,
-                              ),
-                              RowWidget(
-                                s: provider.deviceLogList[index].appName,
-                                w: appnw,
-                                c: Colors.pink,
-                                f: 2,
-                              ),
-                              RowWidget(
-                                s: provider.deviceLogList[index].version,
-                                w: appvw,
-                                c: Colors.purple,
-                                f: 2,
-                              ),
-                              RowWidget(
-                                s: dateFormat.format(
-                                    provider.deviceLogList[index].logTime),
-                                w: logtw,
-                                c: Colors.orange,
-                                f: 2,
-                              ),
-                              RowWidget(
-                                s: provider.deviceLogList[index].description,
-                                w: logtw,
-                                c: Colors.orange,
-                                f: 2,
-                              ),
-                            ],
+                                RowWidget(
+                                  s: provider.deviceLogList[index].deviceId,
+                                  w: dIdw,
+                                  c: Colors.blue,
+                                  f: 3,
+                                ),
+                                // Flexible(
+                                //   flex: 3,
+                                //   fit: FlexFit.loose,
+                                //   child: SizedBox(
+                                //     height: 50.0,
+                                //     width: dIdw,
+                                //     child: Center(
+                                //       child: SelectableText(
+                                //         provider.deviceLogList[index].deviceId,
+                                //         maxLines: 2,
+                                //         textAlign: TextAlign.center,
+                                //         style: const TextStyle(
+                                //           overflow: TextOverflow.ellipsis,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                                RowWidget(
+                                  s: provider.deviceLogList[index].address,
+                                  w: addw,
+                                  c: Colors.green,
+                                  f: 3,
+                                ),
+                                RowWidget(
+                                  s: provider.deviceLogList[index].latlng,
+                                  w: ltw,
+                                  c: Colors.yellow,
+                                  f: 2,
+                                ),
+                                RowWidget(
+                                  s: provider.deviceLogList[index].appName,
+                                  w: appnw,
+                                  c: Colors.pink,
+                                  f: 2,
+                                ),
+                                RowWidget(
+                                  s: provider.deviceLogList[index].version,
+                                  w: appvw,
+                                  c: Colors.purple,
+                                  f: 2,
+                                ),
+                                RowWidget(
+                                  s: dateFormat.format(
+                                      provider.deviceLogList[index].logTime),
+                                  w: logtw,
+                                  c: Colors.orange,
+                                  f: 2,
+                                ),
+                                RowWidget(
+                                  s: provider.deviceLogList[index].description,
+                                  w: logtw,
+                                  c: Colors.orange,
+                                  f: 2,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -793,7 +820,7 @@ class _DeviceLogsPageState extends State<DeviceLogsPage>
                     (BuildContext context, int index) {
                       return Card(
                         child: InkWell(
-                          onLongPress: () async {
+                          onTap: () async {
                             showToast(context,
                                 message:
                                     provider.deviceLogList[index].deviceId);
