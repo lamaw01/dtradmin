@@ -573,7 +573,7 @@ class _EmployeeViewState extends State<EmployeeView> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Remove Employee in Branch'),
+          title: const Text('Delete Employee?'),
           content: Text('Delete ${d.fullName(employeeModel)}?'),
           actions: <Widget>[
             TextButton(
@@ -591,7 +591,8 @@ class _EmployeeViewState extends State<EmployeeView> {
                 style: TextStyle(fontSize: 16.0),
               ),
               onPressed: () async {
-                await d.deleteEmployee(id: employeeModel.id);
+                await d.deleteEmployee(
+                    id: employeeModel.id, employeeId: employeeModel.employeeId);
                 if (mounted) {
                   Navigator.of(context).pop();
                 }

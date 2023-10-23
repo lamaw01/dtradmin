@@ -135,6 +135,7 @@ class EmployeeProvider with ChangeNotifier {
 
   Future<void> deleteEmployee({
     required int id,
+    required String employeeId,
   }) async {
     try {
       await HttpService.deleteEmployee(
@@ -144,6 +145,8 @@ class EmployeeProvider with ChangeNotifier {
       debugPrint('$e deleteEmployee');
     } finally {
       await getEmployee();
+      await deleteEmployeeBranch(employeeId: employeeId);
+      await deleteEmployeeDepartment(employeeId: employeeId);
     }
   }
 
@@ -233,6 +236,26 @@ class EmployeeProvider with ChangeNotifier {
       debugPrint('$e searchEmployee');
     } finally {
       notifyListeners();
+    }
+  }
+
+  Future<void> deleteEmployeeBranch({
+    required String employeeId,
+  }) async {
+    try {
+      await HttpService.deleteEmployeeBranch(employeeId: employeeId);
+    } catch (e) {
+      debugPrint('$e deleteEmployeeBranch');
+    }
+  }
+
+  Future<void> deleteEmployeeDepartment({
+    required String employeeId,
+  }) async {
+    try {
+      await HttpService.deleteEmployeeDepartment(employeeId: employeeId);
+    } catch (e) {
+      debugPrint('$e deleteEmployeeDepartment');
     }
   }
 }

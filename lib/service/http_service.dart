@@ -320,7 +320,7 @@ class HttpService {
   }
 
   static Future<void> deleteEmployeeBranch({
-    required int id,
+    required String employeeId,
   }) async {
     var response = await http
         .post(
@@ -329,7 +329,7 @@ class HttpService {
             'Accept': '*/*',
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: json.encode(<String, dynamic>{"id": id}),
+          body: json.encode(<String, dynamic>{"employee_id": employeeId}),
         )
         .timeout(const Duration(seconds: 10));
     debugPrint('deleteEmployeeBranch ${response.body}');
@@ -436,7 +436,7 @@ class HttpService {
   }
 
   static Future<void> deleteEmployeeDepartment({
-    required int id,
+    required String employeeId,
   }) async {
     var response = await http
         .post(
@@ -445,7 +445,7 @@ class HttpService {
             'Accept': '*/*',
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: json.encode(<String, dynamic>{"id": id}),
+          body: json.encode(<String, dynamic>{"employee_id": employeeId}),
         )
         .timeout(const Duration(seconds: 10));
     debugPrint('deleteDepartment ${response.body}');
