@@ -21,7 +21,8 @@ class EmployeeView extends StatefulWidget {
   State<EmployeeView> createState() => _EmployeeViewState();
 }
 
-class _EmployeeViewState extends State<EmployeeView> {
+class _EmployeeViewState extends State<EmployeeView>
+    with AutomaticKeepAliveClientMixin<EmployeeView> {
   final idController = TextEditingController();
 
   @override
@@ -797,6 +798,7 @@ class _EmployeeViewState extends State<EmployeeView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     const idw = 100.0;
     const empIdw = 150.0;
     const dIdw = 300.0;
@@ -930,37 +932,6 @@ class _EmployeeViewState extends State<EmployeeView> {
                     ),
                   ),
                 ),
-                // SliverToBoxAdapter(
-                //   child: SizedBox(
-                //     width: 500.0,
-                //     child: TextField(
-                //       enabled: true,
-                //       style: const TextStyle(fontSize: 20.0),
-                //       decoration: const InputDecoration(
-                //         label: Text('Search name/id..'),
-                //         border: OutlineInputBorder(
-                //           borderSide: BorderSide(
-                //             color: Colors.grey,
-                //             width: 1.0,
-                //           ),
-                //         ),
-                //         contentPadding:
-                //             EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 12.0),
-                //       ),
-                //       controller: idController,
-                //       onChanged: (String value) async {
-                //         if (idController.text.isEmpty) {
-                //           provider.changeStateSearching(false);
-                //         } else {
-                //           provider.changeStateSearching(true);
-                //           await provider.searchEmployee(
-                //             employeeId: value.trim(),
-                //           );
-                //         }
-                //       },
-                //     ),
-                //   ),
-                // ),
                 if (provider.isSearching) ...[
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
@@ -1097,6 +1068,9 @@ class _EmployeeViewState extends State<EmployeeView> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class EmlpoyeeMultiBranch {
