@@ -323,7 +323,7 @@ class _BranchPageState extends State<BranchPage>
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Remove Device'),
+            title: const Text('Remove Branch'),
             content: Text('Delete ${branchModel.branchName}?'),
             actions: <Widget>[
               TextButton(

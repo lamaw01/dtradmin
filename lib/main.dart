@@ -1,3 +1,4 @@
+import 'package:dtradmin/provider/company_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -58,6 +59,9 @@ void main() {
         ChangeNotifierProvider<LogProvider>(
           create: (_) => LogProvider(),
         ),
+        ChangeNotifierProvider<CompanyProvider>(
+          create: (_) => CompanyProvider(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -73,11 +77,9 @@ class MyApp extends StatelessWidget {
       scrollBehavior: CustomScrollBehavior(),
       debugShowCheckedModeBanner: false,
       title: 'UC-1 DTR Admin',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      // home: const HomeView(),
-      home: const LoginView(),
+      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: false),
+      home: const HomeView(),
+      // home: const LoginView(),
     );
   }
 }

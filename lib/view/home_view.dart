@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../provider/app_version_provider.dart';
 import '../provider/branch_provider.dart';
+import '../provider/company_provider.dart';
 import '../provider/department_provider.dart';
 import '../provider/device_log_provider.dart';
 import '../provider/device_provider.dart';
@@ -13,6 +14,7 @@ import '../provider/schedule_provider.dart';
 import '../provider/week_scheduke_provider.dart';
 import 'app_version_view.dart';
 import 'branch_view.dart';
+import 'company_view.dart';
 import 'department_view.dart';
 import 'device_view.dart';
 import 'employee_view.dart';
@@ -89,6 +91,16 @@ class _HomeViewState extends State<HomeView> {
         icon: const Icon(Icons.people),
       ),
       SideMenuItem(
+        title: 'Company',
+        onTap: (index, _) async {
+          sideMenu.changePage(index);
+          var b = Provider.of<CompanyProvider>(context, listen: false);
+
+          await b.getCompany();
+        },
+        icon: const Icon(Icons.business_outlined),
+      ),
+      SideMenuItem(
         title: 'Employee',
         onTap: (index, _) async {
           sideMenu.changePage(index);
@@ -127,6 +139,7 @@ class _HomeViewState extends State<HomeView> {
       const DeviceView(),
       const BranchView(),
       const DepartmentView(),
+      const CompanyView(),
       const EmployeeView(),
       const ScheduleView(),
       const AppVersionView(),

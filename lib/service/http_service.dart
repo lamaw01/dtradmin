@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../model/branch_employee.dart';
 import '../model/branch_model.dart';
+import '../model/company_model.dart';
 import '../model/department_employee_model.dart';
 import '../model/department_model.dart';
 import '../model/device_log_model.dart';
@@ -1020,5 +1021,75 @@ class HttpService {
         .timeout(const Duration(seconds: 10));
     debugPrint('deleteEmployeeDepartmentMulti ${response.body}');
     return employeeModelFromJson(response.body);
+  }
+
+  static Future<List<CompanyModel>> getCompany() async {
+    var response = await http.get(
+      Uri.parse('$_serverUrl/get_company.php'),
+      headers: <String, String>{
+        'Accept': '*/*',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    ).timeout(const Duration(seconds: 10));
+    // debugPrint('getBranch ${response.body}');
+    return companyModelFromJson(response.body);
+  }
+
+  static Future<void> addCompany({
+    required String companyId,
+    required String companyName,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_company.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "company_id": companyId,
+            "company_name": companyName,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addCompany ${response.body}');
+  }
+
+  static Future<void> updateCompany({
+    required String companyId,
+    required String companyName,
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/update_company.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "company_id": companyId,
+            "company_name": companyName,
+            "id": id
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('updateCompany ${response.body}');
+  }
+
+  static Future<void> deleteCompany({
+    required int id,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_company.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{"id": id}),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteCompany ${response.body}');
   }
 }
