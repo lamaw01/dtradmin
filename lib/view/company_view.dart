@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../model/company_model.dart';
+import '../provider/company_employee_provider.dart';
 import '../provider/company_provider.dart';
 import '../widget/delegate.dart';
 import '../widget/row_widget.dart';
@@ -24,9 +25,10 @@ class _CompanyViewState extends State<CompanyView>
     super.initState();
     tabController = TabController(length: 2, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      var b = Provider.of<CompanyProvider>(context, listen: false);
+      var c = Provider.of<CompanyProvider>(context, listen: false);
 
-      await b.getCompany();
+      await c.getCompany();
+      await c.getCompanyForEmployee();
 
       tabController.addListener(() {
         if (tabController.index == 1) {
@@ -452,11 +454,243 @@ class CompanyEmployeePage extends StatefulWidget {
   State<CompanyEmployeePage> createState() => _CompanyEmployeePageState();
 }
 
-class _CompanyEmployeePageState extends State<CompanyEmployeePage> {
+class _CompanyEmployeePageState extends State<CompanyEmployeePage>
+    with AutomaticKeepAliveClientMixin<CompanyEmployeePage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Company Employee Page'),
+    super.build(context);
+    // return const Center(
+    //   child: Text('Company Employee Page'),
+    // );
+    return Consumer<CompanyProvider>(
+      builder: (context, provider, child) {
+        return RefreshIndicator(
+          onRefresh: () async {
+            await provider.getCompanyForEmployee();
+          },
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SizedBox(
+                height: 800.0,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      height: 40.0,
+                      width: 300.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          color: Colors.grey,
+                          style: BorderStyle.solid,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<CompanyModel>(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          borderRadius: BorderRadius.circular(5),
+                          value: provider.selectedCompany,
+                          onChanged: (CompanyModel? value) async {
+                            if (value != null) {
+                              provider.changeSelectedCompany(value);
+                              var dep = Provider.of<CompanyEmployeeProvider>(
+                                  context,
+                                  listen: false);
+
+                              await dep.getEmployeeCompanyUnassigned();
+                              await dep.getEmployeeAssignedCompany(
+                                  companyId: value.companyId);
+                              dep.removeEmployeeAssignedDuplicate();
+                            }
+                          },
+                          items: provider.companyListForEmployee
+                              .map<DropdownMenuItem<CompanyModel>>(
+                                  (CompanyModel value) {
+                            return DropdownMenuItem<CompanyModel>(
+                              value: value,
+                              child: Text(value.companyName),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: SizedBox(
+                              width: 500.0,
+                              height: 50.0,
+                              child: Center(
+                                  child: Text(
+                                'Unassigned',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ))),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: SizedBox(
+                              width: 500.0,
+                              height: 50.0,
+                              child: Center(
+                                  child: Text(
+                                'Assigned',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ))),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Consumer<CompanyEmployeeProvider>(
+                              builder: (context, provider, child) {
+                            return Flexible(
+                              flex: 1,
+                              child: SizedBox(
+                                width: 500.0,
+                                child: ListView.separated(
+                                  separatorBuilder: (context, index) =>
+                                      const Divider(height: 0.0),
+                                  itemCount: provider
+                                      .employeeUnassigendCompanyList.length,
+                                  itemBuilder: ((context, index) {
+                                    return CheckboxListTile(
+                                      title: Text(provider.fullNameEmp(provider
+                                              .employeeUnassigendCompanyList[
+                                          index])),
+                                      value: provider
+                                          .employeeUnassigendCompanyList[index]
+                                          .isSelected,
+                                      onChanged: (bool? value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            provider
+                                                .employeeUnassigendCompanyList[
+                                                    index]
+                                                .isSelected = value;
+                                          });
+                                        }
+                                      },
+                                      dense: true,
+                                    );
+                                  }),
+                                ),
+                              ),
+                            );
+                          }),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  var bep =
+                                      Provider.of<CompanyEmployeeProvider>(
+                                          context,
+                                          listen: false);
+                                  var bp = Provider.of<CompanyProvider>(context,
+                                      listen: false);
+                                  final listOfEmployeeId =
+                                      bep.assignedListToAdd();
+                                  await bep.addEmployeeCompanyMulti(
+                                      companyId: bp.selectedCompany.companyId,
+                                      employeeId: listOfEmployeeId);
+                                },
+                                child: Ink(
+                                  color: Colors.green[400],
+                                  width: 80.0,
+                                  height: 35.0,
+                                  child: const Center(
+                                    child: Text(
+                                      'Add>>',
+                                      style: TextStyle(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5.0),
+                              InkWell(
+                                onTap: () async {
+                                  var bep =
+                                      Provider.of<CompanyEmployeeProvider>(
+                                          context,
+                                          listen: false);
+                                  var bp = Provider.of<CompanyProvider>(context,
+                                      listen: false);
+                                  final listOfEmployeeId =
+                                      bep.unAssignedListToAdd();
+                                  await bep.deleteEmployeeCompanyMulti(
+                                      companyId: bp.selectedCompany.companyId,
+                                      employeeId: listOfEmployeeId);
+                                },
+                                child: Ink(
+                                  color: Colors.red[400],
+                                  width: 80.0,
+                                  height: 35.0,
+                                  child: const Center(
+                                    child: Text(
+                                      '<<Remove',
+                                      style: TextStyle(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Consumer<CompanyEmployeeProvider>(
+                              builder: (context, provider, child) {
+                            return Flexible(
+                              flex: 1,
+                              child: SizedBox(
+                                width: 500.0,
+                                child: ListView.separated(
+                                  separatorBuilder: (context, index) =>
+                                      const Divider(height: 0.0),
+                                  itemCount:
+                                      provider.employeeAssignedCompany.length,
+                                  itemBuilder: ((context, index) {
+                                    return CheckboxListTile(
+                                      title: Text(provider.fullNameEmpOfCompany(
+                                          provider
+                                              .employeeAssignedCompany[index])),
+                                      value: provider
+                                          .employeeAssignedCompany[index]
+                                          .isSelected,
+                                      onChanged: (bool? value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            provider
+                                                .employeeAssignedCompany[index]
+                                                .isSelected = value;
+                                          });
+                                        }
+                                      },
+                                      dense: true,
+                                    );
+                                  }),
+                                ),
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

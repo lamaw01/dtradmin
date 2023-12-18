@@ -7,20 +7,18 @@ class CompanyProvider with ChangeNotifier {
   var _companyList = <CompanyModel>[];
   List<CompanyModel> get companyList => _companyList;
 
-  // ignore: prefer_final_fields
   var _companyListForEmployee = <CompanyModel>[];
   List<CompanyModel> get companyListForEmployee => _companyListForEmployee;
 
-  // ignore: prefer_final_fields
   var _companyListSelect = <CompanyModel>[];
   List<CompanyModel> get companyListSelect => _companyListSelect;
 
-  var _selectedcompany =
+  var _selectedCompany =
       CompanyModel(id: 0, companyId: '000', companyName: '--Select--');
-  CompanyModel get selectedcompany => _selectedcompany;
+  CompanyModel get selectedCompany => _selectedCompany;
 
-  void changeSelectedcompany(CompanyModel companyModel) {
-    _selectedcompany = companyModel;
+  void changeSelectedCompany(CompanyModel companyModel) {
+    _selectedCompany = companyModel;
     notifyListeners();
   }
 
@@ -84,6 +82,27 @@ class CompanyProvider with ChangeNotifier {
       debugPrint('$e deleteCompany');
     } finally {
       await getCompany();
+    }
+  }
+
+  Future<void> getCompanySelect() async {
+    try {
+      final result = await HttpService.getCompany();
+      _companyListSelect = result;
+      notifyListeners();
+    } catch (e) {
+      debugPrint('$e getDepartmentSelect');
+    }
+  }
+
+  Future<void> getCompanyForEmployee() async {
+    try {
+      final result = await HttpService.getCompany();
+      result.insert(0, _selectedCompany);
+      _companyListForEmployee = result;
+      notifyListeners();
+    } catch (e) {
+      debugPrint('$e getDepartmentForEmployee');
     }
   }
 }

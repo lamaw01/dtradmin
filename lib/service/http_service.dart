@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../model/branch_employee.dart';
+import '../model/branch_employee_model.dart';
 import '../model/branch_model.dart';
 import '../model/company_model.dart';
 import '../model/department_employee_model.dart';
@@ -12,7 +12,8 @@ import '../model/device_log_model.dart';
 import '../model/device_model.dart';
 import '../model/employee_model.dart';
 import '../model/employee_of_branch_model.dart';
-import '../model/employee_of_department.dart';
+import '../model/employee_of_company_model.dart';
+import '../model/employee_of_department_model.dart';
 import '../model/log_model.dart';
 import '../model/schedule_model.dart';
 import '../model/app_version_model.dart';
@@ -1091,5 +1092,123 @@ class HttpService {
         )
         .timeout(const Duration(seconds: 10));
     debugPrint('deleteCompany ${response.body}');
+  }
+
+  static Future<List<CompanyModel>> getCompanyOfEmployee({
+    required String employeeId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/get_company_of_employee.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "employee_id": employeeId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('getCompanyOfEmployee ${response.body}');
+    return companyModelFromJson(response.body);
+  }
+
+  static Future<void> addEmployeeMultiCompany({
+    required String employeeId,
+    required List<String> companyId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_employee_multi_department.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "employee_id": employeeId,
+            "company_id": companyId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addEmployeeMultiCompany ${response.body}');
+  }
+
+  static Future<void> deleteEmployeeMultiCompany({
+    required String employeeId,
+    required List<String> companyId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_employee_multi_company.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "employee_id": employeeId,
+            "company_id": companyId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteEmployeeMultiCompany ${response.body}');
+  }
+
+  static Future<List<EmployeeOfCompanyModel>> getEmployeeAssignedCompany({
+    required String companyId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/get_assigned_employee_company.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "company_id": companyId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('getEmployeeAssignedCompany ${response.body}');
+    return employeeOfCompanyModelFromJson(response.body);
+  }
+
+  static Future<void> addEmployeeCompanyMulti({
+    required String companyId,
+    required List<String> employeeId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/add_company_multi_employee.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "company_id": companyId,
+            "employee_id": employeeId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('addEmployeeCompanyMulti ${response.body}');
+  }
+
+  static Future<void> deleteEmployeeCompanyMulti({
+    required String companyId,
+    required List<String> employeeId,
+  }) async {
+    var response = await http
+        .post(
+          Uri.parse('$_serverUrl/delete_company_multi_employee.php'),
+          headers: <String, String>{
+            'Accept': '*/*',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: json.encode(<String, dynamic>{
+            "company_id": companyId,
+            "employee_id": employeeId,
+          }),
+        )
+        .timeout(const Duration(seconds: 10));
+    debugPrint('deleteEmployeeCompanyMulti ${response.body}');
   }
 }

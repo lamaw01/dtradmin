@@ -2,6 +2,7 @@ import 'package:dtradmin/model/branch_model.dart';
 import 'package:dtradmin/model/department_model.dart';
 import 'package:flutter/material.dart';
 
+import '../model/company_model.dart';
 import '../model/employee_model.dart';
 import '../service/http_service.dart';
 
@@ -19,6 +20,9 @@ class EmployeeProvider with ChangeNotifier {
   var _departmentOfEmployeeList = <DepartmentModel>[];
   List<DepartmentModel> get departmentOfEmployeeList =>
       _departmentOfEmployeeList;
+
+  var _companyOfEmployeeList = <CompanyModel>[];
+  List<CompanyModel> get companyOfEmployeeList => _companyOfEmployeeList;
 
   var _isSearching = false;
   bool get isSearching => _isSearching;
@@ -256,6 +260,47 @@ class EmployeeProvider with ChangeNotifier {
       await HttpService.deleteEmployeeDepartment(employeeId: employeeId);
     } catch (e) {
       debugPrint('$e deleteEmployeeDepartment');
+    }
+  }
+
+  Future<void> getCompanyOfEmployee({
+    required String employeeId,
+  }) async {
+    try {
+      var result = await HttpService.getCompanyOfEmployee(
+        employeeId: employeeId,
+      );
+      _companyOfEmployeeList = result;
+    } catch (e) {
+      debugPrint('$e getCompanyOfEmployee');
+    }
+  }
+
+  Future<void> addEmployeeMultiCompany({
+    required String employeeId,
+    required List<String> companyId,
+  }) async {
+    try {
+      await HttpService.addEmployeeMultiCompany(
+        employeeId: employeeId,
+        companyId: companyId,
+      );
+    } catch (e) {
+      debugPrint('$e addEmployeeMultiCompany');
+    }
+  }
+
+  Future<void> deleteEmployeeMultiCompany({
+    required String employeeId,
+    required List<String> companyId,
+  }) async {
+    try {
+      await HttpService.deleteEmployeeMultiCompany(
+        employeeId: employeeId,
+        companyId: companyId,
+      );
+    } catch (e) {
+      debugPrint('$e deleteEmployeeMultiCompany');
     }
   }
 }

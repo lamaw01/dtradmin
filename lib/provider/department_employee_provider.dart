@@ -2,9 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-// import '../model/department_employee_model.dart';
 import '../model/employee_model.dart';
-import '../model/employee_of_department.dart';
+import '../model/employee_of_department_model.dart';
 import '../service/http_service.dart';
 
 class DepartmentEmployeeProvider with ChangeNotifier {
@@ -84,7 +83,7 @@ class DepartmentEmployeeProvider with ChangeNotifier {
     } catch (e) {
       debugPrint('$e addEmployeeDepartmentMulti');
     } finally {
-      await getEmployeeBranchUnassigned();
+      await getEmployeeDepartmentUnassigned();
       await getEmployeeAssignedDepartment(departmentId: departmentId);
       removeEmployeeAssignedDuplicate();
       // await getEmployeeUnassignedDepartment(departmentId: departmentId);
@@ -104,14 +103,14 @@ class DepartmentEmployeeProvider with ChangeNotifier {
       debugPrint('$e deleteEmployeeDepartmentMulti');
     } finally {
       // await getEmployeeUnassignedDepartment(departmentId: departmentId);
-      await getEmployeeBranchUnassigned();
+      await getEmployeeDepartmentUnassigned();
       await getEmployeeAssignedDepartment(departmentId: departmentId);
       removeEmployeeAssignedDuplicate();
       // removeAssignedDuplicate();
     }
   }
 
-  Future<void> getEmployeeBranchUnassigned() async {
+  Future<void> getEmployeeDepartmentUnassigned() async {
     try {
       final result = await HttpService.getEmployee();
       _employeeUnassigendDepartmentList = result;

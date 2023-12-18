@@ -14,11 +14,13 @@ class CompanyModel {
   int id;
   String companyId;
   String companyName;
+  bool selected;
 
   CompanyModel({
     required this.id,
     required this.companyId,
     required this.companyName,
+    this.selected = false,
   });
 
   factory CompanyModel.fromJson(Map<String, dynamic> json) => CompanyModel(

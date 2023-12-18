@@ -7,15 +7,18 @@ $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE);
 
 
-if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('employee_id', $input)){
-    $employee_id = $input['employee_id'];
+if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('company_id', $input)){
+    $company_id = $input['company_id'];
+    $company_name = $input['company_name'];
 
-    $sql = 'DELETE FROM tbl_employee_department WHERE employee_id=:employee_id';
+    $sql = 'INSERT INTO tbl_company(company_id, company_name)
+    VALUES (:company_id,:company_name)';
 
     try {
-        $sql_delete = $conn->prepare($sql);
-        $sql_delete->bindParam(':employee_id', $employee_id, PDO::PARAM_STR);
-        $sql_delete->execute();
+        $sql_insert = $conn->prepare($sql);
+        $sql_insert->bindParam(':company_id', $company_id, PDO::PARAM_STR);
+        $sql_insert->bindParam(':company_name', $company_name, PDO::PARAM_STR);
+        $sql_insert->execute();
         echo json_encode(array('success'=>true,'message'=>'ok'));
     } catch (PDOException $e) {
         echo json_encode(array('success'=>false,'message'=>$e->getMessage()));

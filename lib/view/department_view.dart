@@ -504,7 +504,7 @@ class _DepartmentEmployeePageState extends State<DepartmentEmployeePage>
                                   context,
                                   listen: false);
 
-                              await dep.getEmployeeBranchUnassigned();
+                              await dep.getEmployeeDepartmentUnassigned();
                               await dep.getEmployeeAssignedDepartment(
                                   departmentId: value.departmentId);
                               dep.removeEmployeeAssignedDuplicate();

@@ -7,14 +7,16 @@ $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE);
 
 // if not put id die
-if($_SERVER['REQUEST_METHOD'] == 'GET'){
+if($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('employee_id', $input)){
+    $employee_id = $input['employee_id'];
 
-    $sql = "SELECT tbl_device_logs.id, tbl_device_logs.device_id, tbl_device_logs.address,tbl_device_logs.latlng,tbl_device_logs.app_name,tbl_device_logs.version,tbl_device_logs.log_time,tbl_device_logs.time_stamp, 
-    CASE WHEN tbl_device.description IS NULL AND tbl_device_logs.app_name = 'sirius' THEN 'unathorized' WHEN tbl_device.description IS NULL AND tbl_device_logs.app_name = 'orion' OR tbl_device_logs.app_name = 'attendance' THEN 'unknown' ELSE tbl_device.description END as description
-    FROM tbl_device_logs LEFT JOIN tbl_device ON tbl_device.device_id = tbl_device_logs.device_id ORDER BY id DESC LIMIT 100;";
-
+    $sql = "SELECT tbl_company.id, tbl_company.company_id, tbl_company.company_name FROM tbl_employee_company 
+    INNER JOIN tbl_employee ON tbl_employee.employee_id = tbl_employee_company.employee_id 
+    INNER JOIN tbl_company ON tbl_company.company_id = tbl_employee_company.company_id WHERE tbl_employee.employee_id = :employee_id;";
+    
     try {
         $get_sql = $conn->prepare($sql);
+        $get_sql->bindParam(':employee_id', $employee_id, PDO::PARAM_STR);
         $get_sql->execute();
         $result_get_sql = $get_sql->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($result_get_sql);

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'provider/app_version_provider.dart';
 import 'provider/branch_employee_provider.dart';
 import 'provider/branch_provider.dart';
+import 'provider/company_employee_provider.dart';
 import 'provider/department_employee_provider.dart';
 import 'provider/department_provider.dart';
 import 'provider/device_log_provider.dart';
@@ -62,6 +63,9 @@ void main() {
         ChangeNotifierProvider<CompanyProvider>(
           create: (_) => CompanyProvider(),
         ),
+        ChangeNotifierProvider<CompanyEmployeeProvider>(
+          create: (_) => CompanyEmployeeProvider(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -78,8 +82,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'UC-1 DTR Admin',
       theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: false),
-      home: const HomeView(),
-      // home: const LoginView(),
+      // home: const HomeView(),
+      home: const LoginView(),
     );
   }
 }

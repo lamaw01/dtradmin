@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dtradmin/model/branch_model.dart';
 import 'package:dtradmin/model/department_model.dart';
 import 'package:dtradmin/model/employee_model.dart';
@@ -6,7 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../model/company_model.dart';
 import '../model/week_schedule_model.dart';
+import '../provider/company_provider.dart';
 import '../provider/department_provider.dart';
 import '../provider/employee_provider.dart';
 import '../provider/week_scheduke_provider.dart';
@@ -284,6 +288,8 @@ class _EmployeeViewState extends State<EmployeeView>
           var unselectedBranch = <String>[];
           var selectedDepartment = <String>[];
           var unselectedDepartment = <String>[];
+          var selectedCompany = <String>[];
+          var unselectedCompany = <String>[];
 
           return AlertDialog(
             title: const Text('Update Employee'),
@@ -485,6 +491,30 @@ class _EmployeeViewState extends State<EmployeeView>
                           ),
                         ),
                       ),
+                      const SizedBox(height: 10.0),
+                      InkWell(
+                        onTap: () async {
+                          await showSelectCompany(employeeModel).then((value) {
+                            for (final company in value.addedCompany) {
+                              log("kani $company");
+                            }
+                            selectedCompany = value.addedCompany;
+                            unselectedCompany = value.unselectedCompany;
+                          });
+                        },
+                        child: Ink(
+                          height: 30.0,
+                          width: 150.0,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: const Center(
+                            child: Text('Change Company',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 },
@@ -553,6 +583,18 @@ class _EmployeeViewState extends State<EmployeeView>
                       await e.deleteEmployeeMultiDepartment(
                           employeeId: employeeModel.employeeId,
                           departmentId: unselectedDepartment);
+                    }
+                    //dire
+                    if (selectedCompany.isNotEmpty) {
+                      await e.addEmployeeMultiCompany(
+                        employeeId: employeeModel.employeeId,
+                        companyId: selectedCompany,
+                      );
+                    }
+                    if (unselectedCompany.isNotEmpty) {
+                      await e.deleteEmployeeMultiCompany(
+                          employeeId: employeeModel.employeeId,
+                          companyId: unselectedCompany);
                     }
                   }
                   if (mounted) {
@@ -793,6 +835,106 @@ class _EmployeeViewState extends State<EmployeeView>
     return EmlpoyeeMultiDepartment(
       addedDepartment: selectedDepartmentString,
       unselectedDepartment: unselectedDepartment,
+    );
+  }
+
+  Future<EmlpoyeeMultiCompany> showSelectCompany(
+      EmployeeModel employeeModel) async {
+    var b = Provider.of<CompanyProvider>(context, listen: false);
+    var e = Provider.of<EmployeeProvider>(context, listen: false);
+    await e.getCompanyOfEmployee(employeeId: employeeModel.employeeId);
+    await b.getCompanySelect();
+    var selectedCompanyList = <CompanyModel>[...b.companyListSelect];
+    var selectedCompanyString = <String>[];
+    var unselectedCompany = <String>[];
+    // log(selectedBranchList.length.toString());
+    for (int i = 0; i < selectedCompanyList.length; i++) {
+      for (int j = 0; j < e.companyOfEmployeeList.length; j++) {
+        if (selectedCompanyList[i].companyId ==
+            e.companyOfEmployeeList[j].companyId) {
+          selectedCompanyList[i].selected = true;
+        }
+      }
+    }
+    if (mounted) {
+      await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                contentPadding: const EdgeInsetsDirectional.all(10.0),
+                content: SizedBox(
+                  height: 500.0,
+                  width: 400.0,
+                  child: ListView.builder(
+                    itemCount: selectedCompanyList.length,
+                    itemBuilder: (context, index) {
+                      return CheckboxListTile(
+                        value: selectedCompanyList[index].selected,
+                        title: Text(selectedCompanyList[index].companyName),
+                        onChanged: (bool? value) {
+                          setState(() {
+                            selectedCompanyList[index].selected = value!;
+                          });
+                        },
+                      );
+                    },
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Ok', style: TextStyle(fontSize: 16.0)),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child:
+                        const Text('Cancel', style: TextStyle(fontSize: 16.0)),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+    }
+
+    for (final company in selectedCompanyList) {
+      // log("${company.companyName} + ${company.selected}");
+      if (company.selected) {
+        selectedCompanyString.add(company.companyId);
+      }
+    }
+
+    for (final companyOfEmployee in e.companyOfEmployeeList) {
+      bool exist = selectedCompanyString.contains(companyOfEmployee.companyId);
+      if (exist) {
+        selectedCompanyString.remove(companyOfEmployee.companyId);
+      }
+    }
+
+    for (final company in selectedCompanyList) {
+      for (final companyOfEmployee in e.companyOfEmployeeList) {
+        if (!company.selected &&
+            companyOfEmployee.companyId == company.companyId) {
+          unselectedCompany.add(company.companyId);
+        }
+      }
+    }
+
+    for (final company in selectedCompanyString) {
+      log(company);
+    }
+
+    return EmlpoyeeMultiCompany(
+      addedCompany: selectedCompanyString,
+      unselectedCompany: unselectedCompany,
     );
   }
 
@@ -1090,5 +1232,15 @@ class EmlpoyeeMultiDepartment {
   EmlpoyeeMultiDepartment({
     required this.addedDepartment,
     required this.unselectedDepartment,
+  });
+}
+
+class EmlpoyeeMultiCompany {
+  List<String> addedCompany;
+  List<String> unselectedCompany;
+
+  EmlpoyeeMultiCompany({
+    required this.addedCompany,
+    required this.unselectedCompany,
   });
 }

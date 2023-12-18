@@ -50,7 +50,7 @@ class DepartmentProvider with ChangeNotifier {
       _departmentListSelect = result;
       notifyListeners();
     } catch (e) {
-      debugPrint('$e getBranch');
+      debugPrint('$e getDepartmentSelect');
     }
   }
 
