@@ -1119,7 +1119,7 @@ class HttpService {
   }) async {
     var response = await http
         .post(
-          Uri.parse('$_serverUrl/add_employee_multi_department.php'),
+          Uri.parse('$_serverUrl/add_employee_multi_company.php'),
           headers: <String, String>{
             'Accept': '*/*',
             'Content-Type': 'application/json; charset=UTF-8',

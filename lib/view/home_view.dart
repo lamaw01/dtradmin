@@ -29,16 +29,16 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  PageController pageController = PageController();
   SideMenuController sideMenu = SideMenuController();
+  int index = 0;
 
   @override
   void initState() {
     super.initState();
     // Connect SideMenuController and PageController together
-    sideMenu.addListener((index) {
-      pageController.jumpToPage(index);
-    });
+    // sideMenu.addListener((index) {
+    //   pageController.jumpToPage(index);
+    // });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Provider.of<AppVersionProvider>(context, listen: false)
           .getPackageInfo();
@@ -52,16 +52,22 @@ class _HomeViewState extends State<HomeView> {
     final menuItems = [
       SideMenuItem(
         title: 'Logs',
-        onTap: (index, _) async {
-          sideMenu.changePage(index);
+        onTap: (i, _) async {
+          sideMenu.changePage(i);
+          setState(() {
+            index = i;
+          });
           await Provider.of<LogProvider>(context, listen: false).getLog();
         },
         icon: const Icon(Icons.timer),
       ),
       SideMenuItem(
         title: 'Device',
-        onTap: (index, _) async {
-          sideMenu.changePage(index);
+        onTap: (i, _) async {
+          sideMenu.changePage(i);
+          setState(() {
+            index = i;
+          });
           var dp = Provider.of<DeviceProvider>(context, listen: false);
           var dlp = Provider.of<DeviceLogProvider>(context, listen: false);
 
@@ -72,8 +78,11 @@ class _HomeViewState extends State<HomeView> {
       ),
       SideMenuItem(
         title: 'Branch',
-        onTap: (index, _) async {
-          sideMenu.changePage(index);
+        onTap: (i, _) async {
+          sideMenu.changePage(i);
+          setState(() {
+            index = i;
+          });
           var b = Provider.of<BranchProvider>(context, listen: false);
 
           await b.getBranch();
@@ -82,8 +91,11 @@ class _HomeViewState extends State<HomeView> {
       ),
       SideMenuItem(
         title: 'Department',
-        onTap: (index, _) async {
-          sideMenu.changePage(index);
+        onTap: (i, _) async {
+          sideMenu.changePage(i);
+          setState(() {
+            index = i;
+          });
           var dp = Provider.of<DepartmentProvider>(context, listen: false);
 
           await dp.getDepartment();
@@ -92,8 +104,11 @@ class _HomeViewState extends State<HomeView> {
       ),
       SideMenuItem(
         title: 'Company',
-        onTap: (index, _) async {
-          sideMenu.changePage(index);
+        onTap: (i, _) async {
+          sideMenu.changePage(i);
+          setState(() {
+            index = i;
+          });
           var b = Provider.of<CompanyProvider>(context, listen: false);
 
           await b.getCompany();
@@ -102,8 +117,11 @@ class _HomeViewState extends State<HomeView> {
       ),
       SideMenuItem(
         title: 'Employee',
-        onTap: (index, _) async {
-          sideMenu.changePage(index);
+        onTap: (i, _) async {
+          sideMenu.changePage(i);
+          setState(() {
+            index = i;
+          });
           var e = Provider.of<EmployeeProvider>(context, listen: false);
 
           await e.getEmployee();
@@ -112,8 +130,11 @@ class _HomeViewState extends State<HomeView> {
       ),
       SideMenuItem(
         title: 'Schedule',
-        onTap: (index, _) async {
-          sideMenu.changePage(index);
+        onTap: (i, _) async {
+          sideMenu.changePage(i);
+          setState(() {
+            index = i;
+          });
           var ws = Provider.of<WeekScheduleProvider>(context, listen: false);
           var s = Provider.of<ScheduleProvider>(context, listen: false);
 
@@ -124,8 +145,11 @@ class _HomeViewState extends State<HomeView> {
       ),
       SideMenuItem(
         title: 'App Version',
-        onTap: (index, _) async {
-          sideMenu.changePage(index);
+        onTap: (i, _) async {
+          sideMenu.changePage(i);
+          setState(() {
+            index = i;
+          });
           var a = Provider.of<AppVersionProvider>(context, listen: false);
 
           await a.getAppVersion();
@@ -180,13 +204,14 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           Expanded(
-            child: PageView(
-              controller: pageController,
-              children: menuPages,
-              onPageChanged: (index) {
-                sideMenu.changePage(index);
-              },
-            ),
+            // child: PageView(
+            //   controller: pageController,
+            //   children: menuPages,
+            //   onPageChanged: (index) {
+            //     sideMenu.changePage(index);
+            //   },
+            // ),
+            child: menuPages.elementAt(index),
           ),
         ],
       ),
