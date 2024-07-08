@@ -20,7 +20,20 @@ import '../model/app_version_model.dart';
 import '../model/week_schedule_model.dart';
 
 class HttpService {
-  static const String _serverUrl = 'http://103.62.153.74:53000/dtr_admin_api';
+  static String currentUri = Uri.base.toString();
+  static String isSecured = currentUri.substring(4, 5);
+
+  static const String _serverUrlHttp = 'http://103.62.153.74:53000/';
+  String get serverUrlHttp => _serverUrlHttp;
+
+  static const String _serverUrlHttps = 'https://konek.parasat.tv:50443/dtr/';
+  String get serverUrlHttps => _serverUrlHttps;
+
+  static final String _url =
+      isSecured == 's' ? _serverUrlHttps : _serverUrlHttp;
+
+  static final String _serverUrl = '${_url}dtr_admin_api';
+  static String get serverUrl => _serverUrl;
 
   static Future<List<DeviceModel>> getDevice() async {
     var response = await http.get(
