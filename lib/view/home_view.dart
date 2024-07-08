@@ -31,6 +31,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   SideMenuController sideMenu = SideMenuController();
   int index = 0;
+  String title = 'UC-1 DTR Admin';
 
   @override
   void initState() {
@@ -47,8 +48,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    const String title = 'UC-1 DTR Admin';
-
     final menuItems = [
       SideMenuItem(
         title: 'Logs',
@@ -176,7 +175,7 @@ class _HomeViewState extends State<HomeView> {
             var version = 'v${provider.appVersion}';
             return Row(
               children: [
-                const Text(title),
+                Text(title),
                 const SizedBox(
                   width: 2.5,
                 ),
